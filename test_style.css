@@ -77,19 +77,19 @@ nav.navbar {
 .nav-logo {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px; /* 로고 이미지와 글자 사이의 간격 격상 */
     font-size: 1.2rem;
     font-weight: 700;
     color: var(--secondary-warm);   
     transition: var(--transition);
 }
 
-.logo-placeholder {
-    display: inline-block;
-    width: 28px;
-    height: 28px;
-    background-color: var(--bg-warm); 
-    border-radius: 5px;
+/* [수정] 플레이스홀더를 지우고 실제 로고 이미지 크기 및 정렬 속성 지정 */
+.nav-logo-img {
+    width: auto;
+    height: 32px;            /* 메뉴바에 부드럽게 녹아들도록 높이 지정 */
+    object-fit: contain;     /* 원본 비율을 깨뜨리지 않고 정비율 유지 */
+    display: block;
 }
 
 .nav-left {
@@ -125,7 +125,7 @@ nav.navbar .nav-logo:hover {
    ======================================================== */
 
 .hero-slider {
-    position: relative; /* 자식 요소인 버튼을 절대 위치(absolute)로 배치하기 위한 기준점 */
+    position: relative; 
     width: 100%;
     height: 450px;
     overflow: hidden; 
@@ -136,7 +136,6 @@ nav.navbar .nav-logo:hover {
     display: flex;
     width: 500%; 
     height: 100%;
-    /* [수정] 자동 애니메이션을 제거하고, 자바스크립트로 부드럽게 움직이도록 transition 추가 */
     transition: transform 0.5s ease-in-out; 
 }
 
@@ -186,7 +185,6 @@ nav.navbar .nav-logo:hover {
     transform: translateY(-2px);
 }
 
-/* [추가] 좌우 화살표 버튼 공통 디자인 */
 .slide-btn {
     position: absolute;
     top: 50%;
@@ -199,14 +197,13 @@ nav.navbar .nav-logo:hover {
     cursor: pointer;
     border-radius: 4px;
     transition: var(--transition);
-    z-index: 10; /* 이미지에 파묻히지 않도록 최상단 배치 */
+    z-index: 10; 
 }
 
 .slide-btn:hover {
     background-color: var(--primary-warm);
 }
 
-/* 각 버튼의 좌우 배치 */
 .prev-btn { left: 20px; }
 .next-btn { right: 20px; }
 

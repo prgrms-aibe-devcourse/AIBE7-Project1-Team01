@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>여행자 광장 - 노을빛 여행</title>
-    <link rel="stylesheet" href="test_style.css" />
+    <link rel="stylesheet" href="test.css" />
     <style>
       /* 삭제 버튼 스타일 */
       .delete-btn {
@@ -244,7 +244,11 @@
     <nav class="navbar">
       <div class="nav-brand-group">
         <a href="main.html" class="nav-logo">
-          <img src="../icons/screen.png" alt="Motipe 로고" class="nav-logo-img"> 
+          <img
+            src="../icons/screen.png"
+            alt="Motipe 로고"
+            class="nav-logo-img"
+          />
         </a>
         <div class="nav-left">
           <a href="#">지도</a>
@@ -256,7 +260,11 @@
         <a href="#" class="nav-btn-outline">로그인</a>
         <a href="#" class="nav-btn-outline">회원가입</a>
         <a href="mypage.html" class="nav-icon-link">
-          <img src="../icons/mypage-icon.png" alt="마이페이지" class="nav-mypage-img">
+          <img
+            src="../icons/mypage-icon.png"
+            alt="마이페이지"
+            class="nav-mypage-img"
+          />
         </a>
       </div>
     </nav>
@@ -431,7 +439,12 @@
             "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
           isDefault: true,
           comments: [
-            { id: "c1", author: "여행초보", text: "저도 여기 가보고 싶어요!", date: "2026.05.21" },
+            {
+              id: "c1",
+              author: "여행초보",
+              text: "저도 여기 가보고 싶어요!",
+              date: "2026.05.21",
+            },
           ],
         },
         {
@@ -447,7 +460,12 @@
             "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=400&q=80",
           isDefault: true,
           comments: [
-            { id: "c2", author: "노을러버", text: "정확한 위치가 어디인가요?", date: "2026.05.19" },
+            {
+              id: "c2",
+              author: "노을러버",
+              text: "정확한 위치가 어디인가요?",
+              date: "2026.05.19",
+            },
           ],
         },
         {
@@ -463,7 +481,12 @@
             "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=400&q=80",
           isDefault: true,
           comments: [
-            { id: "c3", author: "제주토박이", text: "동쪽 추천! 성산일출봉 → 월정리 코스 최고예요 😊", date: "2026.06.02" },
+            {
+              id: "c3",
+              author: "제주토박이",
+              text: "동쪽 추천! 성산일출봉 → 월정리 코스 최고예요 😊",
+              date: "2026.06.02",
+            },
           ],
         },
       ];
@@ -544,19 +567,22 @@
         }
 
         grid.innerHTML = filtered
-          .map(
-            (post) => {
-              const comments = post.comments || [];
-              const commentsHtml = comments.map((c) => `
+          .map((post) => {
+            const comments = post.comments || [];
+            const commentsHtml = comments
+              .map(
+                (c) => `
                 <div class="comment-item">
                   <span class="comment-author">${escapeHtml(c.author)}</span>
                   <span class="comment-date">${c.date}</span>
                   <button class="comment-delete-btn" onclick="deleteComment('${post.id}', '${c.id}', '${escapeAttr(c.author)}')" title="댓글 삭제">✕ 삭제</button>
                   <div class="comment-text">${escapeHtml(c.text)}</div>
                 </div>
-              `).join("");
+              `,
+              )
+              .join("");
 
-              return `
+            return `
           <article class="post-card" data-category="${post.category}">
             <img
               src="${post.image || getCategoryImage(post.category)}"
@@ -603,8 +629,7 @@
             </div>
           </article>
         `;
-            },
-          )
+          })
           .join("");
       }
 
@@ -784,7 +809,9 @@
       }
 
       async function deleteComment(postId, commentId, commentAuthor) {
-        const inputAuthor = prompt("댓글 작성자 닉네임을 입력하세요 (본인 확인):");
+        const inputAuthor = prompt(
+          "댓글 작성자 닉네임을 입력하세요 (본인 확인):",
+        );
         if (inputAuthor === null) return; // 취소
 
         if (inputAuthor.trim() !== commentAuthor) {

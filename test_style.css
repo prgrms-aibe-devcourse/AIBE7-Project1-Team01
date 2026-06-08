@@ -59,180 +59,281 @@ header p {
 }
 
 /* ========================================================
-   [UPDATE] 양끝 정렬 형태의 새로운 네비게이션 바 스타일
+   양끝 정렬 형태의 새로운 네비게이션 바 스타일
    ======================================================== */
+.nav-btn-outline {
+    border: 1px solid var(--primary-warm); /* 브랜드 컬러로 외곽선 지정 */
+    padding: 6px 16px;
+    border-radius: 4px;
+    color: var(--primary-warm) !important;
+}
 
-/* 네비게이션 전체 바: 좌측 그룹과 우측 그룹을 양 끝(space-between)으로 배치 */
+.nav-btn-outline:hover {
+    background-color: var(--primary-warm);
+    color: white !important;
+}
+
+.nav-icon-link {
+    display: flex;
+    align-items: center;
+}
+
+.nav-mypage-img {
+    height: 24px; /* 네비게이션 높이에 맞춘 적절한 크기 */
+    width: auto;
+    object-fit: contain;
+}
+
 nav.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: var(--card-bg);
-  padding: 15px 40px; /* 좌우 여백을 넓혀 여유감을 줌 */
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  font-size: 0.95rem;
-  font-weight: 500;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    background-color: var(--card-bg);
+    padding: 15px 40px;             
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    font-size: 0.95rem;
+    font-weight: 500;
 }
 
-/* 좌측 브랜드 그룹: 로고와 좌측 메뉴들을 가로로 나열 */
 .nav-brand-group {
-  display: flex;
-  align-items: center;
-  gap: 40px; /* 로고와 첫 메뉴(지도) 사이의 넉넉한 간격 */
+    display: flex;
+    align-items: center;
+    gap: 40px;                      
 }
 
-/* 로고 스타일 정의 */
 .nav-logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--secondary-warm); /* 브랜드 아이덴티티 컬러 */
-  transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 로고 이미지와 글자 사이의 간격 격상 */
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--secondary-warm);   
+    transition: var(--transition);
 }
 
-/* 추후 실제 로고 이미지가 들어갈 공란 플레이스홀더 */
-.logo-placeholder {
-  display: inline-block;
-  width: 28px;
-  height: 28px;
-  background-color: var(--bg-warm); /* 이미지 삽입 전 임시 음영 처리 */
-  border-radius: 5px;
+/* [수정] 플레이스홀더를 지우고 실제 로고 이미지 크기 및 정렬 속성 지정 */
+.nav-logo-img {
+    width: auto;
+    height: 32px;            /* 메뉴바에 부드럽게 녹아들도록 높이 지정 */
+    object-fit: contain;     /* 원본 비율을 깨뜨리지 않고 정비율 유지 */
+    display: block;
 }
 
-/* 좌측 메뉴 묶음 (지도, 캘린더) */
 .nav-left {
-  display: flex;
-  gap: 25px; /* 메뉴 간의 간격 */
+    display: flex;
+    gap: 25px;                      
 }
 
-/* 우측 메뉴 묶음 (로그인, 회원가입, 마이페이지) */
 .nav-right {
-  display: flex;
-  gap: 25px;
+    display: flex;
+    gap: 25px;
 }
 
-/* 모든 네비게이션 링크들의 공통 호버 효과 */
 nav.navbar a {
-  color: var(--text-light);
-  transition: var(--transition);
+    color: var(--text-light);
+    transition: var(--transition);
 }
 
 nav.navbar a:hover {
-  color: var(--primary-warm);
+    color: var(--primary-warm);
 }
 
-/* 로고는 기본적으로 강조색을 유지하도록 예외 설정 */
 nav.navbar .nav-logo {
-  color: var(--secondary-warm);
-}
-nav.navbar .nav-logo:hover {
-  color: var(--primary-warm);
+    color: var(--secondary-warm);
 }
 
-/* 히어로 섹션 */
-.hero {
-  background:
-    linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1)),
-    url("https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&w=1200&q=80");
-  background-size: cover;
-  background-position: center;
-  height: 400px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  text-align: center;
-  padding: 0 20px;
+nav.navbar .nav-logo:hover {
+    color: var(--primary-warm);
+}
+
+
+/* ========================================================
+   클릭형 버튼 방식의 슬라이딩 히어로 섹션 스타일
+   ======================================================== */
+
+.hero-slider {
+    position: relative; 
+    width: 100%;
+    height: 450px;
+    overflow: hidden; 
+    background-color: #333; 
+}
+
+.slider-wrapper {
+    display: flex;
+    width: 500%; 
+    height: 100%;
+    transition: transform 0.5s ease-in-out; 
+}
+
+.slide {
+    width: 20%; 
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.slide-content h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    letter-spacing: -0.02em;
+}
+
+.slide-content p {
+    font-size: 1.1rem;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    margin-bottom: 25px;
 }
 
 .cta-button {
-  background-color: var(--primary-warm);
-  color: white;
-  padding: 15px 35px;
-  border-radius: 4px;
-  text-decoration: none;
-  font-weight: 500;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: var(--transition);
-  border: 1px solid var(--secondary-warm);
+    background-color: var(--primary-warm);
+    color: white;
+    padding: 15px 35px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: var(--transition);
+    border: 1px solid var(--secondary-warm);
 }
 
 .cta-button:hover {
-  background-color: var(--secondary-warm);
-  transform: translateY(-1px);
+    background-color: var(--secondary-warm);
+    transform: translateY(-2px);
 }
 
-/* 검색창 및 서브 버튼 섹션 */
+.slide-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    border: none;
+    font-size: 1.5rem;
+    padding: 15px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: var(--transition);
+    z-index: 10; 
+}
+
+.slide-btn:hover {
+    background-color: var(--primary-warm);
+}
+
+.prev-btn { left: 20px; }
+.next-btn { right: 20px; }
+
+
+/* ========================================================
+   검색창 및 본문 섹션
+   ======================================================== */
+
 .search-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  padding: 50px 20px;
-  background-color: var(--bg-warm);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 50px 20px;
+    background-color: var(--bg-warm);
 }
 
 .search-bar-container {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  max-width: 700px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-  border-radius: 6px;
-  overflow: hidden;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 700px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    border-radius: 30px; /* 좌우 모서리를 완전히 둥글게 처리 */
+    overflow: hidden;
+    background-color: var(--card-bg);
+    border: 2px solid var(--accent-sepia); /* 테두리를 부모 컨테이너로 이동 */
+
+    overflow: visible;
+    padding-right: 6px;
+}
+
+.search-icon-wrapper {
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.search-gemini-img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
 }
 
 .search-input {
-  flex: 1;
-  padding: 18px 25px;
-  font-size: 1.15rem;
-  border: 2px solid var(--accent-sepia);
-  border-right: none;
-  outline: none;
-  color: var(--text-main);
-  background-color: var(--card-bg);
+    flex: 1;
+    padding: 18px 20px;
+    font-size: 1.15rem;
+    border: none; /* 중복 테두리 제거 */
+    outline: none;
+    color: var(--text-main);
+    background-color: transparent;
 }
 
 .search-button {
-  padding: 0 40px;
-  font-size: 1.15rem;
-  font-weight: 600;
-  background-color: var(--primary-warm);
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: var(--transition);
+    height: 40px;
+    padding: 0 25px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background-color: var(--primary-warm);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    border-radius: 23px;
+    margin-left: 10px;
 }
 
 .search-button:hover {
-  background-color: var(--secondary-warm);
+    background-color: var(--secondary-warm);
 }
 
 .sub-buttons-container {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
 }
 
 .small-button {
-  padding: 10px 25px;
-  font-size: 0.95rem;
-  font-weight: 500;
-  background-color: var(--card-bg);
-  color: var(--text-main);
-  border: 1px solid var(--accent-sepia);
-  border-radius: 4px;
-  cursor: pointer;
-  transition: var(--transition);
+    display: inline-flex; /* 아이콘과 텍스트를 가로로 나란히 정렬 */
+    align-items: center;
+    gap: 8px; /* 아이콘과 글자 사이의 간격 */
+    padding: 10px 25px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    background-color: var(--card-bg);
+    color: var(--text-main);
+    border: 1px solid var(--accent-sepia);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-icon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
 }
 
 .small-button:hover {
-  background-color: var(--accent-sepia);
-  color: var(--secondary-warm);
+    background-color: var(--accent-sepia);
+    color: var(--secondary-warm);
 }
 
 /* 본문 컨테이너 */
@@ -526,4 +627,68 @@ article h3 {
 .modal-footer {
   margin-top: 30px;
   text-align: right;
+}
+
+/* ========================================================
+   검색 결과 카드 및 컨테이너 스타일 (DESIGN.md 반영)
+   ======================================================== */
+.search-results-container {
+  display: none;
+  flex-direction: column;
+  width: 100%;
+  max-width: 700px;
+  margin: 20px auto 0 auto;
+  gap: 15px;
+  text-align: left;
+}
+
+.search-result-card {
+  background-color: var(--card-bg);
+  border-radius: 8px; /* Standard Radius: 8px */
+  padding: 25px 30px;
+  /* Ambient Shadow: secondary-warm (#8e5d3f) 색을 띤 12% 투명도의 그림자 */
+  box-shadow: 0 8px 24px rgba(142, 93, 63, 0.12);
+  border: none; /* No border as per DESIGN.md */
+  transition: var(--transition);
+}
+
+.search-result-card:hover {
+  transform: translateY(-3px); /* Hover lift */
+  box-shadow: 0 12px 30px rgba(142, 93, 63, 0.18);
+}
+
+.search-result-card h3 {
+  font-size: 1.2rem;
+  color: var(--secondary-warm);
+  margin-bottom: 10px;
+  border-left: 4px solid var(--accent-sepia); /* 4px solid accent border */
+  padding-left: 12px;
+  font-weight: 600;
+}
+
+.search-result-card p {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  line-height: 1.7;
+}
+
+.search-result-card .category {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--primary-warm);
+  background-color: var(--bg-warm);
+  padding: 3px 10px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.no-results-card {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(142, 93, 63, 0.08);
+  color: var(--text-light);
+  font-size: 0.95rem;
 }

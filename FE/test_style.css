@@ -56,6 +56,28 @@ header p {
 /* ========================================================
    양끝 정렬 형태의 새로운 네비게이션 바 스타일
    ======================================================== */
+.nav-btn-outline {
+    border: 1px solid var(--primary-warm); /* 브랜드 컬러로 외곽선 지정 */
+    padding: 6px 16px;
+    border-radius: 4px;
+    color: var(--primary-warm) !important;
+}
+
+.nav-btn-outline:hover {
+    background-color: var(--primary-warm);
+    color: white !important;
+}
+
+.nav-icon-link {
+    display: flex;
+    align-items: center;
+}
+
+.nav-mypage-img {
+    height: 24px; /* 네비게이션 높이에 맞춘 적절한 크기 */
+    width: auto;
+    object-fit: contain;
+}
 
 nav.navbar {
     display: flex;
@@ -224,34 +246,53 @@ nav.navbar .nav-logo:hover {
 
 .search-bar-container {
     display: flex;
-    justify-content: center;
+    align-items: center;
     width: 100%;
     max-width: 700px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-    border-radius: 6px;
+    border-radius: 30px; /* 좌우 모서리를 완전히 둥글게 처리 */
     overflow: hidden;
+    background-color: var(--card-bg);
+    border: 2px solid var(--accent-sepia); /* 테두리를 부모 컨테이너로 이동 */
+
+    overflow: visible;
+    padding-right: 6px;
+}
+
+.search-icon-wrapper {
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.search-gemini-img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
 }
 
 .search-input {
     flex: 1;
-    padding: 18px 25px;
+    padding: 18px 20px;
     font-size: 1.15rem;
-    border: 2px solid var(--accent-sepia);
-    border-right: none;
+    border: none; /* 중복 테두리 제거 */
     outline: none;
     color: var(--text-main);
-    background-color: var(--card-bg);
+    background-color: transparent;
 }
 
 .search-button {
-    padding: 0 40px;
-    font-size: 1.15rem;
+    height: 40px;
+    padding: 0 25px;
+    font-size: 1.1rem;
     font-weight: 600;
     background-color: var(--primary-warm);
     color: white;
     border: none;
     cursor: pointer;
     transition: var(--transition);
+    border-radius: 23px;
+    margin-left: 10px;
 }
 
 .search-button:hover {
@@ -265,6 +306,9 @@ nav.navbar .nav-logo:hover {
 }
 
 .small-button {
+    display: inline-flex; /* 아이콘과 텍스트를 가로로 나란히 정렬 */
+    align-items: center;
+    gap: 8px; /* 아이콘과 글자 사이의 간격 */
     padding: 10px 25px;
     font-size: 0.95rem;
     font-weight: 500;
@@ -274,6 +318,12 @@ nav.navbar .nav-logo:hover {
     border-radius: 4px;
     cursor: pointer;
     transition: var(--transition);
+}
+
+.btn-icon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
 }
 
 .small-button:hover {

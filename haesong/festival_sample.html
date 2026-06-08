@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>축제 상세 정보 - MOTIPE</title>
+    <!-- 공통 및 축제 스타일이 통합된 CSS 연결 -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 상단 네비게이션 바 -->
+    <nav class="navbar">
+        <div class="nav-brand-group">
+            <a href="main.html" class="nav-logo">
+                <img src="icons/screen.png" alt="Motipe 로고" class="nav-logo-img"> 
+            </a>
+            <div class="nav-left">
+                <a href="#">지도</a>
+                <a href="#">캘린더</a>
+                <a href="community.html">커뮤니티</a>
+            </div>
+        </div>
+
+        <div class="nav-right">
+            <a href="#" class="nav-btn-outline">로그인</a>
+            <a href="#" class="nav-btn-outline">회원가입</a>
+            <a href="mypage.html" class="nav-icon-link">
+                <img src="icons/mypage-icon.png" alt="마이페이지" class="nav-mypage-img">
+            </a>
+        </div>
+    </nav>
+
+    <!-- [상단 영역] 콘텐츠 정렬용 레이아웃 컨테이너 -->
+    <div class="festival-upper-container">
+        <!-- 왼쪽: 이미지 영역 -->
+        <div class="festival-image-wrapper">
+            <img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=800&q=80" alt="축제 대표 이미지">
+        </div>
+        
+        <!-- 오른쪽: 정보 및 설명 영역 -->
+        <div class="festival-info-wrapper">
+            <h1 class="festival-title">노을빛 바다 축제</h1>
+            
+            <div class="festival-meta">
+                <div class="meta-item">
+                    <span class="meta-label">개최장소</span> 강원도 강릉시 안목해변 일대
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">축제일자</span> 2024.10.15 ~ 2024.10.20
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">전화번호</span> 033-123-4567
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">홈페이지</span> https://example-festival.co.kr
+                </div>
+            </div>
+
+            <!-- 어퍼 컨테이너 내부로 들어온 독립된 설명 박스 -->
+            <div class="festival-description-box">
+                <div class="festival-description">
+                    동해의 푸른 바다가 노을로 물드는 시간, 자연과 음악이 하나되는 축제가 열립니다. 
+                    인위적인 조명 대신 불멍과 작은 촛불들이 해변을 밝히며, 지친 일상에 평온한 쉼표를 찍어드립니다. 
+                    가족, 연인과 함께 모래사장에 앉아 따뜻한 차 한 잔과 함께 잊지 못할 추억을 만들어보세요.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- [신규 추가] 하단 리뷰 등록 영역 (가로 규격 1100px 컨테이너 준수) -->
+    <div class="review-section-container">
+        <div class="review-write-box">
+            <h3 class="review-title">축제 리뷰 남기기</h3>
+            
+            <form class="review-form">
+                <!-- 별점 선택 영역 -->
+                <div class="rating-select-group">
+                    <span class="rating-label">별점 선택</span>
+                    <div class="stars">
+                        <span class="star-icon">★</span>
+                        <span class="star-icon">★</span>
+                        <span class="star-icon">★</span>
+                        <span class="star-icon">★</span>
+                        <span class="star-icon">★</span>
+                    </div>
+                </div>
+
+                <!-- 리뷰 작성 박스 및 제출 버튼 -->
+                <div class="review-input-group">
+                    <textarea class="review-textarea" placeholder="축제에 대한 따뜻한 후기를 남겨주세요 (최대 300자)"></textarea>
+                    <button type="submit" class="review-submit-btn">리뷰 제출</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

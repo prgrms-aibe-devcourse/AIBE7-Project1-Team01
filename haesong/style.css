@@ -501,3 +501,223 @@ article, .activity-card {
   from { opacity: 0; transform: translateY(15px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* ========================================================
+   [추가] 축제 상세 정보 페이지 전용 스타일
+   ======================================================== */
+
+/* [상단] 이미지와 메타 정보 정렬 레이아웃 */
+.festival-upper-container {
+    max-width: var(--max-width); /* 기존 1100px 변수 활용 */
+    margin: 50px auto 0 auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.festival-image-wrapper {
+    flex: 1;
+    max-width: 500px;
+}
+
+.festival-image-wrapper img {
+    width: 100%;
+    display: block;
+    border-radius: 8px; /* DESIGN.md 규격에 맞춘 곡률 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+.festival-info-wrapper {
+    flex: 1.5;
+}
+
+.festival-title {
+    font-size: 2.3rem;
+    font-weight: 700;
+    color: var(--text-main); /* 기존 텍스트 컬러 변수 활용 */
+    margin-bottom: 25px;
+}
+
+.festival-meta {
+    margin-bottom: 30px;
+}
+
+.meta-item {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: var(--text-main);
+}
+
+.meta-label {
+    display: inline-block;
+    font-weight: 600;
+    color: white;
+    background-color: var(--primary-warm); /* 기존 구리빛 메인 칼라 변수 활용 */
+    padding: 3px 12px;
+    border-radius: 4px; /* DESIGN.md 버튼/액션 규격 */
+    margin-right: 12px;
+    font-size: 0.9rem;
+}
+
+/* [하단] 축제 설명부터 화면 좌우를 가득 채우는 풀 와이드 밴드 */
+.festival-lower-fullwidth {
+    width: 100%;
+    background-color: var(--card-bg); /* 기존 화이트 배경 변수 활용 */
+    border-top: 1px solid #e2ded0;
+    margin-top: 60px;
+    padding: 60px 0;
+}
+
+/* 풀 와이드 내부 내용물은 상단 콘텐츠와 수직 정렬 라인(1100px)을 일치시킴 */
+.festival-lower-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.festival-description {
+    font-size: 1.15rem;
+    line-height: 1.9;
+    color: var(--text-main);
+    margin-bottom: 40px;
+    word-break: keep-all; /* 한글 단어 단위 개행 */
+}
+
+
+/* 모바일 반응형 대응 */
+@media (max-width: 768px) {
+    .festival-upper-container {
+        flex-direction: column;
+        margin-top: 30px;
+        gap: 25px;
+    }
+    
+    .festival-image-wrapper {
+        max-width: 100%;
+    }
+    
+    .festival-title {
+        font-size: 1.8rem;
+    }
+}
+
+/* ========================================================
+   [추가] 어퍼 컨테이너 내부 축제 설명 카드 스타일
+   ======================================================== */
+.festival-description-box {
+    background-color: var(--card-bg); /* 디자인 시스템 화이트 배경 */
+    padding: 30px;                    /* 박스 내부 여백 */
+    border-radius: 8px;               /* DESIGN.md 표준 컨테이너 라운딩 */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04); /* 은은한 그림자 */
+    border: 1px solid #e2ded0;        /* 부드러운 테두리 선 */
+    margin: 25px 0;                   /* 위 메타정보와 아래 연락처와의 간격 확보 */
+}
+
+.festival-description-box .festival-description {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text-main);
+    word-break: keep-all;             /* 한글 단어 단위 줄바꿈 정렬 */
+}
+/* ========================================================
+   [추가] 하단 리뷰 등록 컴포넌트 스타일
+   ======================================================== */
+.review-section-container {
+    max-width: var(--max-width); /* 1100px 정렬 라인 일치 */
+    margin: 40px auto 80px auto;
+    padding: 0 20px;
+}
+
+.review-write-box {
+    background-color: var(--card-bg);
+    padding: 40px;
+    border-radius: 8px; /* 가이드라인: 대형 컨테이너 8px 라운딩 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    border: 1px solid #e2ded0;
+}
+
+.review-title {
+    font-size: 1.3rem;
+    color: var(--text-main);
+    margin-bottom: 25px;
+    /* 기존 공통 스타일에 있는 h3의 왼쪽 테두리 데코레이션이 자동 적용됩니다 */
+}
+
+.rating-select-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.rating-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.stars {
+    color: var(--accent-sepia); /* 기본 세피아 톤 별빛 */
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+
+/* 마우스를 올렸을 때 반응하도록 보너스 효과 */
+.star-icon:hover {
+    color: var(--primary-warm);
+}
+
+.review-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-end; /* 버튼을 우측 정렬 */
+}
+
+.review-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--text-main);
+    background-color: var(--bg-warm);
+    border: 1px solid #e2ded0;
+    border-radius: 4px; /* 가이드라인: 필드/입력창 4px 라운딩 */
+    resize: none; /* 유저가 마우스로 크기 강제 조절 차단 */
+    outline: none;
+    transition: var(--transition);
+}
+
+.review-textarea:focus {
+    border-color: var(--primary-warm);
+    background-color: #ffffff; /* 포커스 되었을 때 배경색 강조 */
+}
+
+.review-submit-btn {
+    background-color: var(--primary-warm);
+    color: white;
+    padding: 12px 35px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 4px; /* 가이드라인: 액션 버튼 4px 라운딩 */
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.review-submit-btn:hover {
+    background-color: var(--secondary-warm);
+    transform: translateY(-2px);
+}
+
+/* 모바일 화면 대응 */
+@media (max-width: 768px) {
+    .review-write-box {
+        padding: 25px;
+    }
+    .review-submit-btn {
+        width: 100%; /* 모바일에서는 버튼이 꽉 차게 변경 */
+    }
+}

@@ -20,11 +20,15 @@
             </div>
         </div>
 
-        <div class="nav-right">
-    <!-- 외곽선 스타일을 주기 위해 nav-btn-outline 클래스를 추가했습니다 -->
-    <a href="../sangjin/AIBE7-Project1-Team01/src/login.html" class="nav-btn-outline">로그인</a>
-    <a href="../sangjin/AIBE7-Project1-Team01/src/signup.html" class="nav-btn-outline">회원가입</a>
-    <!-- 마이페이지 글자를 이미지 태그로 교체했습니다 -->
+        <!-- 상단 네비게이션 바의 nav-right 영역을 아래와 같이 id를 추가해 변경해 주세요 -->
+<div class="nav-right" id="nav-auth-group">
+    <!-- 비로그인 상태일 때 보여줄 기본 버튼 세트 (id를 부여했습니다) -->
+    <a href="../sangjin/AIBE7-Project1-Team01/src/login.html" class="nav-btn-outline" id="nav-login-btn">로그인</a>
+    <a href="../sangjin/AIBE7-Project1-Team01/src/signup.html" class="nav-btn-outline" id="nav-signup-btn">회원가입</a>
+    
+    <!-- 로그인 성공 시 이름이 나타날 영역 (처음에는 숨겨둡니다) -->
+    <span id="user-welcome-msg" style="display: none; font-weight: 600; color: var(--text-main); margin-right: 10px;"></span>
+    
     <a href="../jungmin/AIBE7-Project1-Team01/mypage.html" class="nav-icon-link">
         <img src="icons/mypage-icon.png" alt="마이페이지" class="nav-mypage-img">
     </a>
@@ -82,17 +86,13 @@
     <!-- 검색 및 서브 버튼 섹션 수정 -->
 <section class="search-section">
     <div class="search-bar-container">
-        <!-- 검색창 왼쪽에 제미나이 상징 이미지를 감싸는 영역을 추가했습니다
-        <div class="search-icon-wrapper">
-            <img src="icons/gemini-icon.png" alt="Gemini" class="search-gemini-img">
-        </div> -->
-        <input type="text" placeholder="어디로 떠나고 싶으신가요?" class="search-input">
-        <button type="button" class="search-button">검색</button>
+        <input type="text" id="main-search-input" class="search-input" placeholder="어디로 떠나고 싶으신가요?">
+        
+        <button type="button" id="main-search-btn" class="search-button">검색</button>
     </div>
     <div class="sub-buttons-container">
-        <!-- 버튼 글자 왼쪽에 작은 아이콘 이미지를 추가했습니다 -->
         <button type="button" class="small-button">
-            <img src="icons/map-icon.png" alt="지도" class="btn-icon"> 지도에서 찾기
+            <img src="icons/map-icon.png" alt="지도" class="btn-icon"> 지도로 찾기
         </button>
         <button type="button" class="small-button">
             <img src="icons/calendar-icon.png" alt="캘린더" class="btn-icon"> 캘린더에서 찾기
@@ -143,5 +143,70 @@
             moveSlide(currentIndex + 1);
         });
     </script>
+
+    <!-- 기존 <script> 태그 맨 아래, 혹은 기존 로직 하단에 아래 코드를 추가해 주세요 -->
+<script>
+    // 페이지가 로드될 때 로그인이 되어 있는지 체크하는 함수
+    function checkLoginStatus() {
+        // 백엔드나 로그인 페이지에서 로그인 성공 시 sessionStorage에 'userName'을 저장했다고 가정합니다.
+        // 테스트용 팁: 브라우저 콘솔창에 sessionStorage.setItem('userName', '홍길동') 을 입력하고 새로고침해 보세요!
+        const loggedInUser = sessionStorage.getItem('userName');
+        
+        const loginBtn = document.getElementById('nav-login-btn');
+        const signupBtn = document.getElementById('nav-signup-btn');
+        const welcomeMsg = document.getElementById('user-welcome-msg');
+
+        if (loggedInUser) {
+            // 1. 로그인 상태라면 기존 버튼 숨기기
+            loginBtn.style.display = 'none';
+            signupBtn.style.display = 'none';
+            
+            // 2. 유저 이름 넣고 환영 문구 보여주기
+            welcomeMsg.textContent = `${loggedInUser}님, 반갑습니다!`;
+            welcomeMsg.style.display = 'inline-block';
+        } else {
+            // 비로그인 상태라면 기본 버튼 보여주기
+            loginBtn.style.display = 'inline-block';
+            signupBtn.style.display = 'inline-block';
+            welcomeMsg.style.display = 'none';
+        }
+    }
+
+    // 문서가 준비되면 로그인 상태 검사 실행
+    document.addEventListener('DOMContentLoaded', checkLoginStatus);
+
+    // =======================================================
+// 💡 [여기를 추가] 검색 입력값을 받아서 다음 페이지로 이동하는 로직
+// =======================================================
+function executeSearch() {
+    const searchField = document.getElementById('main-search-input');
+    const keyword = searchField.value.trim();
+
+    // 빈칸 검사 예외 처리
+    if (!keyword) {
+        alert('검색어를 입력해주세요!');
+        searchField.focus();
+        return;
+    }
+
+    // 주소창 한글 깨짐 방지 인코딩
+    const encodedKeyword = encodeURIComponent(keyword);
+
+    // 다음 결과 페이지로 검색어를 매달고 가도록 주소 전환
+    window.location.href = `festival_list.html?search=${encodedKeyword}`;
+}
+
+// 버튼 클릭 시 함수 실행
+document.getElementById('main-search-btn').addEventListener('click', executeSearch);
+
+// 엔터키 입력 시 함수 실행
+document.getElementById('main-search-input').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        executeSearch();
+    }
+});
+
+</script>
+
 </body>
 </html>

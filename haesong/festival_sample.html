@@ -31,42 +31,40 @@
         </div>
     </nav>
 
-    <!-- [상단 영역] 콘텐츠 정렬용 레이아웃 컨테이너 -->
     <div class="festival-upper-container">
-        <!-- 왼쪽: 이미지 영역 -->
-        <div class="festival-image-wrapper">
-            <img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=800&q=80" alt="축제 대표 이미지">
-        </div>
+    <div class="festival-image-wrapper">
+        <img src="" alt="축제 대표 이미지" id="api-festival-img">
+    </div>
+    
+    <div class="festival-info-wrapper">
+        <h1 class="festival-title" id="api-festival-title">로딩 중...</h1>
         
-        <!-- 오른쪽: 정보 및 설명 영역 -->
-        <div class="festival-info-wrapper">
-            <h1 class="festival-title">노을빛 바다 축제</h1>
-            
-            <div class="festival-meta">
-                <div class="meta-item">
-                    <span class="meta-label">개최장소</span> 강원도 강릉시 안목해변 일대
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">축제일자</span> 2024.10.15 ~ 2024.10.20
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">전화번호</span> 033-123-4567
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">홈페이지</span> https://example-festival.co.kr
-                </div>
+        <div class="festival-meta">
+            <div class="meta-item">
+                <span class="meta-label">개최장소</span> 
+                <span id="api-festival-location"></span>
             </div>
+            <div class="meta-item">
+                <span class="meta-label">축제일자</span> 
+                <span id="api-festival-date"></span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">전화번호</span> 
+                <span id="api-festival-phone"></span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">홈페이지</span> 
+                <a href="#" id="api-festival-web" target="_blank"></a>
+            </div>
+        </div>
 
-            <!-- 어퍼 컨테이너 내부로 들어온 독립된 설명 박스 -->
-            <div class="festival-description-box">
-                <div class="festival-description">
-                    동해의 푸른 바다가 노을로 물드는 시간, 자연과 음악이 하나되는 축제가 열립니다. 
-                    인위적인 조명 대신 불멍과 작은 촛불들이 해변을 밝히며, 지친 일상에 평온한 쉼표를 찍어드립니다. 
-                    가족, 연인과 함께 모래사장에 앉아 따뜻한 차 한 잔과 함께 잊지 못할 추억을 만들어보세요.
-                </div>
+        <div class="festival-description-box">
+            <div class="festival-description" id="api-festival-desc">
+                데이터를 불러오는 중입니다...
             </div>
         </div>
     </div>
+</div>
 
     <!-- [신규 추가] 하단 리뷰 등록 영역 (가로 규격 1100px 컨테이너 준수) -->
     <div class="review-section-container">
@@ -95,5 +93,72 @@
         </div>
     </div>
 
+   <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. 주소창에서 name=축제명 파라미터 안전하게 가로채기 (디코딩 자동 완료)
+            const urlParams = new URLSearchParams(window.location.search);
+            const festivalName = urlParams.get('name');
+
+            if (!festivalName) {
+                alert('올바르지 않은 접근입니다. 축제 검색 리스트로 이동합니다.');
+                window.location.href = 'festival_list.html';
+                return;
+            }
+
+            // 2. 실시간 주입 연동 메서드 호출
+            loadFestivalDataFromJSON(festivalName);
+        });
+
+        async function loadFestivalDataFromJSON(targetName) {
+            try {
+                // 같은 서버/폴더 내 전국문화축제표준데이터.json 비동기 호출
+                const response = await fetch('전국문화축제표준데이터.json');
+                if (!response.ok) throw new Error('데이터 통신 실패');
+                
+                const data = await response.json();
+
+                // 3. records 배열에서 축제명 문자열이 정확하게 매칭되는 1개의 객체 탐색
+                const matchedRecord = data.records.find(record => {
+                    return record.축제명.trim() === targetName.trim();
+                });
+
+                if (!matchedRecord) {
+                    document.getElementById('api-festival-title').textContent = "등록된 축제 정보를 찾을 수 없습니다.";
+                    return;
+                }
+
+                // 4. 오직 id 속성만을 타격하여 공공 데이터 매핑 인풋
+                document.getElementById('api-festival-title').textContent = matchedRecord.축제명;
+                document.getElementById('api-festival-location').textContent = 
+                    `${matchedRecord.개최장소} (${matchedRecord.소재지도로명주소})`;
+                document.getElementById('api-festival-date').textContent = 
+                    `${matchedRecord.축제시작일자} ~ ${matchedRecord.축제종료일자}`;
+                    
+                document.getElementById('api-festival-phone').textContent = 
+                    matchedRecord.전화번호 ? matchedRecord.전화번호 : "정보 없음";
+                document.getElementById('api-festival-desc').textContent = 
+                    matchedRecord.축제내용 ? matchedRecord.축제내용 : "상세 소개 정보가 제공되지 않는 축제입니다.";
+
+                // 홈페이지 링크 바인딩 제어
+                const webLink = document.getElementById('api-festival-web');
+                if (matchedRecord.홈페이지주소 && matchedRecord.홈페이지주소.trim() !== "") {
+                    webLink.href = matchedRecord.홈페이지주소;
+                    webLink.textContent = matchedRecord.홈페이지주소;
+                } else {
+                    webLink.textContent = "공식 홈페이지 없음";
+                    webLink.removeAttribute('href');
+                }
+
+                // 임시 플레이스홀더 이미지 바인딩
+                const imgContainer = document.getElementById('api-festival-img');
+                imgContainer.src = "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=800&q=80";
+                imgContainer.alt = matchedRecord.축제명;
+
+            } catch (error) {
+                console.error("데이터 바인딩 실패 에러 로그:", error);
+                document.getElementById('api-festival-title').textContent = "서버 데이터 로드 오류";
+            }
+        }
+    </script>
 </body>
 </html>

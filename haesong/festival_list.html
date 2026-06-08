@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>축제 검색 결과 - MOTIPE</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand-group">
+            <a href="main.html" class="nav-logo">
+                <img src="icons/screen.png" alt="Motipe 로고" class="nav-logo-img"> 
+            </a>
+            <div class="nav-left">
+                <a href="#">지도</a>
+                <a href="#">캘린더</a>
+                <a href="../jungmin/AIBE7-Project1-Team01/community.html">커뮤니티</a>
+            </div>
+        </div>
+
+        <div class="nav-right" id="nav-auth-group">
+            <a href="../sangjin/AIBE7-Project1-Team01/src/login.html" class="nav-btn-outline" id="nav-login-btn">로그인</a>
+            <a href="../sangjin/AIBE7-Project1-Team01/src/signup.html" class="nav-btn-outline" id="nav-signup-btn">회원가입</a>
+            <span id="user-welcome-msg" style="display: none; font-weight: 600; color: var(--text-main); margin-right: 10px;"></span>
+            <a href="../jungmin/AIBE7-Project1-Team01/mypage.html" class="nav-icon-link">
+                <img src="icons/mypage-icon.png" alt="마이페이지" class="nav-mypage-img">
+            </a>
+        </div>
+    </nav>
+
+    <div class="list-container">
+        <div class="search-result-header">
+            <h2 class="search-result-title" id="dynamic-result-title">검색 결과를 불러오는 중입니다...</h2>
+        </div>
+        
+        <div class="festival-card-list">
+    
+    <div class="festival-item-card" onclick="goToDetail('제4회 합천황토한우축제')">
+        <h3 class="card-title">제4회 합천황토한우축제</h3>
+        <div class="card-info-group">
+            <p class="card-meta"><strong>위치</strong> 경상남도 합천군 합천읍 문화로 62</p>
+            <p class="card-meta"><strong>기간</strong> 2026-10-16 ~ 2026-10-18</p>
+        </div>
+    </div>
+
+    <div class="festival-item-card" onclick="goToDetail('불갑산상사화축제')">
+        <h3 class="card-title">불갑산상사화축제</h3>
+        <div class="card-info-group">
+            <p class="card-meta"><strong>위치</strong> 전라남도 영광군 불갑면 불갑사로 450</p>
+            <p class="card-meta"><strong>기간</strong> 2025-09-26 ~ 2025-10-05</p>
+        </div>
+    </div>
+
+</div>
+    </div>
+
+    <script>
+        // 페이지가 열리자마자 주소창의 검색어 값을 분석하는 스크립트
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. 현재 브라우저 주소창의 ?뒤에 붙은 파라미터(쿼리 스트링)를 복사해옴
+            const currentQueryString = window.location.search;
+            
+            // 2. URLSearchParams 객체를 생성하여 데이터 추출 준비
+            const urlParameters = new URLSearchParams(currentQueryString);
+            
+            // 3. 메인 페이지에서 'search'라는 Key값으로 보낸 Value(검색어)를 가로챔
+            const extractedKeyword = urlParameters.get('search');
+            
+            const titleElement = document.getElementById('dynamic-result-title');
+            
+            if (extractedKeyword) {
+                // 한글 깨짐 없이 정상 출력하기 위해 자동으로 텍스트 디코딩되어 반영됩니다.
+                titleElement.textContent = `🔍 '${extractedKeyword}'에 대한 축제 검색 결과`;
+            } else {
+                titleElement.textContent = `🔍 전체 축제 리스트`;
+            }
+
+            // 공통 기능: 상단 네비게이션 바 로그인 체크 로직 실행
+            if (typeof checkLoginStatus === 'function') {
+                checkLoginStatus();
+            }
+        });
+
+        // 리스트 아이템 카드를 클릭했을 때 해당 축제의 상세 데이터 페이지로 ID를 매달고 이동하는 함수
+        function goToDetail(festivalName) {
+    // 1. 앞뒤 불필요한 공백 제거
+    const trimmedName = festivalName.trim();
+    
+    /* 2. [핵심] 한글 축제명('제4회 합천황토한우축제')이 주소창에서 깨지지 않도록 
+          안전하게 퍼센트 인코딩 포맷으로 변환합니다. */
+    const encodedName = encodeURIComponent(trimmedName);
+    
+    // 3. 상세 페이지(festival_sample.html)로 고유 축제명을 매달고 강제 이동합니다.
+    window.location.href = `festival_sample.html?name=${encodedName}`;
+}
+    </script>
+</body>
+</html>

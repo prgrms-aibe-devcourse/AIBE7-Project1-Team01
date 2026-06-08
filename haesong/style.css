@@ -518,14 +518,24 @@ article, .activity-card {
 
 .festival-image-wrapper {
     flex: 1;
-    max-width: 500px;
+    max-width: 440px;
+    width: 100%;
+
+    top: calc(50vh - 200px);
+    align-self: center;
 }
 
 .festival-image-wrapper img {
     width: 100%;
+    height: 400px;
+
     display: block;
     border-radius: 8px; /* DESIGN.md 규격에 맞춘 곡률 */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+
+    object-fit: cover;     
+    /* 이미지 중심을 기준으로 예쁘게 잘라내도록 정렬 */
+    object-position: center;
 }
 
 .festival-info-wrapper {
@@ -537,9 +547,18 @@ article, .activity-card {
     font-weight: 700;
     color: var(--text-main); /* 기존 텍스트 컬러 변수 활용 */
     margin-bottom: 25px;
+    /* margin-left: -80px; */
+    
+    /* 글자가 왼쪽으로 이동했으므로, 시각적 안정감을 위해 왼쪽 정렬 유지 */
+    text-align: left; 
+    
+    /* 혹시 축제 이름이 너무 길어질 때 사진을 과하게 덮지 않도록 안전 패딩 확보 */
+    padding-left: 10px;
+    /* z-index: 10;  사진보다 글자가 위로 올라오도록 레이어 순위 보장 */
 }
 
 .festival-meta {
+    width: 100%;
     margin-bottom: 30px;
 }
 
@@ -721,3 +740,69 @@ article, .activity-card {
         width: 100%; /* 모바일에서는 버튼이 꽉 차게 변경 */
     }
 }
+
+ /* 검색 결과 페이지 전용 컴포넌트 스타일 */
+        .list-container {
+            max-width: var(--max-width); /* 1100px 공통 규격 준수 */
+            margin: 50px auto 100px auto;
+            padding: 0 20px;
+        }
+
+        .search-result-header {
+            margin-bottom: 35px;
+            border-bottom: 2px solid #e2ded0;
+            padding-bottom: 15px;
+        }
+
+        .search-result-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        /* 그리드 레이아웃 스타일링 */
+        .festival-card-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        /* 개별 축제 카드 디자인 */
+        .festival-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid #e2ded0;
+            border-radius: 8px; /* DESIGN.md 표준 컨테이너 라운딩 */
+            padding: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+        }
+
+        /* 마우스 호버 시 자연스러운 시각적 피드백 */
+        .festival-item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(198, 134, 66, 0.1);
+            border-color: var(--primary-warm);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text-main);
+        }
+
+        .card-info-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .card-meta {
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        .card-meta strong {
+            color: var(--secondary-warm);
+        }

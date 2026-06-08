@@ -1,0 +1,538 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+:root {
+  --primary-warm: #885210; /* design.md 기준 수정 (#C68642 -> #885210) */
+  --secondary-warm: #825336; /* design.md 기준 수정 (#8E5D3F -> #825336) */
+  --bg-warm: #fcf9f2; /* design.md 기준 수정 (#F4F1EA -> #FCF9F2) */
+  --card-bg: #ffffff;
+  --text-main: #3c3c3c;
+  --text-light: #707070;
+  --accent-sepia: #d9b99b;
+  --max-width: 1000px; /* design.md 가이드: container-max 1000px */
+  --transition: all 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    "Pretendard",
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    Roboto,
+    sans-serif;
+  background-color: var(--bg-warm);
+  color: var(--text-main);
+  line-height: 1.8; /* design.md 가이드: body-main lineHeight 1.8 */
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 글로벌 컨테이너 정의 */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 40px 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+/* DESIGN.md 가이드: H3 에디토리얼 데코레이션 */
+h3 {
+  border-left: 4px solid var(--accent-sepia);
+  padding-left: 12px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+/* DESIGN.md 가이드: 기본 카드 레이아웃 (Radius 8px 적용) */
+article,
+.activity-card {
+  background-color: var(--card-bg);
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(142, 93, 63, 0.12); /* design.md 가이드: Warm Ambient Shadows */
+}
+
+/* ========================================================
+   2. 네비게이션 바 (Navigation Component)
+   ======================================================== */
+.navbar {
+  position: sticky;
+  top: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(5px);
+  padding: 15px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e2ded0;
+  z-index: 1000;
+}
+
+.nav-brand-group,
+.nav-left,
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-logo-img {
+  height: 32px; /* test_style.css와 맞춤 */
+  object-fit: contain;
+}
+
+.nav-left a {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-main);
+  transition: var(--transition);
+}
+
+.nav-left a:hover {
+  color: var(--primary-warm);
+}
+
+/* 로그인 / 회원가입 외곽선 디자인 (Radius 4px) */
+.nav-btn-outline {
+  border: 1px solid var(--primary-warm);
+  padding: 6px 16px;
+  border-radius: 4px;
+  color: var(--primary-warm);
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.nav-btn-outline:hover {
+  background-color: var(--primary-warm);
+  color: white;
+}
+
+.nav-icon-link {
+  display: flex;
+  align-items: center;
+}
+
+.nav-mypage-img {
+  height: 24px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* ========================================================
+   3. 메인 히어로 슬라이더 (Hero Slider Component)
+   ======================================================== */
+.hero-slider {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  overflow: hidden;
+}
+
+.slider-wrapper {
+  display: flex;
+  width: 500%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.slide {
+  width: 20%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+}
+
+.slide-content h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.slide-content p {
+  font-size: 1.2rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* DESIGN.md 가이드: 기본 CTA 버튼 (Radius 4px 적용) */
+.cta-button {
+  display: inline-block;
+  background-color: var(--primary-warm);
+  color: white;
+  padding: 12px 30px;
+  font-weight: 600;
+  border-radius: 4px;
+  border: 1px solid var(--secondary-warm);
+  transition: var(--transition);
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(198, 134, 66, 0.3);
+}
+
+.slide-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  padding: 15px;
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 10;
+  transition: var(--transition);
+}
+
+.slide-btn:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.prev-btn {
+  left: 30px;
+}
+.next-btn {
+  right: 30px;
+}
+
+/* ========================================================
+   4. 검색 영역 섹션 (Search Section Component)
+   ======================================================== */
+.search-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 60px 20px 20px 20px;
+}
+
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 700px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  border-radius: 30px;
+  background-color: var(--card-bg);
+  border: 2px solid var(--accent-sepia);
+  overflow: visible;
+  padding-right: 6px;
+}
+
+.search-icon-wrapper {
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.search-gemini-img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.search-input {
+  flex: 1;
+  padding: 18px 20px;
+  font-size: 1.15rem;
+  border: none;
+  outline: none;
+  color: var(--text-main);
+  background-color: transparent;
+}
+
+.search-button {
+  height: 54px;
+  padding: 0 38px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background-color: var(--primary-warm);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  border-radius: 27px;
+  margin-left: 12px;
+}
+
+.search-button:hover {
+  background-color: var(--secondary-warm);
+}
+
+.sub-buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+/* 지도/캘린더 콤팩트형 액션 버튼 */
+.small-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 25px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  background-color: var(--card-bg);
+  color: var(--text-main);
+  border: 1px solid var(--accent-sepia);
+  border-radius: 4px; /* DESIGN.md 가이드 필드 라운딩 적용 */
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.small-button:hover {
+  background-color: var(--bg-warm);
+}
+
+.btn-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+/* ========================================================
+   5. 커뮤니티 전용 스타일 (Community Board Component)
+   ======================================================== */
+.community-header {
+  background-color: var(--secondary-warm);
+  color: white;
+  padding: 40px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.filter-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+/* DESIGN.md 가이드: 필터 칩 액션 라운딩 4px */
+.filter-chip {
+  padding: 8px 18px;
+  border-radius: 4px;
+  border: 1px solid var(--accent-sepia);
+  background-color: var(--card-bg);
+  color: var(--text-main);
+  cursor: pointer;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.filter-chip.active,
+.filter-chip:hover {
+  background-color: var(--primary-warm);
+  color: white;
+  border-color: var(--primary-warm);
+}
+
+/* 카테고리 태그 뱃지 */
+.category-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.category-badge.review {
+  background-color: #fef3e2;
+  color: #c68642;
+}
+.category-badge.tip {
+  background-color: #e8f5e9;
+  color: #388e3c;
+}
+.category-badge.question {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.post-meta {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.rating {
+  color: var(--primary-warm);
+  font-weight: bold;
+}
+
+.delete-btn {
+  background: none;
+  border: 1px solid #d9534f;
+  color: #d9534f;
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 10px;
+}
+
+.delete-btn:hover {
+  background-color: #d9534f;
+  color: white;
+}
+
+.empty-message {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-light);
+  font-size: 1.1rem;
+}
+
+/* ========================================================
+   6. 마이페이지 특화 레이아웃 (My Page Component)
+   ======================================================== */
+.profile-card {
+  text-align: center;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  background-color: var(--accent-sepia);
+  border-radius: 50%;
+  margin: 0 auto 15px auto;
+}
+
+.activity-list {
+  list-style: none;
+}
+
+.activity-item {
+  padding: 12px 0;
+  border-bottom: 1px solid #e2ded0;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+}
+
+@media (min-width: 1024px) {
+  .password-section {
+    grid-column: 3;
+    grid-row: 2;
+  }
+}
+
+/* ========================================================
+   7. 모달 팝업 및 공통 유틸리티 (Modals & Utility)
+   ======================================================== */
+.modal-overlay,
+.confirm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(3px);
+}
+
+.modal-content,
+.confirm-box {
+  background-color: var(--card-bg);
+  width: 90%;
+  max-width: 600px;
+  padding: 40px;
+  border-radius: 8px; /* DESIGN.md 가이드: 대형 컨테이너 내 8px 반경 균형 */
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  animation: modalFadeUp 0.3s ease;
+}
+
+.confirm-box {
+  max-width: 400px;
+  padding: 35px 40px;
+  text-align: center;
+}
+
+.btn-group {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* 토스트 팝업 알림 */
+.toast {
+  position: fixed;
+  bottom: 90px;
+  right: 30px;
+  background-color: var(--secondary-warm);
+  color: white;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s ease;
+  z-index: 4000;
+  pointer-events: none;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 애니메이션 키프레임 정의 */
+@keyframes modalFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.post-card {
+  animation: cardFadeIn 0.5s ease;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

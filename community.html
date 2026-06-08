@@ -123,6 +123,121 @@
           transform: translateY(0);
         }
       }
+
+      /* 댓글 섹션 */
+      .comment-section {
+        border-top: 1px solid var(--bg-warm);
+        margin-top: 15px;
+        padding-top: 12px;
+      }
+      .comment-toggle {
+        background: none;
+        border: none;
+        color: var(--primary-warm);
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 4px 0;
+        transition: var(--transition);
+      }
+      .comment-toggle:hover {
+        color: var(--secondary-warm);
+      }
+      .comment-list {
+        margin-top: 10px;
+        display: none;
+      }
+      .comment-list.open {
+        display: block;
+      }
+      .comment-item {
+        background-color: var(--bg-warm);
+        padding: 10px 14px;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        position: relative;
+        animation: cardFadeIn 0.3s ease;
+      }
+      .comment-item .comment-author {
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: var(--secondary-warm);
+      }
+      .comment-item .comment-date {
+        font-size: 0.75rem;
+        color: var(--text-light);
+        margin-left: 8px;
+      }
+      .comment-item .comment-text {
+        font-size: 0.9rem;
+        color: var(--text-main);
+        margin-top: 4px;
+        line-height: 1.5;
+      }
+      .comment-delete-btn {
+        position: absolute;
+        top: 8px;
+        right: 10px;
+        background: none;
+        border: none;
+        color: var(--text-light);
+        font-size: 0.75rem;
+        cursor: pointer;
+        transition: var(--transition);
+        padding: 2px 6px;
+        border-radius: 3px;
+      }
+      .comment-delete-btn:hover {
+        color: #d9534f;
+        background-color: rgba(217, 83, 79, 0.1);
+      }
+      .comment-form {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      .comment-form input,
+      .comment-form textarea {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid var(--accent-sepia);
+        border-radius: 4px;
+        background-color: var(--bg-warm);
+        font-family: inherit;
+        font-size: 0.85rem;
+        outline: none;
+        transition: var(--transition);
+      }
+      .comment-form textarea {
+        height: 60px;
+        resize: none;
+      }
+      .comment-form input:focus,
+      .comment-form textarea:focus {
+        border-color: var(--primary-warm);
+        background-color: white;
+      }
+      .comment-submit-btn {
+        align-self: flex-end;
+        background-color: var(--primary-warm);
+        color: white;
+        border: none;
+        padding: 6px 18px;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+      .comment-submit-btn:hover {
+        background-color: var(--secondary-warm);
+      }
+      .comment-count {
+        font-size: 0.8rem;
+        color: var(--text-light);
+        margin-left: 4px;
+      }
     </style>
   </head>
   <body>
@@ -318,6 +433,9 @@
           image:
             "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
           isDefault: true,
+          comments: [
+            { id: "c1", author: "여행초보", text: "저도 여기 가보고 싶어요!", date: "2026.05.21" },
+          ],
         },
         {
           id: "default-2",
@@ -331,6 +449,9 @@
           image:
             "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=400&q=80",
           isDefault: true,
+          comments: [
+            { id: "c2", author: "노을러버", text: "정확한 위치가 어디인가요?", date: "2026.05.19" },
+          ],
         },
         {
           id: "default-3",
@@ -344,6 +465,9 @@
           image:
             "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=400&q=80",
           isDefault: true,
+          comments: [
+            { id: "c3", author: "제주토박이", text: "동쪽 추천! 성산일출봉 → 월정리 코스 최고예요 😊", date: "2026.06.02" },
+          ],
         },
       ];
 
@@ -424,7 +548,18 @@
 
         grid.innerHTML = filtered
           .map(
-            (post) => `
+            (post) => {
+              const comments = post.comments || [];
+              const commentsHtml = comments.map((c) => `
+                <div class="comment-item">
+                  <span class="comment-author">${escapeHtml(c.author)}</span>
+                  <span class="comment-date">${c.date}</span>
+                  <button class="comment-delete-btn" onclick="deleteComment('${post.id}', '${c.id}', '${escapeAttr(c.author)}')" title="댓글 삭제">✕ 삭제</button>
+                  <div class="comment-text">${escapeHtml(c.text)}</div>
+                </div>
+              `).join("");
+
+              return `
           <article class="post-card" data-category="${post.category}">
             <img
               src="${post.image || getCategoryImage(post.category)}"
@@ -455,9 +590,23 @@
                   ? `<button class="delete-btn" onclick="requestDelete('${post.id}')">🗑️ 삭제</button>`
                   : ""
               }
+              <div class="comment-section">
+                <button class="comment-toggle" onclick="toggleComments('${post.id}')">
+                  💬 댓글 ${comments.length > 0 ? `<span class="comment-count">(${comments.length})</span>` : "작성하기"}
+                </button>
+                <div class="comment-list" id="comments-${post.id}">
+                  ${commentsHtml}
+                  <div class="comment-form">
+                    <input type="text" id="cAuthor-${post.id}" placeholder="닉네임" />
+                    <textarea id="cText-${post.id}" placeholder="댓글을 입력하세요..."></textarea>
+                    <button class="comment-submit-btn" onclick="addComment('${post.id}')">댓글 등록</button>
+                  </div>
+                </div>
+              </div>
             </div>
           </article>
-        `,
+        `;
+            },
           )
           .join("");
       }
@@ -467,6 +616,11 @@
         const div = document.createElement("div");
         div.textContent = text;
         return div.innerHTML;
+      }
+
+      // 속성 이스케이프 (onclick 내부용)
+      function escapeAttr(text) {
+        return text.replace(/'/g, "\\'").replace(/"/g, "&quot;");
       }
 
       // ============================================
@@ -580,6 +734,80 @@
         closeConfirm();
         renderPosts();
         showToast("🗑️ 게시글이 삭제되었습니다.");
+      }
+
+      // ============================================
+      // 댓글 기능
+      // ============================================
+
+      function toggleComments(postId) {
+        const list = document.getElementById("comments-" + postId);
+        list.classList.toggle("open");
+      }
+
+      async function addComment(postId) {
+        const authorInput = document.getElementById("cAuthor-" + postId);
+        const textInput = document.getElementById("cText-" + postId);
+        const author = authorInput.value.trim();
+        const text = textInput.value.trim();
+
+        if (!author) {
+          showToast("⚠️ 닉네임을 입력해주세요.");
+          return;
+        }
+        if (!text) {
+          showToast("⚠️ 댓글 내용을 입력해주세요.");
+          return;
+        }
+
+        const posts = await loadPosts();
+        const post = posts.find((p) => p.id === postId);
+        if (!post) return;
+
+        if (!post.comments) post.comments = [];
+
+        const now = new Date();
+        const dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, "0")}.${String(now.getDate()).padStart(2, "0")}`;
+
+        post.comments.push({
+          id: "c-" + Date.now(),
+          author: author,
+          text: text,
+          date: dateStr,
+        });
+
+        savePosts(posts);
+        await renderPosts();
+
+        // 댓글 목록 다시 열기
+        const list = document.getElementById("comments-" + postId);
+        if (list) list.classList.add("open");
+
+        showToast("💬 댓글이 등록되었습니다!");
+      }
+
+      async function deleteComment(postId, commentId, commentAuthor) {
+        const inputAuthor = prompt("댓글 작성자 닉네임을 입력하세요 (본인 확인):");
+        if (inputAuthor === null) return; // 취소
+
+        if (inputAuthor.trim() !== commentAuthor) {
+          showToast("❌ 작성자 닉네임이 일치하지 않습니다.");
+          return;
+        }
+
+        const posts = await loadPosts();
+        const post = posts.find((p) => p.id === postId);
+        if (!post || !post.comments) return;
+
+        post.comments = post.comments.filter((c) => c.id !== commentId);
+        savePosts(posts);
+        await renderPosts();
+
+        // 댓글 목록 다시 열기
+        const list = document.getElementById("comments-" + postId);
+        if (list) list.classList.add("open");
+
+        showToast("🗑️ 댓글이 삭제되었습니다.");
       }
 
       // ============================================

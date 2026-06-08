@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>여행자 광장 - 노을빛 여행</title>
+    <link rel="stylesheet" href="test_style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Sunset Glow Travel</h1>
+    </header>
+
+    <nav class="navbar">
+      <div class="nav-brand-group">
+        <a href="test.html" class="nav-logo">
+          <span class="logo-placeholder"></span>
+          Motipe
+        </a>
+        <div class="nav-left">
+          <a href="#">지도</a>
+          <a href="#">캘린더</a>
+        </div>
+      </div>
+      <div class="nav-right">
+        <a href="#" >로그인</a>
+        <a href="#" >회원가입</a>
+        <a href="community.html">커뮤니티</a>
+        <a href="mypage.html">마이페이지</a>
+      </div>
+    </nav>
+
+    <main class="container">
+      <section
+        class="community-header"
+        style="grid-column: 1 / -1; border-radius: 8px"
+      >
+        <h2>커뮤니티</h2>
+        <p>여러분들의 안식처를 공유해주세요.</p>
+      </section>
+
+      <div class="filter-container" style="grid-column: 1 / -1">
+        <button class="filter-chip active">전체</button>
+        <button class="filter-chip">숙소 리뷰</button>
+        <button class="filter-chip">여행 꿀팁</button>
+        <button class="filter-chip">질문 하기</button>
+      </div>
+
+      <div class="post-grid" style="grid-column: 1 / -1">
+        <article class="post-card">
+          <img
+            src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80"
+            alt="포스트 이미지"
+            class="post-image"
+          />
+          <div class="post-content">
+            <div class="post-meta">
+              <span>숙소 리뷰</span>
+              <span class="rating">★ 4.8</span>
+            </div>
+            <h3>포근한 숲속 오두막에서의 하룻밤</h3>
+            <p>
+              창문을 열면 들리는 새소리와 흙 내음이 정말 좋았습니다. 복잡한
+              도심을 떠나고 싶은 분들께 강력 추천해요.
+            </p>
+            <div
+              class="post-meta"
+              style="
+                margin-top: 15px;
+                border-top: 1px solid var(--bg-warm);
+                padding-top: 10px;
+              "
+            >
+              <span>작성자: ex</span>
+              <span>2024.05.20</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="post-card">
+          <img
+            src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=400&q=80"
+            alt="포스트 이미지"
+            class="post-image"
+          />
+          <div class="post-content">
+            <div class="post-meta">
+              <span>여행 꿀팁</span>
+              <span class="rating">★ 5.0</span>
+            </div>
+            <h3>서해안에서 만난 인생 노을 포인트</h3>
+            <p>
+              인적이 드문 해안 도로 끝자락에서 만난 보랏빛 노을은 정말 잊을 수
+              없는 장관이었습니다.
+            </p>
+            <div
+              class="post-meta"
+              style="
+                margin-top: 15px;
+                border-top: 1px solid var(--bg-warm);
+                padding-top: 10px;
+              "
+            >
+              <span>작성자: ex</span>
+              <span>2024.05.18</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </main>
+
+    <!-- 글쓰기 버튼 (스크립트 연결) -->
+    <button
+      class="cta-button"
+      style="
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        border-radius: 50px;
+        z-index: 1000;
+        padding: 15px 25px;
+      "
+      onclick="openWriteModal()"
+    >
+      글쓰기
+    </button>
+
+    <!-- 글쓰기 모달 창 -->
+    <div id="writeModal" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 style="color: var(--secondary-warm)">새로운 여행 기록</h2>
+          <button class="close-modal" onclick="closeWriteModal()">
+            &times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="postForm">
+            <div class="form-group">
+              <label>카테고리</label>
+              <select class="input-field">
+                <option>숙소 리뷰</option>
+                <option>여행 꿀팁</option>
+                <option>질문 하기</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>제목</label>
+              <input
+                type="text"
+                class="input-field"
+                placeholder="제목을 입력하세요"
+              />
+            </div>
+            <div class="form-group">
+              <label>내용</label>
+              <textarea
+                class="input-field"
+                placeholder="당신의 소중한 여행 이야기를 들려주세요."
+              ></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="small-button"
+            onclick="closeWriteModal()"
+            style="margin-right: 10px"
+          >
+            취소
+          </button>
+          <button type="button" class="cta-button" onclick="submitPost()">
+            등록하기
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>&copy; 2026 Sunset Glow Travel. 모든 여행이 쉼표가 되길.</p>
+    </footer>
+
+    <script>
+      function openWriteModal() {
+        document.getElementById("writeModal").style.display = "flex";
+        document.body.style.overflow = "hidden"; // 배경 스크롤 방지
+      }
+
+      function closeWriteModal() {
+        document.getElementById("writeModal").style.display = "none";
+        document.body.style.overflow = "auto";
+      }
+
+      function submitPost() {
+        alert("여행 기록이 등록되었습니다!");
+        closeWriteModal();
+      }
+    </script>
+  </body>
+</html>

@@ -54,61 +54,54 @@ header p {
 
 
 /* ========================================================
-   [UPDATE] 양끝 정렬 형태의 새로운 네비게이션 바 스타일
+   양끝 정렬 형태의 새로운 네비게이션 바 스타일
    ======================================================== */
 
-/* 네비게이션 전체 바: 좌측 그룹과 우측 그룹을 양 끝(space-between)으로 배치 */
 nav.navbar {
     display: flex;
     justify-content: space-between; 
     align-items: center;
     background-color: var(--card-bg);
-    padding: 15px 40px;             /* 좌우 여백을 넓혀 여유감을 줌 */
+    padding: 15px 40px;             
     border-bottom: 1px solid rgba(0,0,0,0.05);
     font-size: 0.95rem;
     font-weight: 500;
 }
 
-/* 좌측 브랜드 그룹: 로고와 좌측 메뉴들을 가로로 나열 */
 .nav-brand-group {
     display: flex;
     align-items: center;
-    gap: 40px;                      /* 로고와 첫 메뉴(지도) 사이의 넉넉한 간격 */
+    gap: 40px;                      
 }
 
-/* 로고 스타일 정의 */
 .nav-logo {
     display: flex;
     align-items: center;
     gap: 8px;
     font-size: 1.2rem;
     font-weight: 700;
-    color: var(--secondary-warm);   /* 브랜드 아이덴티티 컬러 */
+    color: var(--secondary-warm);   
     transition: var(--transition);
 }
 
-/* 추후 실제 로고 이미지가 들어갈 공란 플레이스홀더 */
 .logo-placeholder {
     display: inline-block;
     width: 28px;
     height: 28px;
-    background-color: var(--bg-warm); /* 이미지 삽입 전 임시 음영 처리 */
+    background-color: var(--bg-warm); 
     border-radius: 5px;
 }
 
-/* 좌측 메뉴 묶음 (지도, 캘린더) */
 .nav-left {
     display: flex;
-    gap: 25px;                      /* 메뉴 간의 간격 */
+    gap: 25px;                      
 }
 
-/* 우측 메뉴 묶음 (로그인, 회원가입, 마이페이지) */
 .nav-right {
     display: flex;
     gap: 25px;
 }
 
-/* 모든 네비게이션 링크들의 공통 호버 효과 */
 nav.navbar a {
     color: var(--text-light);
     transition: var(--transition);
@@ -118,21 +111,41 @@ nav.navbar a:hover {
     color: var(--primary-warm);
 }
 
-/* 로고는 기본적으로 강조색을 유지하도록 예외 설정 */
 nav.navbar .nav-logo {
     color: var(--secondary-warm);
 }
+
 nav.navbar .nav-logo:hover {
     color: var(--primary-warm);
 }
 
 
-/* 히어로 섹션 */
-.hero {
-    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.1)), url('https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&w=1200&q=80');
+/* ========================================================
+   클릭형 버튼 방식의 슬라이딩 히어로 섹션 스타일
+   ======================================================== */
+
+.hero-slider {
+    position: relative; /* 자식 요소인 버튼을 절대 위치(absolute)로 배치하기 위한 기준점 */
+    width: 100%;
+    height: 450px;
+    overflow: hidden; 
+    background-color: #333; 
+}
+
+.slider-wrapper {
+    display: flex;
+    width: 500%; 
+    height: 100%;
+    /* [수정] 자동 애니메이션을 제거하고, 자바스크립트로 부드럽게 움직이도록 transition 추가 */
+    transition: transform 0.5s ease-in-out; 
+}
+
+.slide {
+    width: 20%; 
+    height: 100%;
     background-size: cover;
     background-position: center;
-    height: 400px;
+    background-repeat: no-repeat;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -142,6 +155,20 @@ nav.navbar .nav-logo:hover {
     padding: 0 20px;
 }
 
+.slide-content h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    letter-spacing: -0.02em;
+}
+
+.slide-content p {
+    font-size: 1.1rem;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    margin-bottom: 25px;
+}
+
 .cta-button {
     background-color: var(--primary-warm);
     color: white;
@@ -149,17 +176,45 @@ nav.navbar .nav-logo:hover {
     border-radius: 4px;
     text-decoration: none;
     font-weight: 500;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     transition: var(--transition);
     border: 1px solid var(--secondary-warm);
 }
 
 .cta-button:hover {
     background-color: var(--secondary-warm);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
 }
 
-/* 검색창 및 서브 버튼 섹션 */
+/* [추가] 좌우 화살표 버튼 공통 디자인 */
+.slide-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    border: none;
+    font-size: 1.5rem;
+    padding: 15px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: var(--transition);
+    z-index: 10; /* 이미지에 파묻히지 않도록 최상단 배치 */
+}
+
+.slide-btn:hover {
+    background-color: var(--primary-warm);
+}
+
+/* 각 버튼의 좌우 배치 */
+.prev-btn { left: 20px; }
+.next-btn { right: 20px; }
+
+
+/* ========================================================
+   검색창 및 본문 섹션
+   ======================================================== */
+
 .search-section {
     display: flex;
     flex-direction: column;
@@ -229,7 +284,6 @@ nav.navbar .nav-logo:hover {
     color: var(--secondary-warm);
 }
 
-/* 본문 컨테이너 */
 .container {
     max-width: var(--max-width);
     margin: 40px auto;

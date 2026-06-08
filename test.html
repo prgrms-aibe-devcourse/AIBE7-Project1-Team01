@@ -32,11 +32,52 @@
         </div>
     </nav>
 
-    <section class="hero">
-        <h2>따스한 햇살이 머무는 곳으로</h2>
-        <p>인위적인 것들을 뒤로하고 자연의 속도에 맞춰 걷는 시간</p>
-        <br>
-        <a href="#" class="cta-button">여정 시작하기</a>
+    <section class="hero-slider">
+        <div class="slider-wrapper">
+            <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80');">
+                <div class="slide-content">
+                    <h2>따스한 햇살이 머무는 곳으로</h2>
+                    <p>인위적인 것들을 뒤로하고 자연의 속도에 맞춰 걷는 시간</p>
+                    <br>
+                    <a href="#" class="cta-button">여정 시작하기</a>
+                </div>
+            </div>
+            <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80');">
+                <div class="slide-content">
+                    <h2>바람 소리마저 숲이 되는 길</h2>
+                    <p>피톤치드 가득한 깊은 숲속에서 찾는 내 마음의 쉼표</p>
+                    <br>
+                    <a href="#" class="cta-button">여정 시작하기</a>
+                </div>
+            </div>
+            <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80');">
+                <div class="slide-content">
+                    <h2>노을빛이 스며드는 바다</h2>
+                    <p>어둠이 내리기 전 가장 찬란하게 빛나는 순간을 함께하세요</p>
+                    <br>
+                    <a href="#" class="cta-button">여정 시작하기</a>
+                </div>
+            </div>
+            <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?auto=format&fit=crop&w=1200&q=80');">
+                <div class="slide-content">
+                    <h2>별빛이 흐르는 밤하늘</h2>
+                    <p>쏟아질 듯한 우주의 신비로움을 가만히 느껴보는 깊은 밤</p>
+                    <br>
+                    <a href="#" class="cta-button">여정 시작하기</a>
+                </div>
+            </div>
+            <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80');">
+                <div class="slide-content">
+                    <h2>소박한 골목길의 속삭임</h2>
+                    <p>천천히 거닐며 발견하는 낡은 이정표와 작은 들꽃들의 이야기</p>
+                    <br>
+                    <a href="#" class="cta-button">여정 시작하기</a>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="slide-btn prev-btn">&#10094;</button>
+        <button type="button" class="slide-btn next-btn">&#10095;</button>
     </section>
 
     <section class="search-section">
@@ -61,5 +102,37 @@
         </article>
     </main>
 
+    <script>
+        const wrapper = document.querySelector('.slider-wrapper');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        const totalSlides = document.querySelectorAll('.slide').length;
+        
+        let currentIndex = 0;
+
+        // 슬라이드 이동 함수
+        function moveSlide(index) {
+            // 인덱스가 범위를 벗어나지 않도록 처리 (순환 구조)
+            if (index < 0) {
+                currentIndex = totalSlides - 1;
+            } else if (index >= totalSlides) {
+                currentIndex = 0;
+            } else {
+                currentIndex = index;
+            }
+            
+            // 1장당 가로 폭인 -20% 단위로 곱해서 컨테이너를 통째로 밀어줍니다.
+            wrapper.style.transform = `translateX(-${currentIndex * 20}%)`;
+        }
+
+        // 버튼 클릭 이벤트 리스너 설정
+        prevBtn.addEventListener('click', () => {
+            moveSlide(currentIndex - 1);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            moveSlide(currentIndex + 1);
+        });
+    </script>
 </body>
 </html>

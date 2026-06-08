@@ -406,7 +406,7 @@ article h3 {
 .filter-chip.active,
 .filter-chip:hover {
   background-color: var(--primary-warm);
-  color: white;
+  color: white !important;
   border-color: var(--primary-warm);
 }
 

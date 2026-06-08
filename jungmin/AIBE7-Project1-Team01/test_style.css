@@ -1,0 +1,529 @@
+/* Nature & Earthly Travel Theme */
+
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+:root {
+  --primary-warm: #c68642;
+  --secondary-warm: #8e5d3f;
+  --bg-warm: #f4f1ea;
+  --card-bg: #ffffff;
+  --text-main: #3c3c3c;
+  --text-light: #707070;
+  --accent-sepia: #d9b99b;
+  --max-width: 1100px;
+  --transition: all 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    "Pretendard",
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    Roboto,
+    sans-serif;
+  background-color: var(--bg-warm);
+  color: var(--text-main);
+  line-height: 1.7;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+header {
+  background-color: var(--card-bg);
+  padding: 30px 20px;
+  text-align: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+header h1 {
+  font-size: 2rem;
+  color: var(--secondary-warm);
+  font-weight: 700;
+  margin-bottom: 5px;
+  letter-spacing: -0.03em;
+}
+
+header p {
+  font-size: 0.95rem;
+  color: var(--text-light);
+}
+
+/* ========================================================
+   [UPDATE] 양끝 정렬 형태의 새로운 네비게이션 바 스타일
+   ======================================================== */
+
+/* 네비게이션 전체 바: 좌측 그룹과 우측 그룹을 양 끝(space-between)으로 배치 */
+nav.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--card-bg);
+  padding: 15px 40px; /* 좌우 여백을 넓혀 여유감을 줌 */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* 좌측 브랜드 그룹: 로고와 좌측 메뉴들을 가로로 나열 */
+.nav-brand-group {
+  display: flex;
+  align-items: center;
+  gap: 40px; /* 로고와 첫 메뉴(지도) 사이의 넉넉한 간격 */
+}
+
+/* 로고 스타일 정의 */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--secondary-warm); /* 브랜드 아이덴티티 컬러 */
+  transition: var(--transition);
+}
+
+/* 추후 실제 로고 이미지가 들어갈 공란 플레이스홀더 */
+.logo-placeholder {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  background-color: var(--bg-warm); /* 이미지 삽입 전 임시 음영 처리 */
+  border-radius: 5px;
+}
+
+/* 좌측 메뉴 묶음 (지도, 캘린더) */
+.nav-left {
+  display: flex;
+  gap: 25px; /* 메뉴 간의 간격 */
+}
+
+/* 우측 메뉴 묶음 (로그인, 회원가입, 마이페이지) */
+.nav-right {
+  display: flex;
+  gap: 25px;
+}
+
+/* 모든 네비게이션 링크들의 공통 호버 효과 */
+nav.navbar a {
+  color: var(--text-light);
+  transition: var(--transition);
+}
+
+nav.navbar a:hover {
+  color: var(--primary-warm);
+}
+
+/* 로고는 기본적으로 강조색을 유지하도록 예외 설정 */
+nav.navbar .nav-logo {
+  color: var(--secondary-warm);
+}
+nav.navbar .nav-logo:hover {
+  color: var(--primary-warm);
+}
+
+/* 히어로 섹션 */
+.hero {
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1)),
+    url("https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&w=1200&q=80");
+  background-size: cover;
+  background-position: center;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.cta-button {
+  background-color: var(--primary-warm);
+  color: white;
+  padding: 15px 35px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: var(--transition);
+  border: 1px solid var(--secondary-warm);
+}
+
+.cta-button:hover {
+  background-color: var(--secondary-warm);
+  transform: translateY(-1px);
+}
+
+/* 검색창 및 서브 버튼 섹션 */
+.search-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 50px 20px;
+  background-color: var(--bg-warm);
+}
+
+.search-bar-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 700px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.search-input {
+  flex: 1;
+  padding: 18px 25px;
+  font-size: 1.15rem;
+  border: 2px solid var(--accent-sepia);
+  border-right: none;
+  outline: none;
+  color: var(--text-main);
+  background-color: var(--card-bg);
+}
+
+.search-button {
+  padding: 0 40px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  background-color: var(--primary-warm);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.search-button:hover {
+  background-color: var(--secondary-warm);
+}
+
+.sub-buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.small-button {
+  padding: 10px 25px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  background-color: var(--card-bg);
+  color: var(--text-main);
+  border: 1px solid var(--accent-sepia);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.small-button:hover {
+  background-color: var(--accent-sepia);
+  color: var(--secondary-warm);
+}
+
+/* 본문 컨테이너 */
+.container {
+  max-width: var(--max-width);
+  margin: 40px auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+article {
+  background-color: var(--card-bg);
+  padding: 30px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+}
+
+article h3 {
+  font-size: 1.25rem;
+  color: var(--secondary-warm);
+  margin-bottom: 15px;
+}
+
+/* 마이페이지 전용 스타일 */
+.active {
+  color: var(--primary-warm) !important;
+  font-weight: 700;
+}
+
+.profile-card {
+  grid-column: 1 / -1;
+  background-color: var(--card-bg);
+  padding: 50px 30px;
+  border-radius: 4px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.edit-button {
+  background-color: transparent;
+  border: 1px solid var(--primary-warm);
+  color: var(--primary-warm);
+  padding: 10px 30px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 20px;
+  font-weight: 500;
+}
+
+.edit-button:hover {
+  background-color: var(--primary-warm);
+  color: white;
+}
+
+.wishlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.wish-item {
+  background-color: var(--bg-warm);
+  padding: 25px;
+  border-radius: 4px;
+  border: 1px dashed var(--accent-sepia);
+  text-align: center;
+  transition: var(--transition);
+}
+
+.wish-item:hover {
+  background-color: var(--accent-sepia);
+  color: white;
+  cursor: pointer;
+}
+
+/* 마이페이지 추가 스타일: 폼 및 리스트 */
+.settings-card {
+  background-color: var(--card-bg);
+  padding: 30px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+}
+
+.settings-card h3 {
+  margin-bottom: 20px;
+  color: var(--secondary-warm);
+  border-bottom: 1px solid var(--bg-warm);
+  padding-bottom: 10px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+.input-field {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--accent-sepia);
+  border-radius: 4px;
+  background-color: var(--bg-warm);
+  font-family: inherit;
+  outline: none;
+  transition: var(--transition);
+}
+
+.input-field:focus {
+  border-color: var(--primary-warm);
+  background-color: white;
+}
+
+.activity-list {
+  list-style: none;
+  text-align: left;
+}
+
+.activity-item {
+  padding: 15px 0;
+  border-bottom: 1px solid var(--bg-warm);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.danger-link {
+  color: #d9534f;
+  font-size: 0.85rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* 커뮤니티 전용 스타일 */
+.community-header {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: var(--card-bg);
+  margin-bottom: 20px;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.filter-chip {
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: 1px solid var(--accent-sepia);
+  background-color: var(--card-bg);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.filter-chip.active,
+.filter-chip:hover {
+  background-color: var(--primary-warm);
+  color: white !important;
+  border-color: var(--primary-warm);
+}
+
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 25px;
+}
+
+.post-card {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: var(--transition);
+}
+
+.post-card:hover {
+  transform: translateY(-5px);
+}
+
+.post-image {
+  width: 100%;
+  height: 200px;
+  background-color: var(--bg-warm);
+  object-fit: cover;
+}
+
+.post-content {
+  padding: 20px;
+}
+
+.post-meta {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.rating {
+  color: var(--primary-warm);
+  font-weight: bold;
+}
+
+/* 마이페이지 레이아웃: 비밀번호 섹션 우측 고정 */
+@media (min-width: 1024px) {
+  .password-section {
+    grid-column: 3;
+    grid-row: 2; /* '나의 활동'과 같은 줄 혹은 바로 아래 줄 우측에 배치 */
+  }
+}
+
+/* 글쓰기 모달 스타일 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none; /* 기본적으로 숨김 */
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(3px);
+}
+
+.modal-content {
+  background-color: var(--card-bg);
+  width: 90%;
+  max-width: 600px;
+  padding: 40px;
+  border-radius: 8px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  animation: modalFadeUp 0.4s ease;
+}
+
+@keyframes modalFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-header {
+  margin-bottom: 25px;
+  border-bottom: 1px solid var(--bg-warm);
+  padding-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-modal {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-light);
+}
+
+.modal-body .form-group {
+  margin-bottom: 20px;
+}
+
+.modal-body textarea.input-field {
+  height: 150px;
+  resize: none;
+}
+
+.modal-footer {
+  margin-top: 30px;
+  text-align: right;
+}

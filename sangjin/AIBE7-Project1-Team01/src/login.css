@@ -1,0 +1,198 @@
+:root {
+  --brand-primary: #885210;
+  --brand-primary-hover: #6d4109;
+  --brand-bg: #fcf9f2;
+  --brand-surface: #ffffff;
+  --brand-surface-soft: #f6f3ec;
+  --brand-text: #1c1c18;
+  --brand-muted: #524439;
+  --brand-border: #e2ded0;
+}
+
+body {
+  font-family: "Be Vietnam Pro", sans-serif;
+  background: var(--brand-bg);
+  color: var(--brand-text);
+}
+
+.login-shell {
+  min-height: 100vh;
+  display: flex;
+  overflow: hidden;
+}
+
+.login-visual,
+.login-panel {
+  width: 50%;
+  position: relative;
+}
+
+.login-visual {
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.login-visual-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.login-visual-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2));
+}
+
+.login-visual-copy {
+  position: absolute;
+  top: 3rem;
+  left: 3rem;
+  color: #fff;
+  z-index: 1;
+}
+
+.login-visual-copy h1 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.login-visual-copy p {
+  max-width: 22rem;
+  margin-top: 1rem;
+  font-size: 1.05rem;
+}
+
+.login-visual-footer {
+  position: absolute;
+  left: 3rem;
+  bottom: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: rgba(255, 255, 255, 0.85);
+  z-index: 1;
+}
+
+.login-visual-footer span {
+  width: 3rem;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.login-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--brand-bg);
+  padding: 2rem 1.5rem 4rem;
+}
+
+.login-panel-inner {
+  width: 100%;
+  max-width: 30rem;
+}
+
+.login-mobile-brand {
+  color: var(--brand-primary);
+  font-weight: 800;
+}
+
+.login-title {
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 800;
+  margin-bottom: 0.4rem;
+}
+
+.login-subtitle,
+.login-footer-text,
+.login-link,
+.login-label {
+  color: var(--brand-muted);
+}
+
+.login-label {
+  font-weight: 600;
+}
+
+.login-input {
+  border-color: var(--brand-border);
+  border-radius: 0.5rem;
+  padding: 0.85rem 1rem;
+}
+
+.login-input:focus {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 0.2rem rgba(136, 82, 16, 0.15);
+}
+
+.login-check .form-check-input:checked {
+  background-color: var(--brand-primary);
+  border-color: var(--brand-primary);
+}
+
+.login-link {
+  text-decoration: none;
+}
+
+.login-link:hover {
+  color: var(--brand-primary);
+  text-decoration: underline;
+}
+
+.login-submit-btn {
+  background: var(--brand-primary);
+  border-color: var(--brand-primary);
+  color: #fff;
+  padding: 0.95rem 1.25rem;
+  font-weight: 700;
+  border-radius: 0.5rem;
+}
+
+.login-submit-btn:hover,
+.login-submit-btn:focus {
+  background: var(--brand-primary-hover);
+  border-color: var(--brand-primary-hover);
+  color: #fff;
+}
+
+.login-footer {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 0.85rem;
+  color: rgba(28, 28, 24, 0.6);
+  padding: 0 1rem;
+}
+
+.login-spinner {
+  font-size: 1.1rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 767.98px) {
+  .login-shell {
+    display: block;
+    overflow: auto;
+  }
+
+  .login-panel {
+    width: 100%;
+    min-height: 100vh;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  .login-footer {
+    position: static;
+    margin-top: 2rem;
+  }
+}

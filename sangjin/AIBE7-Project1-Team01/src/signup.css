@@ -1,0 +1,173 @@
+:root {
+  --brand-primary: #885210;
+  --brand-primary-hover: #6d4109;
+  --brand-bg: #fcf9f2;
+  --brand-surface: #ffffff;
+  --brand-surface-soft: #f6f3ec;
+  --brand-text: #1c1c18;
+  --brand-muted: #524439;
+  --brand-border: #e2ded0;
+}
+
+body {
+  font-family: "Be Vietnam Pro", sans-serif;
+  background: var(--brand-bg);
+  color: var(--brand-text);
+}
+
+.glass-nav {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+}
+
+.brand-name {
+  font-weight: 800;
+  color: var(--brand-primary);
+}
+
+.nav-link-custom {
+  color: var(--brand-muted);
+  font-weight: 600;
+}
+
+.nav-link-custom:hover,
+.nav-link-custom:focus,
+.active-link {
+  color: var(--brand-primary);
+}
+
+.signup-shell {
+  display: flex;
+  min-height: 100vh;
+  padding-top: 4rem;
+}
+
+.signup-visual,
+.signup-panel {
+  width: 50%;
+  position: relative;
+}
+
+.signup-visual {
+  overflow: hidden;
+  min-height: calc(100vh - 4rem);
+}
+
+.signup-visual-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.signup-visual-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+}
+
+.signup-visual-copy {
+  position: absolute;
+  left: 3rem;
+  right: 3rem;
+  bottom: 3rem;
+  color: #fff;
+}
+
+.signup-visual-copy h1 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.signup-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--brand-surface-soft);
+  padding: 2rem 1.5rem;
+}
+
+.signup-panel-inner {
+  width: 100%;
+  max-width: 30rem;
+}
+
+.signup-title {
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.signup-subtitle {
+  color: var(--brand-muted);
+  margin-bottom: 0;
+}
+
+.signup-label {
+  color: var(--brand-muted);
+  font-weight: 600;
+}
+
+.signup-input {
+  border-radius: 0;
+  border-color: var(--brand-border);
+  padding: 0.85rem 1rem;
+}
+
+.signup-input:focus {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 0.2rem rgba(136, 82, 16, 0.15);
+}
+
+.signup-password-group .signup-input {
+  border-right: 0;
+}
+
+.signup-icon-btn {
+  border: 1px solid var(--brand-border);
+  border-left: 0;
+  background: #fff;
+  color: var(--brand-muted);
+}
+
+.signup-icon-btn:hover {
+  color: var(--brand-primary);
+}
+
+.signup-submit-btn {
+  background: var(--brand-primary);
+  border-color: var(--brand-primary);
+  color: #fff;
+  border-radius: 0;
+  font-weight: 700;
+  padding: 0.95rem 1.25rem;
+}
+
+.signup-submit-btn:hover,
+.signup-submit-btn:focus {
+  background: var(--brand-primary-hover);
+  border-color: var(--brand-primary-hover);
+  color: #fff;
+}
+
+.signup-footer-text {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: var(--brand-muted);
+}
+
+.signup-link {
+  color: var(--brand-primary);
+}
+
+@media (max-width: 767.98px) {
+  .signup-shell {
+    display: block;
+    padding-top: 4.5rem;
+  }
+
+  .signup-panel {
+    width: 100%;
+    min-height: calc(100vh - 4.5rem);
+  }
+}

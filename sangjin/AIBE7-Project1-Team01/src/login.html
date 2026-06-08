@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>로그인 | MOTIP</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="login.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main class="login-shell">
+      <section class="login-visual d-none d-md-flex">
+        <img
+          alt="Sunset over a peaceful beach"
+          class="login-visual-image"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZxEyBVBLEFKw9qzQv-tgpLrM3j1I-4FhQlbw2B8NBuYza7VykoLfK-uQHfOLetqoAUWZTjMBBODFz9VieuHWPvQcrpBLIVHw0ZwE5iHI4cs3q1CBtR8cu8_LFRuoEH7NjExdtfRhAWs261H3Gjv6EJOf2sFT9BIKW53dWdiZPY3nhclUYOeaLtXHt6vGzjmkkRu6dyXju9hOW2sKPz7trncmIABE53PjIsw7BWa3q9Y539DgUKMwyRD_Kb8ZnDWJ0dxcVrzScxWM"
+        />
+        <div class="login-visual-overlay"></div>
+        <div class="login-visual-copy">
+          <h1>MOTIPE<br />Travel</h1>
+          <p>
+            세상의 소음에서 벗어나, <br />노을 아래 평온한 여정을 시작하세요.
+          </p>
+        </div>
+        <div class="login-visual-footer">
+          <span></span>
+          <small>Slow Travel Movement</small>
+        </div>
+      </section>
+
+      <section class="login-panel">
+        <div class="login-panel-inner">
+          <div class="text-center d-md-none mb-4">
+            <h1 class="login-mobile-brand">Sunset Glow Travel</h1>
+          </div>
+
+          <div class="mb-4">
+            <h2 class="login-title">환영합니다</h2>
+            <p class="login-subtitle">당신만의 평온한 여정을 이어가세요.</p>
+          </div>
+
+          <form id="login-form" class="vstack gap-4">
+            <div>
+              <label for="email" class="form-label login-label">이메일 주소</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                class="form-control login-input"
+                placeholder="example@glow.com"
+              />
+            </div>
+
+            <div>
+              <label for="password" class="form-label login-label">비밀번호</label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                class="form-control login-input"
+                placeholder="••••••••"
+              />
+            </div>
+
+            <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
+              <div class="form-check login-check">
+                <input class="form-check-input" type="checkbox" id="remember" />
+                <label class="form-check-label" for="remember">
+                  로그인 상태 유지
+                </label>
+              </div>
+              <a class="login-link" href="#">비밀번호를 잊으셨나요?</a>
+            </div>
+
+            <button class="btn login-submit-btn" type="submit">
+              여정 계속하기
+            </button>
+          </form>
+
+          <div class="text-center pt-4">
+            <p class="login-footer-text">
+              아직 회원이 아니신가요?
+              <a class="login-link fw-bold" href="signup.html">회원가입 하기</a>
+            </p>
+          </div>
+        </div>
+
+        <footer class="login-footer">
+          <p>© 2024 Sunset Glow Travel. May your journey be as peaceful as the setting sun.</p>
+        </footer>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      document.getElementById("login-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const button = e.target.querySelector("button[type='submit']");
+        const original = button.innerHTML;
+        button.disabled = true;
+        button.innerHTML =
+          '<span class="material-symbols-outlined align-middle login-spinner">progress_activity</span> 준비 중...';
+        setTimeout(() => {
+          button.innerHTML = original;
+          button.disabled = false;
+        }, 2000);
+      });
+    </script>
+  </body>
+</html>

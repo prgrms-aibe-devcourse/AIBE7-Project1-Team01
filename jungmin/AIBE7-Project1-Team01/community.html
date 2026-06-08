@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>여행자 광장 - 노을빛 여행</title>
+    <link rel="stylesheet" href="test_style.css" />
+    <style>
+      /* 삭제 버튼 스타일 */
+      .delete-btn {
+        background: none;
+        border: 1px solid #d9534f;
+        color: #d9534f;
+        padding: 5px 12px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: var(--transition);
+        margin-top: 10px;
+      }
+      .delete-btn:hover {
+        background-color: #d9534f;
+        color: white;
+      }
+
+      /* 카테고리 뱃지 색상 */
+      .category-badge {
+        display: inline-block;
+        padding: 2px 10px;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+      .category-badge.review {
+        background-color: #fef3e2;
+        color: #c68642;
+      }
+      .category-badge.tip {
+        background-color: #e8f5e9;
+        color: #388e3c;
+      }
+      .category-badge.question {
+        background-color: #e3f2fd;
+        color: #1976d2;
+      }
+
+      /* 글이 없을 때 메시지 */
+      .empty-message {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--text-light);
+        font-size: 1.1rem;
+      }
+
+      /* 삭제 확인 모달 */
+      .confirm-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 3000;
+        backdrop-filter: blur(3px);
+      }
+      .confirm-box {
+        background-color: var(--card-bg);
+        padding: 35px 40px;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        animation: modalFadeUp 0.3s ease;
+      }
+      .confirm-box p {
+        margin-bottom: 20px;
+        font-size: 1.05rem;
+        color: var(--text-main);
+      }
+      .confirm-box .btn-group {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+      }
+
+      /* 토스트 알림 */
+      .toast {
+        position: fixed;
+        bottom: 90px;
+        right: 30px;
+        background-color: var(--secondary-warm);
+        color: white;
+        padding: 14px 28px;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.4s ease;
+        z-index: 4000;
+        pointer-events: none;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* 게시글 카드 애니메이션 */
+      .post-card {
+        animation: cardFadeIn 0.5s ease;
+      }
+      @keyframes cardFadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(15px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+
+
+  <body>
+
+    <nav class="navbar">
+        <div class="nav-brand-group">
+            <a href="main.html" class="nav-logo">
+                <img src="icons/screen.png" alt="Motipe 로고" class="nav-logo-img"> 
+            </a>
+            <div class="nav-left">
+                <a href="#">지도</a>
+                <a href="#">캘린더</a>
+                <a href="../jungmin/AIBE7-Project1-Team01/community.html">커뮤니티</a>
+            </div>
+        </div>
+
+    <main class="container">
+      <section
+        class="community-header"
+        style="grid-column: 1 / -1; border-radius: 8px"
+      >
+        <h2>커뮤니티</h2>
+        <p>여러분들의 안식처를 공유해주세요.</p>
+      </section>
+
+      <div class="filter-container" style="grid-column: 1 / -1">
+        <button
+          class="filter-chip active"
+          data-category="전체"
+          onclick="filterPosts('전체', this)"
+        >
+          전체
+        </button>
+        <button
+          class="filter-chip"
+          data-category="숙소 리뷰"
+          onclick="filterPosts('숙소 리뷰', this)"
+        >
+          숙소 리뷰
+        </button>
+        <button
+          class="filter-chip"
+          data-category="여행 꿀팁"
+          onclick="filterPosts('여행 꿀팁', this)"
+        >
+          여행 꿀팁
+        </button>
+        <button
+          class="filter-chip"
+          data-category="질문 하기"
+          onclick="filterPosts('질문 하기', this)"
+        >
+          질문 하기
+        </button>
+      </div>
+
+      <div class="post-grid" id="postGrid" style="grid-column: 1 / -1">
+        <!-- 게시글이 JavaScript로 렌더링됩니다 -->
+      </div>
+    </main>
+
+    <!-- 글쓰기 버튼 (스크립트 연결) -->
+    <button
+      class="cta-button"
+      style="
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        border-radius: 50px;
+        z-index: 1000;
+        padding: 15px 25px;
+      "
+      onclick="openWriteModal()"
+    >
+      ✏️ 글쓰기
+    </button>
+
+    <!-- 글쓰기 모달 창 -->
+    <div id="writeModal" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 style="color: var(--secondary-warm)">새로운 여행 기록</h2>
+          <button class="close-modal" onclick="closeWriteModal()">
+            &times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="postForm">
+            <div class="form-group">
+              <label>카테고리</label>
+              <select id="postCategory" class="input-field">
+                <option value="숙소 리뷰">숙소 리뷰</option>
+                <option value="여행 꿀팁">여행 꿀팁</option>
+                <option value="질문 하기">질문 하기</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>제목</label>
+              <input
+                id="postTitle"
+                type="text"
+                class="input-field"
+                placeholder="제목을 입력하세요"
+              />
+            </div>
+            <div class="form-group">
+              <label>내용</label>
+              <textarea
+                id="postContent"
+                class="input-field"
+                placeholder="당신의 소중한 여행 이야기를 들려주세요."
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label>작성자</label>
+              <input
+                id="postAuthor"
+                type="text"
+                class="input-field"
+                placeholder="닉네임을 입력하세요"
+              />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="small-button"
+            onclick="closeWriteModal()"
+            style="margin-right: 10px"
+          >
+            취소
+          </button>
+          <button type="button" class="cta-button" onclick="submitPost()">
+            등록하기
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 삭제 확인 모달 -->
+    <div id="confirmModal" class="confirm-overlay">
+      <div class="confirm-box">
+        <p>정말 이 게시글을 삭제하시겠습니까?</p>
+        <div class="btn-group">
+          <button class="small-button" onclick="closeConfirm()">취소</button>
+          <button
+            class="cta-button"
+            style="background-color: #d9534f; border-color: #d9534f"
+            onclick="confirmDelete()"
+          >
+            삭제
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 토스트 알림 -->
+    <div id="toast" class="toast"></div>
+
+    <footer>
+      <p>&copy; 2026 Sunset Glow Travel. 모든 여행이 쉼표가 되길.</p>
+    </footer>
+
+    <script>
+      // ============================================
+      // 데이터 관리 (localStorage 기반)
+      // ============================================
+
+      const STORAGE_KEY = "community_posts";
+
+      // 기본 예시 글 데이터
+      const DEFAULT_POSTS = [
+        {
+          id: "default-1",
+          category: "숙소 리뷰",
+          title: "포근한 숲속 오두막에서의 하룻밤",
+          content:
+            "창문을 열면 들리는 새소리와 흙 내음이 정말 좋았습니다. 복잡한 도심을 떠나고 싶은 분들께 강력 추천해요. 조용한 숲 속에서 모닥불을 피우며 마시멜로를 구워 먹었던 기억이 아직도 생생합니다.",
+          author: "강사님",
+          date: "2026.05.20",
+          rating: "4.8",
+          image:
+            "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+          isDefault: true,
+        },
+        {
+          id: "default-2",
+          category: "여행 꿀팁",
+          title: "서해안에서 만난 인생 노을 포인트",
+          content:
+            "인적이 드문 해안 도로 끝자락에서 만난 보랏빛 노을은 정말 잊을 수 없는 장관이었습니다. 꿀팁은 일몰 30분 전에 도착해서 자리를 잡는 것! 삼각대와 따뜻한 음료는 필수입니다.",
+          author: "여행고수",
+          date: "2026.05.18",
+          rating: "5.0",
+          image:
+            "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=400&q=80",
+          isDefault: true,
+        },
+        {
+          id: "default-3",
+          category: "질문 하기",
+          title: "제주도 3박 4일 일정 추천 부탁드려요!",
+          content:
+            "다음 달에 친구들과 제주도 여행을 계획 중인데요. 동쪽 위주로 돌까, 서쪽 위주로 돌까 고민됩니다. 맛집이랑 숨은 명소도 알려주시면 감사하겠습니다!",
+          author: "제주늅늅이",
+          date: "2026.06.01",
+          rating: null,
+          image:
+            "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=400&q=80",
+          isDefault: true,
+        },
+      ];
+
+      // 게시글 불러오기 (비동기 처리 시뮬레이션)
+      async function loadPosts() {
+        return new Promise((resolve) => {
+          // 실제 서버 통신처럼 0.5초의 지연 시간을 둠
+          setTimeout(() => {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (!stored) {
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_POSTS));
+              resolve(DEFAULT_POSTS);
+              return;
+            }
+
+            let posts = JSON.parse(stored);
+
+            // 기본 게시글은 최신 데이터(DEFAULT_POSTS)로 동기화
+            const updatedPosts = posts.map((p) => {
+              const latestDefault = DEFAULT_POSTS.find((dp) => dp.id === p.id);
+              return p.isDefault && latestDefault ? latestDefault : p;
+            });
+            resolve(updatedPosts);
+          }, 500);
+        });
+      }
+
+      // 게시글 저장
+      function savePosts(posts) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+      }
+
+      // ============================================
+      // 렌더링
+      // ============================================
+
+      let currentFilter = "전체";
+
+      function getCategoryBadgeClass(category) {
+        if (category === "숙소 리뷰") return "review";
+        if (category === "여행 꿀팁") return "tip";
+        if (category === "질문 하기") return "question";
+        return "";
+      }
+
+      function getCategoryImage(category) {
+        const images = {
+          "숙소 리뷰":
+            "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=400&q=80",
+          "여행 꿀팁":
+            "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=400&q=80",
+          "질문 하기":
+            "https://images.unsplash.com/photo-1484101403633-562f891dc89a?auto=format&fit=crop&w=400&q=80",
+        };
+        return images[category] || images["숙소 리뷰"];
+      }
+
+      async function renderPosts() {
+        const grid = document.getElementById("postGrid");
+
+        // 로딩 표시
+        grid.innerHTML =
+          '<div class="empty-message">⏳ 데이터를 불러오는 중입니다...</div>';
+
+        const posts = await loadPosts();
+
+        // 필터 적용
+        const filtered =
+          currentFilter === "전체"
+            ? posts
+            : posts.filter((p) => p.category === currentFilter);
+
+        if (filtered.length === 0) {
+          grid.innerHTML =
+            '<div class="empty-message">📝 아직 게시글이 없습니다. 첫 번째 글을 작성해보세요!</div>';
+          return;
+        }
+
+        grid.innerHTML = filtered
+          .map(
+            (post) => `
+          <article class="post-card" data-category="${post.category}">
+            <img
+              src="${post.image || getCategoryImage(post.category)}"
+              alt="포스트 이미지"
+              class="post-image"
+              onerror="this.style.display='none'"
+            />
+            <div class="post-content">
+              <div class="post-meta">
+                <span class="category-badge ${getCategoryBadgeClass(post.category)}">${post.category}</span>
+                ${post.rating ? `<span class="rating">★ ${post.rating}</span>` : ""}
+              </div>
+              <h3>${escapeHtml(post.title)}</h3>
+              <p>${escapeHtml(post.content)}</p>
+              <div
+                class="post-meta"
+                style="
+                  margin-top: 15px;
+                  border-top: 1px solid var(--bg-warm);
+                  padding-top: 10px;
+                "
+              >
+                <span>작성자: ${escapeHtml(post.author)}</span>
+                <span>${post.date}</span>
+              </div>
+              ${
+                !post.isDefault
+                  ? `<button class="delete-btn" onclick="requestDelete('${post.id}')">🗑️ 삭제</button>`
+                  : ""
+              }
+            </div>
+          </article>
+        `,
+          )
+          .join("");
+      }
+
+      // HTML 이스케이프 (XSS 방지)
+      function escapeHtml(text) {
+        const div = document.createElement("div");
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      // ============================================
+      // 필터링
+      // ============================================
+
+      function filterPosts(category, btn) {
+        currentFilter = category;
+
+        // 버튼 활성화 상태 업데이트
+        document.querySelectorAll(".filter-chip").forEach((chip) => {
+          chip.classList.remove("active");
+        });
+        btn.classList.add("active");
+
+        renderPosts();
+      }
+
+      // ============================================
+      // 모달 (글쓰기)
+      // ============================================
+
+      function openWriteModal() {
+        document.getElementById("writeModal").style.display = "flex";
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeWriteModal() {
+        document.getElementById("writeModal").style.display = "none";
+        document.body.style.overflow = "auto";
+        // 폼 초기화
+        document.getElementById("postTitle").value = "";
+        document.getElementById("postContent").value = "";
+        document.getElementById("postAuthor").value = "";
+        document.getElementById("postCategory").selectedIndex = 0;
+      }
+
+      // ============================================
+      // 게시글 등록
+      // ============================================
+
+      async function submitPost() {
+        const category = document.getElementById("postCategory").value;
+        const title = document.getElementById("postTitle").value.trim();
+        const content = document.getElementById("postContent").value.trim();
+        const author = document.getElementById("postAuthor").value.trim();
+
+        // 유효성 검사
+        if (!title) {
+          showToast("⚠️ 제목을 입력해주세요.");
+          return;
+        }
+        if (!content) {
+          showToast("⚠️ 내용을 입력해주세요.");
+          return;
+        }
+        if (!author) {
+          showToast("⚠️ 작성자 이름을 입력해주세요.");
+          return;
+        }
+
+        const posts = await loadPosts();
+
+        const now = new Date();
+        const dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, "0")}.${String(now.getDate()).padStart(2, "0")}`;
+
+        const newPost = {
+          id: "post-" + Date.now(),
+          category: category,
+          title: title,
+          content: content,
+          author: author,
+          date: dateStr,
+          rating: null,
+          image: getCategoryImage(category),
+          isDefault: false,
+        };
+
+        // 새 글을 맨 앞에 추가
+        posts.unshift(newPost);
+        savePosts(posts);
+
+        closeWriteModal();
+        renderPosts();
+        showToast("✅ 게시글이 등록되었습니다!");
+      }
+
+      // ============================================
+      // 게시글 삭제
+      // ============================================
+
+      let deleteTargetId = null;
+
+      function requestDelete(postId) {
+        deleteTargetId = postId;
+        document.getElementById("confirmModal").style.display = "flex";
+      }
+
+      function closeConfirm() {
+        deleteTargetId = null;
+        document.getElementById("confirmModal").style.display = "none";
+      }
+
+      async function confirmDelete() {
+        if (!deleteTargetId) return;
+
+        const posts = await loadPosts();
+        const updatedPosts = posts.filter((p) => p.id !== deleteTargetId);
+        savePosts(updatedPosts);
+
+        closeConfirm();
+        renderPosts();
+        showToast("🗑️ 게시글이 삭제되었습니다.");
+      }
+
+      // ============================================
+      // 토스트 알림
+      // ============================================
+
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 2500);
+      }
+
+      // ============================================
+      // 페이지 초기화
+      // ============================================
+
+      document.addEventListener("DOMContentLoaded", () => {
+        renderPosts();
+      });
+    </script>
+  </body>
+</html>

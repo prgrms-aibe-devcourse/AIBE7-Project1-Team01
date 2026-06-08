@@ -1,0 +1,194 @@
+/* Nature & Earthly Travel Theme 
+   인위적인 느낌을 배제하고, 실제 자연의 색감(모래, 흙, 나무)을 모티브로 하여 눈의 피로를 낮춘 디자인입니다.
+*/
+
+/* Pretendard 폰트 불러오기: 시스템에 폰트가 없어도 웹에서 안전하게 로드합니다. */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+:root {
+    /* 색상 변수 설정 */
+    --primary-warm: #C68642;    /* 메인 포인트: 빛바랜 구리색 (채도를 낮춰 눈이 편안함) */
+    --secondary-warm: #8E5D3F;  /* 짙은 흙색: 버튼 호버 및 강조용 */
+    --bg-warm: #F4F1EA;         /* 배경색: 미색/한지 느낌 (흰색보다 눈의 자극이 훨씬 적음) */
+    --card-bg: #FFFFFF;         /* 카드 배경: 순백색 (깨끗한 이미지 전달) */
+    --text-main: #3C3C3C;       /* 기본 글자: 부드러운 먹색 (검정보다 가독성이 좋고 눈이 편함) */
+    --text-light: #707070;      /* 보조 글자: 차분한 그레이 */
+    --accent-sepia: #D9B99B;    /* 포인트 컬러: 세피아 (은은한 깊이감을 더함) */
+    
+    /* 포맷 변수 설정 */
+    --max-width: 1100px;
+    --transition: all 0.3s ease;
+}
+
+/* 기본 스타일 초기화 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+    background-color: var(--bg-warm);
+    color: var(--text-main);
+    line-height: 1.7;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* 헤더 영역 */
+header {
+    background-color: var(--card-bg);
+    padding: 30px 20px;
+    text-align: center;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+header h1 {
+    font-size: 2rem;
+    color: var(--secondary-warm);
+    font-weight: 700;
+    margin-bottom: 5px;
+    letter-spacing: -0.03em;
+}
+
+header p {
+    font-size: 0.95rem;
+    color: var(--text-light);
+}
+
+/* 네비게이션: 깔끔하고 평평한 스타일 */
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    background-color: var(--card-bg);
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+nav a {
+    color: var(--text-light);
+    transition: var(--transition);
+}
+
+nav a:hover {
+    color: var(--primary-warm);
+}
+
+/* 히어로 섹션: 첫인상을 결정하는 메인 배너 */
+.hero {
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.1)), url('https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&w=1200&q=80');
+    background-size: cover;
+    background-position: center;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    padding: 0 20px;
+}
+
+/* CTA 버튼: 행동 유도 버튼 (나만의 여행 찾기) */
+.cta-button {
+    background-color: var(--primary-warm);
+    color: white;
+    padding: 15px 35px;
+    border-radius: 4px; /* 인위적인 둥근 버튼 대신 깔끔한 사각형 버튼 */
+    text-decoration: none;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 그림자를 연하게 하여 자연스럽게 */
+    transition: var(--transition);
+    border: 1px solid var(--secondary-warm);
+}
+
+.cta-button:hover {
+    background-color: var(--secondary-warm);
+    transform: translateY(-1px);
+}
+
+/* ========================================================
+   [NEW] 검색창 및 서브 버튼 섹션 (가운데 정렬 및 크기 확대)
+   ======================================================== */
+
+/* 검색 섹션 전체를 감싸는 바구니: 내부 아이템들을 세로로 정렬하고 정중앙에 배치합니다 */
+.search-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;             /* 검색창과 하단 버튼들 사이의 간격 */
+    padding: 50px 20px;    /* 상하 여백을 주어 여유로운 공간 확보 */
+    background-color: var(--bg-warm);
+}
+
+/* 검색 입력창과 검색 버튼을 감싸는 컨테이너 */
+.search-bar-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: 700px;      /* 기존보다 가로 너비를 넓혀 더 시원하게 보이도록 설정 */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06); /* 부드러운 그림자 효과 */
+    border-radius: 6px;
+    overflow: hidden;      /* 인풋과 버튼의 모서리가 삐져나가지 않도록 커팅 */
+}
+
+/* 검색 텍스트 입력창: 크기를 대폭 키우고 감성적인 패딩 적용 */
+.search-input {
+    flex: 1;               /* 남은 가로 공간을 모두 채우도록 설정 */
+    padding: 18px 25px;    /* 안쪽 여백을 넓혀 크기를 키움 */
+    font-size: 1.15rem;    /* 글자 크기 확대 */
+    border: 2px solid var(--accent-sepia);
+    border-right: none;    /* 우측 버튼과 자연스럽게 이어지도록 경계선 제거 */
+    outline: none;
+    color: var(--text-main);
+    background-color: var(--card-bg);
+}
+
+/* 큰 검색 버튼 */
+.search-button {
+    padding: 0 40px;       /* 버튼 좌우 너비를 넉넉하게 확장 */
+    font-size: 1.15rem;    /* 인풋 창과 글자 크기 통일 */
+    font-weight: 600;
+    background-color: var(--primary-warm);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.search-button:hover {
+    background-color: var(--secondary-warm);
+}
+
+/* 하단의 지도/캘린더 소형 버튼들을 모아둔 컨테이너 */
+.sub-buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;             /* 버튼 사이의 간격 */
+}
+
+/* 지도 보기, 캘린더 보기 버튼: 기존보다 크기 확대 */
+.small-button {
+    padding: 10px 25px;    /* 여백을 늘려 버튼 크기를 키움 */
+    font-size: 0.95rem;    /* 가독성을 위해 글자 크기 살짝 확대 */
+    font-weight: 500;
+    background-color: var(--card-bg);
+    color: var(--text-main);
+    border: 1px solid var(--accent-sepia);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.small-button:hover {
+    background-color: var(--accent-sepia);
+    color: var(--secondary-warm);
+}

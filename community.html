@@ -367,10 +367,10 @@
         </button>
         <button
           class="filter-chip"
-          data-category="숙소 리뷰"
-          onclick="filterPosts('숙소 리뷰', this)"
+          data-category="여행 리뷰"
+          onclick="filterPosts('여행 리뷰', this)"
         >
-          숙소 리뷰
+          여행 리뷰
         </button>
         <button
           class="filter-chip"
@@ -423,7 +423,7 @@
             <div class="form-group">
               <label>카테고리</label>
               <select id="postCategory" class="input-field">
-                <option value="숙소 리뷰">숙소 리뷰</option>
+                <option value="여행 리뷰">여행 리뷰</option>
                 <option value="여행 꿀팁">여행 꿀팁</option>
                 <option value="질문 하기">질문 하기</option>
               </select>
@@ -524,7 +524,7 @@
       const DEFAULT_POSTS = [
         {
           id: "default-1",
-          category: "숙소 리뷰",
+          category: "여행 리뷰",
           title: "포근한 숲속 오두막에서의 하룻밤",
           content:
             "창문을 열면 들리는 새소리와 흙 내음이 정말 좋았습니다. 복잡한 도심을 떠나고 싶은 분들께 강력 추천해요. 조용한 숲 속에서 모닥불을 피우며 마시멜로를 구워 먹었던 기억이 아직도 생생합니다.",
@@ -532,7 +532,7 @@
           date: "2026.05.20",
           rating: "4.8",
           image:
-            "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+            "https://6a276ea0b82917fdef05cb59.imgix.net/image-1.webp?w=1200&h=800",
           isDefault: true,
           comments: [
             {
@@ -622,23 +622,13 @@
       let currentFilter = "전체";
 
       function getCategoryBadgeClass(category) {
-        if (category === "숙소 리뷰") return "review";
-        if (category === "여행 꿀팁") return "tip";
-        if (category === "질문 하기") return "question";
-        return "";
-      }
-
-      function getCategoryImage(category) {
-        const images = {
-          "숙소 리뷰":
-            "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=400&q=80",
-          "여행 꿀팁":
-            "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=400&q=80",
-          "질문 하기":
-            "https://images.unsplash.com/photo-1484101403633-562f891dc89a?auto=format&fit=crop&w=400&q=80",
+        const categoryMap = {
+          "여행 리뷰": "review",
+          "여행 꿀팁": "tip",
+          "질문 하기": "question"
         };
-        return images[category] || images["숙소 리뷰"];
-      }
+        return categoryMap[category] || "";
+      };
 
       // 현재 로그인 유저 ID 캐시
       let currentUserId = null;

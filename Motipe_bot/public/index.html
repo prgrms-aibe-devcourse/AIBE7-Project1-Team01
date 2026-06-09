@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motipe - 대화형 축제 추천</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="chat-section">
+            <h2>💬 Motipe AI 챗봇</h2>
+            <div class="chat-box" id="chatBox">
+                <div class="message assistant">안녕하세요! 당신만을 위한 가성비 지역 축제와 여행지를 찾아드릴게요. 아무 내용이나 입력해서 대화를 시작하세요!</div>
+            </div>
+            <div class="input-area">
+                <input type="text" id="userInput" placeholder="메시지를 입력하세요..." onkeydown="if(event.key==='Enter') sendMessage()">
+                <button onclick="sendMessage()">전송</button>
+            </div>
+        </div>
+
+        <div class="dashboard-section">
+            <h2>🗂️ 나의 여행 매니저 (CRUD)</h2>
+            
+            <div class="card">
+                <h3>📌 추천된 여행지 바로 임시 저장 (Scrap)</h3>
+                <div id="recommendationCard">추천된 축제가 이곳에 표시됩니다.</div>
+            </div>
+
+            <div class="card">
+                <h3>❤️ 내가 스크랩한 축제 목록</h3>
+                <ul id="savedList"></ul>
+            </div>
+
+            <div class="card">
+                <h3>✈️ 나의 과거 여행 이력 관리</h3>
+                <div class="history-form">
+                    <input type="text" id="histName" placeholder="여행지명">
+                    <input type="date" id="histDate">
+                    <button onclick="addHistory()">기록 추가</button>
+                </div>
+                <ul id="historyList"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

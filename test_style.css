@@ -62,278 +62,279 @@ header p {
    양끝 정렬 형태의 새로운 네비게이션 바 스타일
    ======================================================== */
 .nav-btn-outline {
-    border: 1px solid var(--primary-warm); /* 브랜드 컬러로 외곽선 지정 */
-    padding: 6px 16px;
-    border-radius: 4px;
-    color: var(--primary-warm) !important;
+  border: 1px solid var(--primary-warm); /* 브랜드 컬러로 외곽선 지정 */
+  padding: 6px 16px;
+  border-radius: 4px;
+  color: var(--primary-warm) !important;
 }
 
 .nav-btn-outline:hover {
-    background-color: var(--primary-warm);
-    color: white !important;
+  background-color: var(--primary-warm);
+  color: white !important;
 }
 
 .nav-icon-link {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .nav-mypage-img {
-    height: 24px; /* 네비게이션 높이에 맞춘 적절한 크기 */
-    width: auto;
-    object-fit: contain;
+  height: 24px; /* 네비게이션 높이에 맞춘 적절한 크기 */
+  width: auto;
+  object-fit: contain;
 }
 
 nav.navbar {
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;
-    background-color: var(--card-bg);
-    padding: 15px 40px;             
-    border-bottom: 1px solid rgba(0,0,0,0.05);
-    font-size: 0.95rem;
-    font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--card-bg);
+  padding: 15px 40px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  font-size: 0.95rem;
+  font-weight: 500;
 }
 
 .nav-brand-group {
-    display: flex;
-    align-items: center;
-    gap: 40px;                      
+  display: flex;
+  align-items: center;
+  gap: 40px;
 }
 
 .nav-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* 로고 이미지와 글자 사이의 간격 격상 */
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--secondary-warm);   
-    transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 10px; /* 로고 이미지와 글자 사이의 간격 격상 */
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--secondary-warm);
+  transition: var(--transition);
 }
 
 /* [수정] 플레이스홀더를 지우고 실제 로고 이미지 크기 및 정렬 속성 지정 */
 .nav-logo-img {
-    width: auto;
-    height: 32px;            /* 메뉴바에 부드럽게 녹아들도록 높이 지정 */
-    object-fit: contain;     /* 원본 비율을 깨뜨리지 않고 정비율 유지 */
-    display: block;
+  width: auto;
+  height: 32px; /* 메뉴바에 부드럽게 녹아들도록 높이 지정 */
+  object-fit: contain; /* 원본 비율을 깨뜨리지 않고 정비율 유지 */
+  display: block;
 }
 
 .nav-left {
-    display: flex;
-    gap: 25px;                      
+  display: flex;
+  gap: 25px;
 }
 
 .nav-right {
-    display: flex;
-    gap: 25px;
+  display: flex;
+  gap: 25px;
 }
 
 nav.navbar a {
-    color: var(--text-light);
-    transition: var(--transition);
+  color: var(--text-light);
+  transition: var(--transition);
 }
 
 nav.navbar a:hover {
-    color: var(--primary-warm);
+  color: var(--primary-warm);
 }
 
 nav.navbar .nav-logo {
-    color: var(--secondary-warm);
+  color: var(--secondary-warm);
 }
 
 nav.navbar .nav-logo:hover {
-    color: var(--primary-warm);
+  color: var(--primary-warm);
 }
-
 
 /* ========================================================
    클릭형 버튼 방식의 슬라이딩 히어로 섹션 스타일
    ======================================================== */
 
 .hero-slider {
-    position: relative; 
-    width: 100%;
-    height: 450px;
-    overflow: hidden; 
-    background-color: #333; 
+  position: relative;
+  width: 100%;
+  height: 450px;
+  overflow: hidden;
+  background-color: #333;
 }
 
 .slider-wrapper {
-    display: flex;
-    width: 500%; 
-    height: 100%;
-    transition: transform 0.5s ease-in-out; 
+  display: flex;
+  width: 500%;
+  height: 100%;
+  transition: transform 0.5s ease-in-out;
 }
 
 .slide {
-    width: 20%; 
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    text-align: center;
-    padding: 0 20px;
+  width: 20%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+  padding: 0 20px;
 }
 
 .slide-content h2 {
-    font-size: 2.2rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-    letter-spacing: -0.02em;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  letter-spacing: -0.02em;
 }
 
 .slide-content p {
-    font-size: 1.1rem;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
-    margin-bottom: 25px;
+  font-size: 1.1rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  margin-bottom: 25px;
 }
 
 .cta-button {
-    background-color: var(--primary-warm);
-    color: white;
-    padding: 15px 35px;
-    border-radius: 4px;
-    text-decoration: none;
-    font-weight: 500;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    transition: var(--transition);
-    border: 1px solid var(--secondary-warm);
+  background-color: var(--primary-warm);
+  color: white;
+  padding: 15px 35px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: var(--transition);
+  border: 1px solid var(--secondary-warm);
 }
 
 .cta-button:hover {
-    background-color: var(--secondary-warm);
-    transform: translateY(-2px);
+  background-color: var(--secondary-warm);
+  transform: translateY(-2px);
 }
 
 .slide-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.3);
-    color: white;
-    border: none;
-    font-size: 1.5rem;
-    padding: 15px 20px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: var(--transition);
-    z-index: 10; 
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  padding: 15px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: var(--transition);
+  z-index: 10;
 }
 
 .slide-btn:hover {
-    background-color: var(--primary-warm);
+  background-color: var(--primary-warm);
 }
 
-.prev-btn { left: 20px; }
-.next-btn { right: 20px; }
-
+.prev-btn {
+  left: 20px;
+}
+.next-btn {
+  right: 20px;
+}
 
 /* ========================================================
    검색창 및 본문 섹션
    ======================================================== */
 
 .search-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    padding: 50px 20px;
-    background-color: var(--bg-warm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 50px 20px;
+  background-color: var(--bg-warm);
 }
 
 .search-bar-container {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    max-width: 700px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-    border-radius: 30px; /* 좌우 모서리를 완전히 둥글게 처리 */
-    overflow: hidden;
-    background-color: var(--card-bg);
-    border: 2px solid var(--accent-sepia); /* 테두리를 부모 컨테이너로 이동 */
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 700px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  border-radius: 30px; /* 좌우 모서리를 완전히 둥글게 처리 */
+  overflow: hidden;
+  background-color: var(--card-bg);
+  border: 2px solid var(--accent-sepia); /* 테두리를 부모 컨테이너로 이동 */
 
-    overflow: visible;
-    padding-right: 6px;
+  overflow: visible;
+  padding-right: 6px;
 }
 
 .search-icon-wrapper {
-    padding-left: 20px;
-    display: flex;
-    align-items: center;
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
 }
 
-.search-gemini-img {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
+.search-icon-emoji {
+  font-size: 1.4rem; /* 이모지 크기 조절 */
+  line-height: 1;
 }
 
 .search-input {
-    flex: 1;
-    padding: 18px 20px;
-    font-size: 1.15rem;
-    border: none; /* 중복 테두리 제거 */
-    outline: none;
-    color: var(--text-main);
-    background-color: transparent;
+  flex: 1;
+  padding: 18px 20px;
+  font-size: 1.15rem;
+  border: none; /* 중복 테두리 제거 */
+  outline: none;
+  color: var(--text-main);
+  background-color: transparent;
 }
 
 .search-button {
-    height: 40px;
-    padding: 0 25px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    background-color: var(--primary-warm);
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: var(--transition);
-    border-radius: 23px;
-    margin-left: 10px;
+  height: 40px;
+  padding: 0 25px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background-color: var(--primary-warm);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  border-radius: 23px;
+  margin-left: 10px;
 }
 
 .search-button:hover {
-    background-color: var(--secondary-warm);
+  background-color: var(--secondary-warm);
 }
 
 .sub-buttons-container {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
 }
 
 .small-button {
-    display: inline-flex; /* 아이콘과 텍스트를 가로로 나란히 정렬 */
-    align-items: center;
-    gap: 8px; /* 아이콘과 글자 사이의 간격 */
-    padding: 10px 25px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    background-color: var(--card-bg);
-    color: var(--text-main);
-    border: 1px solid var(--accent-sepia);
-    border-radius: 4px;
-    cursor: pointer;
-    transition: var(--transition);
+  display: inline-flex; /* 아이콘과 텍스트를 가로로 나란히 정렬 */
+  align-items: center;
+  gap: 8px; /* 아이콘과 글자 사이의 간격 */
+  padding: 10px 25px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  background-color: var(--card-bg);
+  color: var(--text-main);
+  border: 1px solid var(--accent-sepia);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
 }
 
 .btn-icon {
-    width: 16px;
-    height: 16px;
-    object-fit: contain;
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
 }
 
 .small-button:hover {
-    background-color: var(--accent-sepia);
-    color: var(--secondary-warm);
+  background-color: var(--accent-sepia);
+  color: var(--secondary-warm);
 }
 
 /* 본문 컨테이너 */
@@ -691,4 +692,236 @@ article h3 {
   box-shadow: 0 8px 24px rgba(142, 93, 63, 0.08);
   color: var(--text-light);
   font-size: 0.95rem;
+}
+
+/* ========================================================
+   AI 챗봇 (travel-chat) 스타일 - main2.html에서 추가
+   ======================================================== */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.travel-chat-launcher {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000;
+}
+
+.travel-chat-toggle {
+  width: 58px;
+  height: 58px;
+  border: none;
+  border-radius: 999px;
+  background: var(
+    --card-bg
+  ); /* 배경을 흰색 계열로 변경 (이미지에 맞춰 조정 가능) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 14px 30px rgba(142, 93, 63, 0.28);
+  padding: 0;
+}
+
+.travel-chat-icon-img {
+  width: 45px; /* 시각적 균형을 위해 크기 조정 */
+  height: 55px;
+  object-fit: contain;
+  display: block;
+}
+
+.travel-chat-panel {
+  position: absolute;
+  right: 0;
+  bottom: 72px;
+  width: min(360px, calc(100vw - 32px));
+  background: var(--card-bg);
+  border: 1px solid rgba(214, 185, 155, 0.85);
+  border-radius: 20px;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.16);
+  padding: 18px;
+}
+
+.travel-chat-panel.hidden {
+  display: none;
+}
+
+.travel-chat-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.travel-chat-panel-title {
+  font-size: 1.15rem;
+  color: var(--secondary-warm);
+  margin: 0;
+}
+
+.travel-chat-close {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: #f6ede4;
+  color: var(--secondary-warm);
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+.travel-chat-panel-desc {
+  margin: 0 0 14px;
+  font-size: 0.95rem;
+  color: var(--text-light);
+}
+
+.travel-chat-messages {
+  max-height: 280px;
+  overflow-y: auto;
+  display: grid;
+  gap: 10px;
+  padding: 10px 0;
+  margin-bottom: 12px;
+}
+
+.travel-chat-message {
+  display: flex;
+}
+
+.travel-chat-message.user {
+  justify-content: flex-end;
+}
+
+.travel-chat-message.ai {
+  justify-content: flex-start;
+}
+
+.travel-chat-bubble {
+  max-width: 88%;
+  padding: 10px 12px;
+  border-radius: 16px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: keep-all;
+  font-size: 0.93rem;
+}
+
+.travel-chat-message.user .travel-chat-bubble {
+  background: var(--primary-warm);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+.travel-chat-message.ai .travel-chat-bubble {
+  background: #fbf3e8;
+  color: var(--text-main);
+  border: 1px solid rgba(217, 185, 155, 0.45);
+  border-bottom-left-radius: 4px;
+}
+
+.travel-chat-form {
+  display: grid;
+  gap: 10px;
+}
+
+.travel-chat-input {
+  width: 100%;
+  resize: vertical;
+  min-height: 92px;
+  border: 1px solid var(--accent-sepia);
+  border-radius: 14px;
+  padding: 12px 14px;
+  font: inherit;
+  color: var(--text-main);
+  background: #fff;
+  outline: none;
+}
+
+.travel-chat-input:focus {
+  border-color: var(--primary-warm);
+  box-shadow: 0 0 0 3px rgba(198, 134, 66, 0.12);
+}
+
+.travel-chat-button {
+  border: none;
+  border-radius: 999px;
+  padding: 11px 16px;
+  background: var(--primary-warm);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.travel-chat-button:hover:not(:disabled) {
+  background: var(--secondary-warm);
+}
+
+.travel-chat-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.travel-chat-status {
+  min-height: 22px;
+  margin-top: 10px;
+  color: var(--text-light);
+  font-size: 0.92rem;
+}
+
+.travel-chat-result {
+  margin-top: 12px;
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  background: #fbf7f2;
+  border-radius: 16px;
+  border: 1px solid rgba(217, 185, 155, 0.65);
+  max-height: 260px;
+  overflow: auto;
+}
+
+.travel-chat-result-item {
+  display: grid;
+  gap: 4px;
+}
+
+.travel-chat-label {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.travel-chat-result strong,
+.travel-chat-result p {
+  margin: 0;
+}
+
+@media (max-width: 480px) {
+  .travel-chat-launcher {
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .travel-chat-panel {
+    width: min(320px, calc(100vw - 24px));
+    bottom: 68px;
+  }
+
+  .travel-chat-bubble {
+    max-width: 100%;
+  }
 }

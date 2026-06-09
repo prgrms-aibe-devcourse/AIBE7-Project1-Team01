@@ -734,8 +734,8 @@ article h3 {
 }
 
 .travel-chat-icon-img {
-  width: 45px; /* 시각적 균형을 위해 크기 조정 */
-  height: 55px;
+  width: 40px; /* 시각적 균형을 위해 크기 조정 */
+  height: 40px;
   object-fit: contain;
   display: block;
 }

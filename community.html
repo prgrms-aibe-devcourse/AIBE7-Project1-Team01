@@ -664,6 +664,16 @@
       function openWriteModal() {
         document.getElementById("writeModal").style.display = "flex";
         document.body.style.overflow = "hidden";
+        if (window.supabaseClient) {
+          window.supabaseClient.auth.getSession().then(({ data: { session } }) => {
+            if (session && session.user) {
+              const postAuthor = document.getElementById("postAuthor");
+              if (postAuthor) {
+                postAuthor.value = session.user.email.split('@')[0];
+              }
+            }
+          });
+        }
       }
 
       function closeWriteModal() {
@@ -852,5 +862,7 @@
         renderPosts();
       });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js"></script>
   </body>
 </html>

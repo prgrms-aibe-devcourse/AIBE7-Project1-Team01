@@ -103,18 +103,45 @@
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js"></script>
     <script>
-      document.getElementById("login-form").addEventListener("submit", function (e) {
+      document.getElementById("login-form").addEventListener("submit", async function (e) {
         e.preventDefault();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+
+        if (!email || !password) {
+          alert("이메일과 비밀번호를 입력해주세요.");
+          return;
+        }
+
         const button = e.target.querySelector("button[type='submit']");
         const original = button.innerHTML;
         button.disabled = true;
         button.innerHTML =
-          '<span class="material-symbols-outlined align-middle login-spinner">progress_activity</span> 준비 중...';
-        setTimeout(() => {
+          '<span class="material-symbols-outlined align-middle login-spinner">progress_activity</span> 로그인 중...';
+
+        try {
+          if (!window.supabaseClient) {
+            await window.initAuth();
+          }
+          const { data, error } = await window.supabaseClient.auth.signInWithPassword({
+            email,
+            password
+          });
+
+          if (error) {
+            throw error;
+          }
+
+          alert("로그인에 성공했습니다!");
+          window.location.href = "main.html";
+        } catch (error) {
+          alert("로그인 실패: " + (error.message || "이메일 또는 비밀번호를 확인해주세요."));
           button.innerHTML = original;
           button.disabled = false;
-        }, 2000);
+        }
       });
     </script>
   </body>

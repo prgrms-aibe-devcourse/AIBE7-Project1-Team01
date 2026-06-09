@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>노을빛 여행 - 따뜻한 감성 여행 추천</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="main.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container py-4 text-center">
+        <h1 class="site-title">Sunset Glow Travel</h1>
+        <p class="site-subtitle">시선이 머무는 곳마다 평온함이 깃드는 여행</p>
+      </div>
+    </header>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
+      <div class="container">
+        <a class="navbar-brand brand-link" href="/">Motipe</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between" id="navMenu">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-lg-3">
+            <li class="nav-item"><a class="nav-link" href="#">지도</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">캘린더</a></li>
+          </ul>
+          <ul class="navbar-nav ms-auto gap-lg-3">
+            <li class="nav-item"><a class="nav-link" href="login.html">로그인</a></li>
+            <li class="nav-item"><a class="nav-link" href="signup.html">회원가입</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">마이페이지</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <section class="hero-section">
+      <div class="hero-overlay"></div>
+      <div class="container hero-content text-center text-white position-relative">
+        <h2 class="hero-title">따스한 햇살이 머무는 곳으로</h2>
+        <p class="hero-text">인위적인 것들을 뒤로하고 자연의 속도에 맞춰 걷는 시간</p>
+        <a href="#" class="btn btn-brand mt-3">여정 시작하기</a>
+      </div>
+    </section>
+
+    <section class="search-section">
+      <div class="container">
+        <div class="search-bar input-group input-group-lg shadow-sm">
+          <input type="text" class="form-control search-input" placeholder="어디로 떠나고 싶으신가요?" />
+          <button class="btn btn-brand" type="button">검색</button>
+        </div>
+        <div class="d-flex justify-content-center flex-wrap gap-3 mt-4">
+          <button type="button" class="btn btn-outline-brand">지도 보기</button>
+          <button type="button" class="btn btn-outline-brand">캘린더 보기</button>
+        </div>
+      </div>
+    </section>
+
+    <main class="container content-grid my-5">
+      <article class="feature-card">
+        <h3>이달의 추천: "고요한 모래섬"</h3>
+        <p>바쁜 일상에서 벗어나 파도 소리에 귀를 기울여보세요. 인적 드문 해변과 따뜻한 차 한 잔이 기다립니다.</p>
+      </article>
+      <article class="feature-card">
+        <h3>여행자의 이야기</h3>
+        <p>"이곳에서 만난 노을은 제 삶의 작은 터닝포인트가 되었습니다. 따뜻한 색감이 마음을 위로해주는 듯했어요."</p>
+      </article>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

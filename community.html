@@ -573,6 +573,7 @@
           author: "제주늅늅이",
           date: "2026.06.01",
           rating: null,
+          image: null,
           isDefault: true,
           comments: [
             {
@@ -692,8 +693,14 @@
             // 본인 글에만 삭제 버튼 표시 (isDefault 글은 삭제 불가)
             const canDelete = !post.isDefault && currentUserId && post.userId === currentUserId;
 
-            // isDefault 글은 image 항상 표시, 사용자 글은 image 있을 때만 표시
-            const showImage = post.isDefault ? (post.image || getCategoryImage(post.category)) : post.image;
+            // image가 명시적으로 null이면 표시 안 함
+            // isDefault 글: image가 없거나(undefined) 문자열이면 폴백 이미지 사용, null이면 숨김
+            // 사용자 글: image 있을 때만 표시
+            const showImage = post.image === null
+              ? null
+              : post.isDefault
+                ? (post.image || getCategoryImage(post.category))
+                : post.image;
 
             return `
           <article class="post-card" data-category="${post.category}">

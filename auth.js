@@ -82,13 +82,43 @@
     const navRight = document.querySelector('.nav-right');
     if (!navRight) return;
 
+    // 새 구조: #nav-guest / #nav-user 가 있는 페이지
+    const guestNav = document.getElementById('nav-guest');
+    const userNav = document.getElementById('nav-user');
+
+    if (guestNav && userNav) {
+      if (user) {
+        guestNav.style.display = 'none';
+        userNav.style.display = 'flex';
+        userNav.style.alignItems = 'center';
+        userNav.style.gap = '15px';
+        // 이메일 대신 마이페이지 로고만 보이도록 이메일 텍스트 숨김
+        const emailDisplay = document.getElementById('user-email-display');
+        if (emailDisplay) emailDisplay.style.display = 'none';
+      } else {
+        guestNav.style.display = 'flex';
+        guestNav.style.alignItems = 'center';
+        guestNav.style.gap = '15px';
+        userNav.style.display = 'none';
+      }
+      // 로그아웃 버튼 이벤트 연결
+      const logoutBtn = document.getElementById('logout-btn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', async (e) => {
+          e.preventDefault();
+          await logout();
+        });
+      }
+      return;
+    }
+
+    // 기존 구조 fallback: #nav-guest/#nav-user 가 없는 페이지
     if (user) {
       navRight.innerHTML = `
-        <span class="nav-user-email" style="margin-right: 15px; font-size: 0.9rem; color: var(--text-light);">${user.email}님</span>
-        <a href="#" id="logout-btn" class="nav-btn-outline" style="margin-right: 15px;">로그아웃</a>
         <a href="mypage.html" class="nav-icon-link">
           <img src="icons/mypage-icon.png" alt="마이페이지" class="nav-mypage-img" />
         </a>
+        <a href="#" id="logout-btn" class="nav-btn-outline">로그아웃</a>
       `;
       const logoutBtn = document.getElementById('logout-btn');
       if (logoutBtn) {
@@ -101,9 +131,6 @@
       navRight.innerHTML = `
         <a href="login.html" class="nav-btn-outline">로그인</a>
         <a href="signup.html" class="nav-btn-outline">회원가입</a>
-        <a href="mypage.html" class="nav-icon-link">
-          <img src="icons/mypage-icon.png" alt="마이페이지" class="nav-mypage-img" />
-        </a>
       `;
     }
   }

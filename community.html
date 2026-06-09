@@ -253,15 +253,25 @@
         </div>
       </div>
       <div class="nav-right">
-        <a href="login.html" class="nav-btn-outline">로그인</a>
-        <a href="signup.html" class="nav-btn-outline">회원가입</a>
-        <a href="mypage.html" class="nav-icon-link">
-          <img
-            src="icons/mypage-icon.png"
-            alt="마이페이지"
-            class="nav-mypage-img"
-          />
-        </a>
+        <!-- 로그인 전 상태 -->
+        <div id="nav-guest" class="nav-auth-group">
+          <a href="login.html" class="nav-btn-outline">로그인</a>
+          <a href="signup.html" class="nav-btn-outline">회원가입</a>
+        </div>
+
+        <!-- 로그인 후 상태 (기본적으로 숨김) -->
+        <div id="nav-user" class="nav-auth-group" style="display: none">
+          <a href="mypage.html" class="nav-icon-link">
+            <img
+              src="icons/mypage-icon.png"
+              alt="마이페이지"
+              class="nav-mypage-img"
+            />
+          </a>
+          <button type="button" id="logout-btn" class="nav-btn-outline">
+            로그아웃
+          </button>
+        </div>
       </div>
     </nav>
 
@@ -665,14 +675,16 @@
         document.getElementById("writeModal").style.display = "flex";
         document.body.style.overflow = "hidden";
         if (window.supabaseClient) {
-          window.supabaseClient.auth.getSession().then(({ data: { session } }) => {
-            if (session && session.user) {
-              const postAuthor = document.getElementById("postAuthor");
-              if (postAuthor) {
-                postAuthor.value = session.user.email.split('@')[0];
+          window.supabaseClient.auth
+            .getSession()
+            .then(({ data: { session } }) => {
+              if (session && session.user) {
+                const postAuthor = document.getElementById("postAuthor");
+                if (postAuthor) {
+                  postAuthor.value = session.user.email.split("@")[0];
+                }
               }
-            }
-          });
+            });
         }
       }
 

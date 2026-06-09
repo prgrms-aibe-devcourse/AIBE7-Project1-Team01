@@ -20,17 +20,25 @@
       </div>
 
       <div class="nav-right">
-        <!-- 외곽선 스타일을 주기 위해 nav-btn-outline 클래스를 추가했습니다 -->
-        <a href="login.html" class="nav-btn-outline">로그인</a>
-        <a href="signup.html" class="nav-btn-outline">회원가입</a>
-        <!-- 마이페이지 글자를 이미지 태그로 교체했습니다 -->
-        <a href="mypage.html" class="nav-icon-link">
-          <img
-            src="icons/mypage-icon.png"
-            alt="마이페이지"
-            class="nav-mypage-img"
-          />
-        </a>
+        <!-- 로그인 전 상태 -->
+        <div id="nav-guest" class="nav-auth-group">
+          <a href="login.html" class="nav-btn-outline">로그인</a>
+          <a href="signup.html" class="nav-btn-outline">회원가입</a>
+        </div>
+
+        <!-- 로그인 후 상태 (기본적으로 숨김) -->
+        <div id="nav-user" class="nav-auth-group" style="display: none">
+          <a href="mypage.html" class="nav-icon-link">
+            <img
+              src="icons/mypage-icon.png"
+              alt="마이페이지"
+              class="nav-mypage-img"
+            />
+          </a>
+          <button type="button" id="logout-btn" class="nav-btn-outline">
+            로그아웃
+          </button>
+        </div>
       </div>
     </nav>
 
@@ -166,6 +174,76 @@
         </p>
       </article>
     </main>
+    <div class="travel-chat-launcher" id="travel-chat-launcher">
+          <button
+        type="button"
+        class="travel-chat-toggle"
+        id="travel-chat-toggle"
+        aria-label="AI 여행 추천 열기"
+      >
+              어디갈지 모르겠니?     
+      </button>
+
+          
+      <section
+        class="travel-chat-panel hidden"
+        id="travel-chat-panel"
+        aria-label="AI 여행 추천 챗봇"
+      >
+              
+        <div class="travel-chat-panel-header">
+                  
+          <h2 class="travel-chat-panel-title">나만의 여행을 만들어보세요.</h2>
+                  <button
+            type="button"
+            class="travel-chat-close"
+            id="travel-chat-close"
+            aria-label="챗봇 닫기"
+          >
+            X
+          </button>
+                
+        </div>
+              
+        <p class="travel-chat-panel-desc">
+                  원하는 여행 분위기를 말해주면 AI가 여행지와 축제를
+          추천해드려요.       
+        </p>
+
+              
+        <div
+          class="travel-chat-messages"
+          id="travel-chat-messages"
+          aria-live="polite"
+        ></div>
+
+              
+        <form class="travel-chat-form" id="travel-chat-form">
+                  <label for="travel-chat-input" class="sr-only"
+            >여행 취향 입력</label
+          >
+                  <textarea
+            id="travel-chat-input"
+            class="travel-chat-input"
+            rows="3"
+            placeholder="예: 이번 주말에 조용한 바다 여행 가고 싶어요"
+          ></textarea>
+                  <button
+            type="submit"
+            class="travel-chat-button"
+            id="travel-chat-send"
+          >
+            전송
+          </button>
+                
+        </form>
+            
+      </section>
+        
+    </div>
+
+      
+    <script src="travel-chat.js"></script>
 
     <script>
       const wrapper = document.querySelector(".slider-wrapper");

@@ -238,6 +238,79 @@
         color: var(--text-light);
         margin-left: 4px;
       }
+
+      /* 이미지 업로드 */
+      .image-upload-area {
+        border: 2px dashed var(--accent-sepia);
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: var(--transition);
+        background-color: var(--bg-warm);
+        position: relative;
+      }
+      .image-upload-area:hover {
+        border-color: var(--primary-warm);
+        background-color: rgba(var(--primary-warm-rgb, 180, 120, 60), 0.04);
+      }
+      .image-upload-area input[type="file"] {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+      }
+      .image-upload-placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        pointer-events: none;
+      }
+      .image-upload-placeholder span.icon {
+        font-size: 2rem;
+      }
+      .image-upload-placeholder span.text {
+        font-size: 0.85rem;
+        color: var(--text-light);
+      }
+      .image-upload-placeholder span.hint {
+        font-size: 0.75rem;
+        color: var(--text-light);
+        opacity: 0.7;
+      }
+      .image-preview-wrap {
+        position: relative;
+        display: none;
+      }
+      .image-preview-wrap img {
+        width: 100%;
+        max-height: 200px;
+        object-fit: cover;
+        border-radius: 6px;
+      }
+      .image-remove-btn {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        background: rgba(0,0,0,0.55);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 26px;
+        height: 26px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+      }
+      .image-remove-btn:hover {
+        background: rgba(217,83,79,0.85);
+      }
     </style>
   </head>
   <body>
@@ -383,6 +456,21 @@
                 style="background-color: var(--bg-warm); cursor: default;"
               />
             </div>
+            <div class="form-group">
+              <label>사진 등록 <span style="font-weight:400; font-size:0.8rem; color:var(--text-light);">(선택)</span></label>
+              <div class="image-upload-area" id="imageUploadArea">
+                <input type="file" id="postImage" accept="image/*" onchange="previewImage(event)" />
+                <div class="image-upload-placeholder" id="imagePlaceholder">
+                  <span class="icon">🖼️</span>
+                  <span class="text">클릭하여 사진을 선택하세요</span>
+                  <span class="hint">JPG, PNG, GIF, WEBP · 최대 5MB</span>
+                </div>
+                <div class="image-preview-wrap" id="imagePreviewWrap">
+                  <img id="imagePreview" src="" alt="미리보기" />
+                  <button type="button" class="image-remove-btn" onclick="removeImage(event)" title="사진 제거">✕</button>
+                </div>
+              </div>
+            </div>
           </form>
         </div>
         <div class="modal-footer">
@@ -465,7 +553,7 @@
           date: "2026.05.18",
           rating: "5.0",
           image:
-            "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=400&q=80",
+            "https://6a276ea0b82917fdef05cb59.imgix.net/yjp009-west-sea-7860536_1920.jpg?w=1920&h=1080",
           isDefault: true,
           comments: [
             {
@@ -485,8 +573,6 @@
           author: "제주늅늅이",
           date: "2026.06.01",
           rating: null,
-          image:
-            "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=400&q=80",
           isDefault: true,
           comments: [
             {
@@ -606,14 +692,17 @@
             // 본인 글에만 삭제 버튼 표시 (isDefault 글은 삭제 불가)
             const canDelete = !post.isDefault && currentUserId && post.userId === currentUserId;
 
+            // isDefault 글은 image 항상 표시, 사용자 글은 image 있을 때만 표시
+            const showImage = post.isDefault ? (post.image || getCategoryImage(post.category)) : post.image;
+
             return `
           <article class="post-card" data-category="${post.category}">
-            <img
-              src="${post.image || getCategoryImage(post.category)}"
+            ${showImage ? `<img
+              src="${showImage}"
               alt="포스트 이미지"
               class="post-image"
               onerror="this.style.display='none'"
-            />
+            />` : ''}
             <div class="post-content">
               <div class="post-meta">
                 <span class="category-badge ${getCategoryBadgeClass(post.category)}">${post.category}</span>
@@ -735,6 +824,42 @@
         document.getElementById("postContent").value = "";
         document.getElementById("postAuthor").value = "";
         document.getElementById("postCategory").selectedIndex = 0;
+        removeImage();
+      }
+
+      // ============================================
+      // 이미지 업로드 미리보기
+      // ============================================
+
+      function previewImage(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        if (file.size > 5 * 1024 * 1024) {
+          showToast("⚠️ 이미지 파일은 5MB 이하만 등록 가능합니다.");
+          event.target.value = "";
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          document.getElementById("imagePreview").src = e.target.result;
+          document.getElementById("imagePlaceholder").style.display = "none";
+          document.getElementById("imagePreviewWrap").style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function removeImage(event) {
+        if (event) event.stopPropagation();
+        const fileInput = document.getElementById("postImage");
+        if (fileInput) fileInput.value = "";
+        const preview = document.getElementById("imagePreview");
+        if (preview) preview.src = "";
+        const placeholder = document.getElementById("imagePlaceholder");
+        if (placeholder) placeholder.style.display = "flex";
+        const previewWrap = document.getElementById("imagePreviewWrap");
+        if (previewWrap) previewWrap.style.display = "none";
       }
 
       // ============================================
@@ -773,6 +898,10 @@
         const now = new Date();
         const dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, "0")}.${String(now.getDate()).padStart(2, "0")}`;
 
+        // 이미지: 미리보기 src (Base64) 사용, 없으면 null
+        const previewSrc = document.getElementById("imagePreview")?.src || "";
+        const imageData = previewSrc && previewSrc.startsWith("data:") ? previewSrc : null;
+
         const newPost = {
           id: "post-" + Date.now(),
           category: category,
@@ -782,7 +911,7 @@
           userId: session.user.id,
           date: dateStr,
           rating: null,
-          image: getCategoryImage(category),
+          image: imageData,
           isDefault: false,
           comments: [],
         };

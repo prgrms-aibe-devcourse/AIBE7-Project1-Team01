@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>마이페이지</title>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('loginToken');
+
+            if (!token) {
+                alert('로그인이 필요한 페이지입니다. 로그인 페이지로 이동합니다.');
+                window.location.href = '/login.html';
+            } else {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('content').style.display = 'block';
+
+                const userName = localStorage.getItem('userName') || '회원';
+                document.getElementById('user-name').innerText = userName;
+            }
+        });
+
+        function logout() {
+            localStorage.removeItem('loginToken');
+            localStorage.removeItem('userName');
+            alert('로그아웃 되었습니다.');
+            window.location.href = '/login.html';
+        }
+    </script>
+    <style>
+        /* 초기에는 콘텐츠를 숨겨두어 비로그인 유저에게 잠깐이라도 노출되는 것을 방지 */
+        #content { display: none; }
+        #loading { font-size: 18px; text-align: center; margin-top: 50px; }
+    </style>
+</head>
+<body>
+
+    <div id="loading">페이지 권한을 확인 중입니다...</div>
+
+    <div id="content">
+        <h1>마이페이지</h1>
+        <p>안녕하세요, <span id="user-name"></span>님! 반가워요.</p>
+        <button onclick="logout()">로그아웃</button>
+    </div>
+
+</body>
+</html>

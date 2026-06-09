@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>노을빛 여행 - 따뜻한 감성 여행 추천</title>
+    <link rel="icon" type="image/png" href="/icons/MOTIPE favicon.png">
+    <link rel="stylesheet" href="/css/test_style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand-group">
+            <a href="main.html" class="nav-logo">
+                <img src="/icons/screen.png" alt="Motipe 로고" class="nav-logo-img"> 
+            </a>
+            <div class="nav-left">
+                <a href="#">지도</a>
+                <a href="#">캘린더</a>
+                <a href="/community.html">커뮤니티</a>
+            </div>
+        </div>
+
+        <div class="nav-right">
+    <!-- 외곽선 스타일을 주기 위해 nav-btn-outline 클래스를 추가했습니다 -->
+    <a href="/login.html" class="nav-btn-outline">로그인</a>
+    <a href="/signup.html" class="nav-btn-outline">회원가입</a>
+    <!-- 마이페이지 글자를 이미지 태그로 교체했습니다 -->
+    <a href="/mypage.html" class="nav-icon-link">
+        <img src="/icons/mypage-icon.png" alt="마이페이지" class="nav-mypage-img">
+    </a>
+</div>
+    </nav>
+
+    <section class="hero-slider">
+        <div class="slider-wrapper">
+            <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80');">
+                <div class="slide-content">
+                    <h2>따스한 햇살이 머무는 곳으로</h2>
+                    <p>인위적인 것들을 뒤로하고 자연의 속도에 맞춰 걷는 시간</p>
+                    <br>
+                    <a href="#" class="cta-button">여정 시작하기</a>
+                </div>
+            </div>
+            <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80');">
+                <div class="slide-content">
+                    <h2>바람 소리마저 숲이 되는 길</h2>
+                    <p>피톤치드 가득한 깊은 숲속에서 찾는 내 마음의 쉼표</p>
+                    <br>
+                    <a href="#" class="cta-button">여정 시작하기</a>
+                </div>
+            </div>
+            <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80');">
+                <div class="slide-content">
+                    <h2>노을빛이 스며드는 바다</h2>
+                    <p>어둠이 내리기 전 가장 찬란하게 빛나는 순간을 함께하세요</p>
+                    <br>
+                    <a href="#" class="cta-button">여정 시작하기</a>
+                </div>
+            </div>
+            <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?auto=format&fit=crop&w=1200&q=80');">
+                <div class="slide-content">
+                    <h2>별빛이 흐르는 밤하늘</h2>
+                    <p>쏟아질 듯한 우주의 신비로움을 가만히 느껴보는 깊은 밤</p>
+                    <br>
+                    <a href="#" class="cta-button">여정 시작하기</a>
+                </div>
+            </div>
+            <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80');">
+                <div class="slide-content">
+                    <h2>소박한 골목길의 속삭임</h2>
+                    <p>천천히 거닐며 발견하는 낡은 이정표와 작은 들꽃들의 이야기</p>
+                    <br>
+                    <a href="#" class="cta-button">여정 시작하기</a>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="slide-btn prev-btn">&#10094;</button>
+        <button type="button" class="slide-btn next-btn">&#10095;</button>
+    </section>
+
+    <!-- 검색 및 서브 버튼 섹션 수정 -->
+<section class="search-section">
+    <div class="search-bar-container">
+        <!-- 검색창 왼쪽에 제미나이 상징 이미지를 감싸는 영역을 추가했습니다 -->
+        <div class="search-icon-wrapper">
+            <img src="icons/gemini-icon.png" alt="Gemini" class="search-gemini-img">
+        </div>
+        <input type="text" placeholder="어디로 떠나고 싶으신가요?" class="search-input">
+        <button type="button" class="search-button">검색</button>
+    </div>
+    <div class="sub-buttons-container">
+        <!-- 버튼 글자 왼쪽에 작은 아이콘 이미지를 추가했습니다 -->
+        <button type="button" class="small-button">
+            <img src="icons/map-icon.png" alt="지도" class="btn-icon"> 지도에서 찾기
+        </button>
+        <button type="button" class="small-button">
+            <img src="icons/calendar-icon.png" alt="캘린더" class="btn-icon"> 캘린더에서 찾기
+        </button>
+    </div>
+</section>
+
+    <main class="container">
+        <article>
+            <h3>이달의 추천: "고요한 모래섬"</h3>
+            <p>바쁜 일상에서 벗어나 파도 소리에 귀를 기울여보세요. 인적 드문 해변과 따뜻한 차 한 잔이 기다립니다.</p>
+        </article>
+        <article>
+            <h3>여행자의 이야기</h3>
+            <p>"이곳에서 만난 노을은 제 삶의 작은 터닝포인트가 되었습니다. 따뜻한 색감이 마음을 위로해주는 듯했어요."</p>
+        </article>
+    </main>
+
+    <div class="travel-chat-launcher" id="travel-chat-launcher">
+        <button type="button" class="travel-chat-toggle" id="travel-chat-toggle" aria-label="AI 여행 추천 열기">
+            어디갈지 모르겠니?
+        </button>
+
+        <section class="travel-chat-panel hidden" id="travel-chat-panel" aria-label="AI 여행 추천 챗봇">
+            <div class="travel-chat-panel-header">
+                <h2 class="travel-chat-panel-title">나만의 여행을 만들어보세요.</h2>
+                <button type="button" class="travel-chat-close" id="travel-chat-close" aria-label="챗봇 닫기">X</button>
+            </div>
+            <p class="travel-chat-panel-desc">
+                원하는 여행 분위기를 말해주면 AI가 여행지와 축제를 추천해드려요.
+            </p>
+
+            <div class="travel-chat-messages" id="travel-chat-messages" aria-live="polite"></div>
+
+            <form class="travel-chat-form" id="travel-chat-form">
+                <label for="travel-chat-input" class="sr-only">여행 취향 입력</label>
+                <textarea
+                    id="travel-chat-input"
+                    class="travel-chat-input"
+                    rows="3"
+                    placeholder="예: 이번 주말에 조용한 바다 여행 가고 싶어요"
+                ></textarea>
+                <button type="submit" class="travel-chat-button" id="travel-chat-send">전송</button>
+            </form>
+        </section>
+    </div>
+
+    <script src="/js/travel-chat.js"></script>
+    <script>
+        const wrapper = document.querySelector('.slider-wrapper');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        const totalSlides = document.querySelectorAll('.slide').length;
+        
+        let currentIndex = 0;
+
+        // 슬라이드 이동 함수
+        function moveSlide(index) {
+            // 인덱스가 범위를 벗어나지 않도록 처리 (순환 구조)
+            if (index < 0) {
+                currentIndex = totalSlides - 1;
+            } else if (index >= totalSlides) {
+                currentIndex = 0;
+            } else {
+                currentIndex = index;
+            }
+            
+            // 1장당 가로 폭인 -20% 단위로 곱해서 컨테이너를 통째로 밀어줍니다.
+            wrapper.style.transform = `translateX(-${currentIndex * 20}%)`;
+        }
+
+        // 버튼 클릭 이벤트 리스너 설정
+        prevBtn.addEventListener('click', () => {
+            moveSlide(currentIndex - 1);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            moveSlide(currentIndex + 1);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>회원가입 | MOTIP</title>
+    <link rel="icon" type="image/png" href="/icons/screen.png" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/signup.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400&display=swap"
+      rel="stylesheet"
+    />
+    <script src="/config.js"></script>
+  </head>
+
+  <body>
+    <header class="navbar navbar-expand-md fixed-top glass-nav border-bottom">
+      <div class="container-fluid px-4 px-lg-5">
+        <a class="navbar-brand brand-name" href="/main.html">
+          <img
+            src="/icons/screen.png"
+            alt="MOTIPE 로고"
+            class="brand-logo"
+          />
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#siteNav"
+          aria-controls="siteNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse justify-content-between"
+          id="siteNav"
+        >
+          <ul class="navbar-nav mx-auto gap-md-4">
+            <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/main.html">Home</a>
+            </li>
+          </ul>
+          <div class="d-flex align-items-center gap-3">
+            <a class="nav-link nav-link-custom active-link" href="/login.html"
+              >Sign In</a
+            >
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="signup-shell">
+      <section class="signup-visual d-none d-md-flex">
+        <img
+          alt="Sunset Glow Travel Background"
+          class="signup-visual-image"
+          src="https://lh3.googleusercontent.com/aida/AP1WRLtvlGUacwyEHbo5777PFsZP4P6JLShx6ktbLrq8LzZXqLbH1dPsi0W8JNo4hSPT2iBzpABukH3OuUvLrqduyC3f_yn3rc1DbvI7LGO8IlI1g306oOSRHLQJ_zCCvih5PrEty_UbL1v7DF9lVq6Jm8d7D9AQ_gPjtcE56vHQBY6EGHSGrEAJunGkDcJfh7g_9wvM1feYXAVLrImUD9Nc7BOHlQBElwSyjklhqNE0TDm8pHXD8qQPbfw9wzY"
+        />
+        <div class="signup-visual-overlay"></div>
+        <div class="signup-visual-copy">
+          <h1>평온한 시작</h1>
+          <p>
+            안개 낀 숲의 신비로움과 오두막의 따스함이 어우러진 Sunset Glow
+            Travel에서 당신만의 진정한 여정을 설계하세요.
+          </p>
+        </div>
+      </section>
+
+      <section class="signup-panel">
+        <div class="signup-panel-inner">
+          <div class="mb-4">
+            <h2 class="signup-title">새로운 여정의 시작</h2>
+            <p class="signup-subtitle">
+              자신만을 위한 진정한 휴식을 찾는 이들을 위한 회원가입입니다.
+            </p>
+          </div>
+
+          <form id="signup-form" class="vstack gap-4">
+            <div>
+              <label for="name" class="form-label signup-label">이름</label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                class="form-control signup-input"
+                placeholder="홍길동"
+              />
+            </div>
+
+            <div>
+              <label for="email" class="form-label signup-label">이메일</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                class="form-control signup-input"
+                placeholder="example@sunsetglow.com"
+              />
+            </div>
+
+            <div>
+              <label for="password" class="form-label signup-label"
+                >비밀번호</label
+              >
+              <div class="input-group signup-password-group">
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  class="form-control signup-input"
+                  placeholder="••••••••"
+                />
+                <button
+                  class="btn signup-icon-btn"
+                  type="button"
+                  aria-label="비밀번호 보기"
+                >
+                  <span class="material-symbols-outlined">visibility</span>
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label for="confirm-password" class="form-label signup-label"
+                >비밀번호 확인</label
+              >
+              <input
+                id="confirm-password"
+                name="confirm-password"
+                type="password"
+                class="form-control signup-input"
+                placeholder="••••••••"
+              />
+            </div>
+
+            <button class="btn signup-submit-btn w-100" type="submit">
+              새로운 여정 시작하기
+            </button>
+          </form>
+
+          <p class="signup-footer-text">
+            이미 회원이신가요?
+            <a class="signup-link fw-bold" href="/login.html">로그인</a>
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <!-- =========================
+    1. 외부 라이브러리 불러오기
+    - Bootstrap: 화면 UI 동작
+    - Supabase JS: Supabase Auth/DB 사용
+    - supabase-client.js: Supabase 연결 객체 생성
+    ========================= -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/js/supabase-client.js"></script>
+
+    <script>
+
+        /* =========================
+          2. HTML 요소 가져오기
+          - 회원가입 form
+          - submit 버튼
+          - 이름, 이메일, 비밀번호, 비밀번호 확인 input
+        ========================= */
+
+      const form = document.querySelector("#signup-form");
+      const submitButton = form.querySelector("button[type='submit']");
+      const nameInput = form.querySelector("input[name='name']");
+      const emailInput = form.querySelector("input[name='email']");
+      const passwordInput = form.querySelector("input[name='password']");
+      const confirmPasswordInput = form.querySelector("input[name='confirm-password']",);
+
+      /* =========================
+        3. 버튼 상태 변경 함수
+        - 회원가입 요청 중에는 버튼을 비활성화
+        - 요청이 끝나면 다시 원래 상태로 복구
+      ========================= */
+
+      function setButtonState(disabled, label) {
+        submitButton.disabled = disabled;
+        submitButton.innerHTML = label;
+      }
+
+      /* =========================
+        4. 회원가입 form 제출 이벤트
+          - 사용자가 회원가입 버튼을 누르면 실행됨
+      ========================= */
+
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        /* =========================
+          5. 입력값 가져오기
+          - 사용자가 입력한 이름, 이메일, 비밀번호 값을 변수에 저장
+          - name과 email은 앞뒤 공백 제거
+        ========================= */
+
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+
+        /* =========================
+          6. Supabase client 가져오기
+          - supabase-client.js에서 만든 getSupabaseClient() 사용
+          - client가 없으면 Supabase 설정이 안 된 상태
+        ========================= */
+
+        const client = window.getSupabaseClient
+          ? window.getSupabaseClient()
+          : null;
+
+        /* =========================
+          7. 입력값 검증
+          - 빈 값이 있는지 확인
+          - 비밀번호와 비밀번호 확인이 같은지 확인
+          - Supabase client가 정상적으로 생성되었는지 확인
+        ========================= */
+
+        if (!name || !email || !password || !confirmPassword) {
+          alert("모든 항목을 입력해 주세요.");
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+          return;
+        }
+
+        if (!client) {
+          alert(
+            "Supabase 설정이 필요합니다. `npm start`로 서버를 실행한 뒤 http://localhost:3000/signup.html 로 접속하고, .env의 `SUPABASE_URL`과 `SUPABASE_ANON_KEY`를 확인해 주세요.",
+          );
+          return;
+        }
+
+        /* =========================
+          8. 회원가입 요청 전 버튼 처리
+          - 중복 클릭을 막기 위해 버튼 비활성화
+          - 버튼 문구를 '가입 중...'으로 변경
+        ========================= */
+
+        const original = submitButton.innerHTML;
+        
+        setButtonState(
+          true,
+          '<span class="material-symbols-outlined align-middle signup-spinner">progress_activity</span> 가입 중...',
+        );
+
+        try {
+
+          /* =========================
+            9. Supabase Auth 회원가입
+            - Authentication → Users에 계정 생성
+            - full_name은 Auth metadata에 저장됨
+          ========================= */
+
+          const { data, error } = await client.auth.signUp({
+            email,
+            password,
+            options: {
+              data: {
+                full_name: name,
+              },
+            },
+          });
+
+          if (error) {
+            throw error;
+          }
+
+          if (!data.user) {
+            throw new Error("회원가입 사용자 정보를 가져오지 못했습니다.");
+          }
+
+          /* =========================
+            10. public.users 테이블에 추가 저장
+            - Database → Tables → users에 id, name, email 저장
+            - 이 코드가 있어야 public.users 테이블에 row가 생김
+          ========================= */
+
+          const { error: insertError } = await client.from("users").insert({
+            id: data.user.id,
+            name: name,
+            email: email,
+          });
+
+          if (insertError) {
+            throw insertError;
+          }
+
+          /* =========================
+            11. 브라우저 localStorage에 사용자 정보 저장
+            - session token이 있으면 저장
+            - 사용자 이름도 저장
+            - 이메일 인증 설정이 켜져 있으면 session은 없을 수 있음
+          ========================= */
+
+          localStorage.setItem("loginToken", data.session?.access_token || "");
+          localStorage.setItem(
+            "userName",
+            data.user?.user_metadata?.full_name || name,
+          );
+
+          /* =========================
+            12. 회원가입 성공 처리
+            - 성공 메시지 출력
+            - 로그인 페이지로 이동
+          ========================= */
+          
+          alert("회원가입이 완료되었습니다. 로그인 페이지로 이동합니다.");
+          window.location.href = "login.html";
+        } catch (error) {
+
+          /* =========================
+            13. 에러 처리
+            - Auth 회원가입 실패
+            - users 테이블 insert 실패
+            - Supabase 설정 문제 등을 처리
+          ========================= */
+
+          console.error("회원가입 오류:", error);
+          alert(error.message || "회원가입에 실패했습니다.");
+        } finally {
+
+        /* =========================
+          14. 버튼 상태 복구
+          - 성공/실패와 관계없이 버튼을 다시 클릭 가능하게 변경
+        ========================= */
+
+          setButtonState(false, original);
+        }
+      });
+    </script>
+  </body>
+</html>

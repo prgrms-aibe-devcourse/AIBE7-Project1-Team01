@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="./favicon-96x96.png"
+      sizes="96x96"
+    />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./apple-touch-icon.png"
+    />
+    <link rel="manifest" href="/site.webmanifest" />
+    <title>마이페이지 - 노을빛 여행</title>
+    <!-- 외부 CSS 파일 연결 -->
+    <link rel="stylesheet" href="/css/test_style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>MY PAGE</h1>
+      <p>나의 여행 기록과 계정 설정을 관리하세요</p>
+    </header>
+
+    <nav class="navbar">
+      <div class="nav-brand-group">
+        <a href="/main.html" class="nav-logo">
+          <span class="logo-placeholder"></span>
+          Motipe
+        </a>
+        <div class="nav-left">
+          <a href="#">지도</a>
+          <a href="#">캘린더</a>
+        </div>
+      </div>
+
+      <div class="nav-right">
+        <a href="#">로그인</a>
+        <a href="#">회원가입</a>
+        <a href="/community.html">커뮤니티</a>
+        <a href="/mypage.html">마이페이지</a>
+      </div>
+    </nav>
+
+    <main class="container">
+      <!-- 프로필 섹션 -->
+      <section class="profile-card">
+        <div class="profile-info">
+          <h2>안녕하세요, 여행자님</h2>
+          <p style="color: var(--text-light); margin-bottom: 20px">
+            sunset_traveler@motipe.com
+          </p>
+          <p>“오늘도 당신의 여정에 따스한 햇살이 함께하기를 바랍니다.”</p>
+          <button class="edit-button">프로필 수정</button>
+        </div>
+      </section>
+
+      <!-- 나의 활동 내역 -->
+      <section class="settings-card">
+        <h3>나의 활동</h3>
+        <ul class="activity-list">
+          <li class="activity-item">
+            <span>내가 작성한 리뷰 <strong>(12)</strong></span>
+            <button
+              type="button"
+              class="small-button"
+              onclick="showDetail('reviews')"
+              style="padding: 5px 15px"
+            >
+              보기
+            </button>
+          </li>
+          <li class="activity-item">
+            <span>다녀온 여행지 <strong>(5)</strong></span>
+            <button
+              type="button"
+              class="small-button"
+              onclick="showDetail('places')"
+              style="padding: 5px 15px"
+            >
+              보기
+            </button>
+          </li>
+        </ul>
+        <div style="margin-top: 30px">
+          <h4 style="font-size: 0.95rem; margin-bottom: 10px">관심 장소</h4>
+          <div class="wishlist-grid" style="grid-template-columns: 1fr 1fr">
+            <div class="wish-item" style="padding: 15px">제주 평대리</div>
+            <div class="wish-item" style="padding: 15px">강릉 안목해변</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 활동 상세 보기 영역 (동적으로 노출) -->
+      <section
+        id="activity-detail"
+        class="settings-card"
+        style="display: none; border: 1px solid var(--accent-sepia)"
+      >
+        <h3 id="detail-title">상세 내역</h3>
+        <div id="detail-content" class="activity-list">
+          <p style="color: var(--text-light)">
+            항목을 선택하면 상세 내용이 여기에 표시됩니다.
+          </p>
+        </div>
+      </section>
+
+      <!-- 비밀번호 변경 섹션 -->
+      <section class="settings-card password-section">
+        <h3>보안 설정</h3>
+        <form>
+          <div class="form-group">
+            <label for="current-pw">현재 비밀번호</label>
+            <input
+              type="password"
+              id="current-pw"
+              class="input-field"
+              placeholder="현재 비밀번호를 입력하세요"
+            />
+          </div>
+          <div class="form-group">
+            <label for="new-pw">새 비밀번호</label>
+            <input
+              type="password"
+              id="new-pw"
+              class="input-field"
+              placeholder="새 비밀번호를 입력하세요"
+            />
+          </div>
+          <div class="form-group">
+            <label for="confirm-pw">새 비밀번호 확인</label>
+            <input
+              type="password"
+              id="confirm-pw"
+              class="input-field"
+              placeholder="한 번 더 입력하세요"
+            />
+          </div>
+          <button type="button" class="edit-button" style="width: 100%">
+            비밀번호 변경하기
+          </button>
+        </form>
+      </section>
+
+      <!-- 계정 관리 (기타 권장 기능) -->
+      <section
+        class="settings-card"
+        style="grid-column: 1 / -1; text-align: center"
+      >
+        <div style="display: flex; justify-content: center; gap: 40px">
+          <a href="#">로그아웃</a>
+          <span class="danger-link">회원 탈퇴</span>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 Sunset Glow Travel. 모든 여행이 쉼표가 되길.</p>
+    </footer>
+
+    <script>
+      function showDetail(type) {
+        const detailSection = document.getElementById("activity-detail");
+        const detailTitle = document.getElementById("detail-title");
+        const detailContent = document.getElementById("detail-content");
+
+        // 섹션 보이기
+        detailSection.style.display = "block";
+
+        if (type === "reviews") {
+          detailTitle.innerText = "내가 작성한 리뷰";
+          detailContent.innerHTML = `
+            <div class="activity-item"><span>제주 평대리 카페 - "노을이 환상적이에요"</span></div>
+            <div class="activity-item"><span>강릉 안목해변 - "커피 한 잔의 여유"</span></div>
+            <div class="activity-item"><span>담양 메타세쿼이아 - "자전거 타기 좋아요"</span></div>
+            <p style="margin-top:15px; font-size:0.8rem; color:var(--primary-warm);">* 최근 30일 이내 작성된 리뷰입니다.</p>
+          `;
+        } else if (type === "places") {
+          detailTitle.innerText = "다녀온 여행지";
+          detailContent.innerHTML = `
+            <div class="activity-item"><span>제주특별자치도 (2023.10 방문)</span></div>
+            <div class="activity-item"><span>강원도 강릉시 (2023.08 방문)</span></div>
+            <div class="activity-item"><span>전라남도 담양군 (2023.05 방문)</span></div>
+            <div class="activity-item"><span>경상북도 경주시 (2023.03 방문)</span></div>
+          `;
+        }
+
+        // 선택된 섹션으로 부드럽게 스크롤 (모바일 대응)
+        if (window.innerWidth < 768) {
+          detailSection.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    </script>
+  </body>
+</html>

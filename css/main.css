@@ -1,0 +1,154 @@
+:root {
+  --brand-primary: #c68642;
+  --brand-secondary: #8e5d3f;
+  --brand-bg: #f4f1ea;
+  --brand-surface: #ffffff;
+  --brand-text: #3c3c3c;
+  --brand-muted: #707070;
+  --brand-border: #d9c1aa;
+}
+
+body {
+  font-family: "Be Vietnam Pro", sans-serif;
+  background: var(--brand-bg);
+  color: var(--brand-text);
+}
+
+a {
+  text-decoration: none;
+}
+
+.site-header {
+  background: var(--brand-surface);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.site-title {
+  color: var(--brand-secondary);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.35rem;
+}
+
+.site-subtitle {
+  color: var(--brand-muted);
+  margin-bottom: 0;
+}
+
+.brand-link {
+  font-weight: 700;
+  color: var(--brand-secondary);
+}
+
+.navbar .nav-link {
+  color: var(--brand-muted);
+  font-weight: 500;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link:focus {
+  color: var(--brand-primary);
+}
+
+.hero-section {
+  position: relative;
+  min-height: 420px;
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1)),
+    url("https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&w=1600&q=80")
+      center/cover no-repeat;
+  display: flex;
+  align-items: center;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.36));
+}
+
+.hero-content {
+  z-index: 1;
+}
+
+.hero-title {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.hero-text {
+  font-size: 1.15rem;
+  margin-top: 1rem;
+}
+
+.btn-brand {
+  background: var(--brand-primary);
+  border-color: var(--brand-primary);
+  color: #fff;
+  font-weight: 600;
+  padding: 0.85rem 1.6rem;
+}
+
+.btn-brand:hover,
+.btn-brand:focus {
+  background: var(--brand-secondary);
+  border-color: var(--brand-secondary);
+  color: #fff;
+}
+
+.btn-outline-brand {
+  background: #fff;
+  border: 1px solid var(--brand-border);
+  color: var(--brand-text);
+  font-weight: 500;
+  padding: 0.7rem 1.35rem;
+}
+
+.btn-outline-brand:hover {
+  background: var(--brand-border);
+  color: var(--brand-secondary);
+}
+
+.search-section {
+  padding: 3rem 0 1rem;
+}
+
+.search-bar {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.search-input {
+  border-color: var(--brand-border);
+  padding: 1rem 1.2rem;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.feature-card {
+  background: var(--brand-surface);
+  border-radius: 0.5rem;
+  padding: 1.75rem;
+  box-shadow: 0 0.125rem 0.75rem rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.feature-card h3 {
+  color: var(--brand-secondary);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 576px) {
+  .hero-section {
+    min-height: 360px;
+  }
+
+  .hero-text {
+    font-size: 1rem;
+  }
+}

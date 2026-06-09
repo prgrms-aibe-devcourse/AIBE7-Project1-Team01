@@ -378,7 +378,9 @@
                 id="postAuthor"
                 type="text"
                 class="input-field"
-                placeholder="닉네임을 입력하세요"
+                placeholder="로그인 후 자동 입력됩니다"
+                readonly
+                style="background-color: var(--bg-warm); cursor: default;"
               />
             </div>
           </form>
@@ -551,6 +553,15 @@
         return images[category] || images["숙소 리뷰"];
       }
 
+      // 현재 로그인 유저 ID 캐시
+      let currentUserId = null;
+
+      async function getCurrentUserId() {
+        if (!window.supabaseClient) return null;
+        const { data: { session } } = await window.supabaseClient.auth.getSession();
+        return session ? session.user.id : null;
+      }
+
       async function renderPosts() {
         const grid = document.getElementById("postGrid");
 
@@ -558,7 +569,8 @@
         grid.innerHTML =
           '<div class="empty-message">⏳ 데이터를 불러오는 중입니다...</div>';
 
-        const posts = await loadPosts();
+        const [posts, uid] = await Promise.all([loadPosts(), getCurrentUserId()]);
+        currentUserId = uid;
 
         // 필터 적용
         const filtered =
@@ -575,18 +587,24 @@
         grid.innerHTML = filtered
           .map((post) => {
             const comments = post.comments || [];
+            // 본인 댓글에만 삭제 버튼 표시
             const commentsHtml = comments
               .map(
                 (c) => `
                 <div class="comment-item">
                   <span class="comment-author">${escapeHtml(c.author)}</span>
                   <span class="comment-date">${c.date}</span>
-                  <button class="comment-delete-btn" onclick="deleteComment('${post.id}', '${c.id}', '${escapeAttr(c.author)}')" title="댓글 삭제">✕ 삭제</button>
+                  ${(currentUserId && c.userId === currentUserId)
+                    ? `<button class="comment-delete-btn" onclick="deleteComment('${post.id}', '${c.id}')" title="댓글 삭제">✕ 삭제</button>`
+                    : ''}
                   <div class="comment-text">${escapeHtml(c.text)}</div>
                 </div>
               `,
               )
               .join("");
+
+            // 본인 글에만 삭제 버튼 표시 (isDefault 글은 삭제 불가)
+            const canDelete = !post.isDefault && currentUserId && post.userId === currentUserId;
 
             return `
           <article class="post-card" data-category="${post.category}">
@@ -614,11 +632,9 @@
                 <span>작성자: ${escapeHtml(post.author)}</span>
                 <span>${post.date}</span>
               </div>
-              ${
-                !post.isDefault
-                  ? `<button class="delete-btn" onclick="requestDelete('${post.id}')">🗑️ 삭제</button>`
-                  : ""
-              }
+              ${canDelete
+                ? `<button class="delete-btn" onclick="requestDelete('${post.id}')">🗑️ 삭제</button>`
+                : ""}
               <div class="comment-section">
                 <button class="comment-toggle" onclick="toggleComments('${post.id}')">
                   💬 댓글 ${comments.length > 0 ? `<span class="comment-count">(${comments.length})</span>` : "작성하기"}
@@ -626,7 +642,7 @@
                 <div class="comment-list" id="comments-${post.id}">
                   ${commentsHtml}
                   <div class="comment-form">
-                    <input type="text" id="cAuthor-${post.id}" placeholder="닉네임" />
+                    <input type="text" id="cAuthor-${post.id}" placeholder="닉네임 (로그인 시 자동입력)" readonly style="background-color: var(--bg-warm); cursor: default;" />
                     <textarea id="cText-${post.id}" placeholder="댓글을 입력하세요..."></textarea>
                     <button class="comment-submit-btn" onclick="addComment('${post.id}')">댓글 등록</button>
                   </div>
@@ -637,6 +653,19 @@
         `;
           })
           .join("");
+
+        // 댓글 작성자 필드에 로그인 유저 이름 자동 입력
+        if (currentUserId && window.supabaseClient) {
+          const { data: { session } } = await window.supabaseClient.auth.getSession();
+          if (session) {
+            const displayName = session.user.user_metadata?.full_name
+              || session.user.user_metadata?.name
+              || session.user.email.split('@')[0];
+            document.querySelectorAll('[id^="cAuthor-"]').forEach(el => {
+              el.value = displayName;
+            });
+          }
+        }
       }
 
       // HTML 이스케이프 (XSS 방지)
@@ -671,20 +700,30 @@
       // 모달 (글쓰기)
       // ============================================
 
-      function openWriteModal() {
+      async function openWriteModal() {
+        // 로그인 확인
+        if (!window.supabaseClient) {
+          showToast("⚠️ 로그인이 필요합니다.");
+          setTimeout(() => { window.location.href = 'login.html'; }, 1200);
+          return;
+        }
+        const { data: { session } } = await window.supabaseClient.auth.getSession();
+        if (!session || !session.user) {
+          showToast("⚠️ 로그인 후 글을 작성할 수 있습니다.");
+          setTimeout(() => { window.location.href = 'login.html'; }, 1200);
+          return;
+        }
+
         document.getElementById("writeModal").style.display = "flex";
         document.body.style.overflow = "hidden";
-        if (window.supabaseClient) {
-          window.supabaseClient.auth
-            .getSession()
-            .then(({ data: { session } }) => {
-              if (session && session.user) {
-                const postAuthor = document.getElementById("postAuthor");
-                if (postAuthor) {
-                  postAuthor.value = session.user.email.split("@")[0];
-                }
-              }
-            });
+
+        // 로그인 유저 정보 자동 입력
+        const postAuthor = document.getElementById("postAuthor");
+        if (postAuthor) {
+          const displayName = session.user.user_metadata?.full_name
+            || session.user.user_metadata?.name
+            || session.user.email.split("@")[0];
+          postAuthor.value = displayName;
         }
       }
 
@@ -703,6 +742,17 @@
       // ============================================
 
       async function submitPost() {
+        // 로그인 확인
+        if (!window.supabaseClient) {
+          showToast("⚠️ 로그인이 필요합니다.");
+          return;
+        }
+        const { data: { session } } = await window.supabaseClient.auth.getSession();
+        if (!session || !session.user) {
+          showToast("⚠️ 로그인 후 글을 작성할 수 있습니다.");
+          return;
+        }
+
         const category = document.getElementById("postCategory").value;
         const title = document.getElementById("postTitle").value.trim();
         const content = document.getElementById("postContent").value.trim();
@@ -717,10 +767,6 @@
           showToast("⚠️ 내용을 입력해주세요.");
           return;
         }
-        if (!author) {
-          showToast("⚠️ 작성자 이름을 입력해주세요.");
-          return;
-        }
 
         const posts = await loadPosts();
 
@@ -732,11 +778,13 @@
           category: category,
           title: title,
           content: content,
-          author: author,
+          author: author || session.user.email.split("@")[0],
+          userId: session.user.id,
           date: dateStr,
           rating: null,
           image: getCategoryImage(category),
           isDefault: false,
+          comments: [],
         };
 
         // 새 글을 맨 앞에 추가
@@ -786,19 +834,29 @@
       }
 
       async function addComment(postId) {
-        const authorInput = document.getElementById("cAuthor-" + postId);
-        const textInput = document.getElementById("cText-" + postId);
-        const author = authorInput.value.trim();
-        const text = textInput.value.trim();
-
-        if (!author) {
-          showToast("⚠️ 닉네임을 입력해주세요.");
+        // 로그인 확인
+        if (!window.supabaseClient) {
+          showToast("⚠️ 로그인 후 댓글을 작성할 수 있습니다.");
           return;
         }
+        const { data: { session } } = await window.supabaseClient.auth.getSession();
+        if (!session || !session.user) {
+          showToast("⚠️ 로그인 후 댓글을 작성할 수 있습니다.");
+          setTimeout(() => { window.location.href = 'login.html'; }, 1200);
+          return;
+        }
+
+        const textInput = document.getElementById("cText-" + postId);
+        const text = textInput.value.trim();
+
         if (!text) {
           showToast("⚠️ 댓글 내용을 입력해주세요.");
           return;
         }
+
+        const displayName = session.user.user_metadata?.full_name
+          || session.user.user_metadata?.name
+          || session.user.email.split('@')[0];
 
         const posts = await loadPosts();
         const post = posts.find((p) => p.id === postId);
@@ -811,7 +869,8 @@
 
         post.comments.push({
           id: "c-" + Date.now(),
-          author: author,
+          author: displayName,
+          userId: session.user.id,
           text: text,
           date: dateStr,
         });
@@ -826,20 +885,25 @@
         showToast("💬 댓글이 등록되었습니다!");
       }
 
-      async function deleteComment(postId, commentId, commentAuthor) {
-        const inputAuthor = prompt(
-          "댓글 작성자 닉네임을 입력하세요 (본인 확인):",
-        );
-        if (inputAuthor === null) return; // 취소
-
-        if (inputAuthor.trim() !== commentAuthor) {
-          showToast("❌ 작성자 닉네임이 일치하지 않습니다.");
+      async function deleteComment(postId, commentId) {
+        // 로그인 확인
+        if (!window.supabaseClient) return;
+        const { data: { session } } = await window.supabaseClient.auth.getSession();
+        if (!session || !session.user) {
+          showToast("⚠️ 로그인이 필요합니다.");
           return;
         }
 
         const posts = await loadPosts();
         const post = posts.find((p) => p.id === postId);
         if (!post || !post.comments) return;
+
+        // 본인 댓글인지 확인
+        const comment = post.comments.find(c => c.id === commentId);
+        if (!comment || comment.userId !== session.user.id) {
+          showToast("❌ 본인의 댓글만 삭제할 수 있습니다.");
+          return;
+        }
 
         post.comments = post.comments.filter((c) => c.id !== commentId);
         savePosts(posts);

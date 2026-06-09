@@ -56,23 +56,8 @@
         alert('로그인이 필요한 페이지입니다. 로그인 페이지로 이동합니다.');
         window.location.href = 'login.html';
       } else {
-        // Update user email on mypage
-        const emailEl = document.querySelector('.profile-info p');
-        if (emailEl) {
-          emailEl.textContent = user.email;
-        }
-        
-        // Setup logout link in mypage's footer/account management section
-        const logoutLinks = document.querySelectorAll('a');
-        logoutLinks.forEach(link => {
-          if (link.textContent.trim() === '로그아웃') {
-            link.href = '#';
-            link.addEventListener('click', async (e) => {
-              e.preventDefault();
-              await logout();
-            });
-          }
-        });
+        // mypage.html의 스크립트에 유저 정보 전달
+        window.dispatchEvent(new CustomEvent('mypage-ready', { detail: { user } }));
       }
     }
   }

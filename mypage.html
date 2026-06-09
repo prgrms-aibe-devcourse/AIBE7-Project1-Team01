@@ -3,23 +3,194 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="icon"
-      type="image/png"
-      href="./favicon-96x96.png"
-      sizes="96x96"
-    />
-    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-    <link rel="shortcut icon" href="./favicon.ico" />
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="./apple-touch-icon.png"
-    />
-    <link rel="manifest" href="/site.webmanifest" />
     <title>마이페이지 - 노을빛 여행</title>
-    <!-- 외부 CSS 파일 연결 -->
     <link rel="stylesheet" href="test_style.css" />
+    <style>
+      /* 내 게시글 목록 */
+      .my-posts-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 10px;
+      }
+      .my-post-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: var(--bg-warm);
+        border-radius: 8px;
+        padding: 14px 18px;
+        transition: var(--transition);
+        gap: 10px;
+      }
+      .my-post-item:hover {
+        background-color: var(--accent-sepia);
+        transform: translateX(4px);
+      }
+      .my-post-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        flex: 1;
+        min-width: 0;
+      }
+      .my-post-title {
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: var(--text-main);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .my-post-meta {
+        font-size: 0.78rem;
+        color: var(--text-light);
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .my-post-category {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-size: 0.72rem;
+        font-weight: 600;
+        background-color: #fef3e2;
+        color: #c68642;
+      }
+      .my-post-delete-btn {
+        background: none;
+        border: 1px solid #d9534f;
+        color: #d9534f;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 0.78rem;
+        cursor: pointer;
+        transition: var(--transition);
+        flex-shrink: 0;
+      }
+      .my-post-delete-btn:hover {
+        background-color: #d9534f;
+        color: white;
+      }
+      .my-posts-empty {
+        text-align: center;
+        color: var(--text-light);
+        padding: 30px 0;
+        font-size: 0.9rem;
+      }
+      .my-posts-empty a {
+        color: var(--primary-warm);
+        font-weight: 600;
+        text-decoration: none;
+      }
+      /* 토스트 */
+      .toast {
+        position: fixed;
+        bottom: 90px;
+        right: 30px;
+        background-color: var(--secondary-warm);
+        color: white;
+        padding: 14px 28px;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.4s ease;
+        z-index: 4000;
+        pointer-events: none;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      /* 비밀번호 변경 버튼 */
+      .pw-change-btn {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(135deg, var(--primary-warm), var(--secondary-warm));
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        margin-top: 6px;
+      }
+      .pw-change-btn:hover {
+        opacity: 0.88;
+        transform: translateY(-1px);
+      }
+      /* 게시글 수 뱃지 */
+      .post-count-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 24px;
+        height: 24px;
+        background-color: var(--primary-warm);
+        color: white;
+        border-radius: 12px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        padding: 0 7px;
+        margin-left: 8px;
+      }
+      /* 섹션 헤더 */
+      .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+      }
+      .section-header h3 {
+        margin: 0;
+      }
+      .go-community-btn {
+        font-size: 0.82rem;
+        color: var(--primary-warm);
+        text-decoration: none;
+        font-weight: 600;
+        transition: var(--transition);
+      }
+      .go-community-btn:hover {
+        color: var(--secondary-warm);
+      }
+      /* 확인 모달 */
+      .confirm-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 3000;
+        backdrop-filter: blur(3px);
+      }
+      .confirm-box {
+        background-color: var(--card-bg);
+        padding: 35px 40px;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      }
+      .confirm-box p {
+        margin-bottom: 20px;
+        font-size: 1.05rem;
+        color: var(--text-main);
+      }
+      .confirm-box .btn-group {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+      }
+    </style>
   </head>
   <body>
     <nav class="navbar">
@@ -66,85 +237,39 @@
       <!-- 프로필 섹션 -->
       <section class="profile-card">
         <div class="profile-info">
-          <h2>안녕하세요, 여행자님</h2>
-          <p style="color: var(--text-light); margin-bottom: 20px">
-            sunset_traveler@motipe.com
+          <h2>안녕하세요, <span id="user-display-name">여행자</span>님</h2>
+          <p id="user-email" style="color: var(--text-light); margin-bottom: 20px">
+            로딩 중...
           </p>
-          <p>“오늘도 당신의 여정에 따스한 햇살이 함께하기를 바랍니다.”</p>
-          <button class="edit-button">프로필 수정</button>
+          <p>"오늘도 당신의 여정에 따스한 햇살이 함께하기를 바랍니다."</p>
         </div>
       </section>
 
-      <!-- 나의 활동 내역 -->
+      <!-- 내가 작성한 글 섹션 -->
       <section class="settings-card">
-        <h3>나의 활동</h3>
-        <ul class="activity-list">
-          <li class="activity-item">
-            <span>내가 작성한 리뷰 <strong>(12)</strong></span>
-            <button
-              type="button"
-              class="small-button"
-              onclick="showDetail('reviews')"
-              style="padding: 5px 15px"
-            >
-              보기
-            </button>
-          </li>
-          <li class="activity-item">
-            <span>다녀온 여행지 <strong>(5)</strong></span>
-            <button
-              type="button"
-              class="small-button"
-              onclick="showDetail('places')"
-              style="padding: 5px 15px"
-            >
-              보기
-            </button>
-          </li>
-        </ul>
-        <div style="margin-top: 30px">
-          <h4 style="font-size: 0.95rem; margin-bottom: 10px">관심 장소</h4>
-          <div class="wishlist-grid" style="grid-template-columns: 1fr 1fr">
-            <div class="wish-item" style="padding: 15px">제주 평대리</div>
-            <div class="wish-item" style="padding: 15px">강릉 안목해변</div>
-          </div>
+        <div class="section-header">
+          <h3>
+            내가 작성한 글
+            <span class="post-count-badge" id="my-post-count">0</span>
+          </h3>
+          <a href="community.html" class="go-community-btn">커뮤니티 바로가기 →</a>
         </div>
-      </section>
-
-      <!-- 활동 상세 보기 영역 (동적으로 노출) -->
-      <section
-        id="activity-detail"
-        class="settings-card"
-        style="display: none; border: 1px solid var(--accent-sepia)"
-      >
-        <h3 id="detail-title">상세 내역</h3>
-        <div id="detail-content" class="activity-list">
-          <p style="color: var(--text-light)">
-            항목을 선택하면 상세 내용이 여기에 표시됩니다.
-          </p>
+        <div class="my-posts-list" id="my-posts-list">
+          <div class="my-posts-empty">로딩 중...</div>
         </div>
       </section>
 
       <!-- 비밀번호 변경 섹션 -->
       <section class="settings-card password-section">
         <h3>보안 설정</h3>
-        <form>
-          <div class="form-group">
-            <label for="current-pw">현재 비밀번호</label>
-            <input
-              type="password"
-              id="current-pw"
-              class="input-field"
-              placeholder="현재 비밀번호를 입력하세요"
-            />
-          </div>
+        <form id="pw-form" onsubmit="return false;">
           <div class="form-group">
             <label for="new-pw">새 비밀번호</label>
             <input
               type="password"
               id="new-pw"
               class="input-field"
-              placeholder="새 비밀번호를 입력하세요"
+              placeholder="새 비밀번호를 입력하세요 (6자 이상)"
             />
           </div>
           <div class="form-group">
@@ -156,60 +281,211 @@
               placeholder="한 번 더 입력하세요"
             />
           </div>
-          <button type="button" class="edit-button" style="width: 100%">
+          <button type="button" class="pw-change-btn" onclick="changePassword()">
             비밀번호 변경하기
           </button>
         </form>
       </section>
 
-      <!-- 계정 관리 (기타 권장 기능) -->
+      <!-- 계정 관리 -->
       <section
         class="settings-card"
         style="grid-column: 1 / -1; text-align: center"
       >
         <div style="display: flex; justify-content: center; gap: 40px">
-          <a href="#">로그아웃</a>
+          <a href="#" id="mypage-logout-link">로그아웃</a>
           <span class="danger-link">회원 탈퇴</span>
         </div>
       </section>
     </main>
+
+    <!-- 삭제 확인 모달 -->
+    <div id="confirmModal" class="confirm-overlay">
+      <div class="confirm-box">
+        <p>정말 이 게시글을 삭제하시겠습니까?</p>
+        <div class="btn-group">
+          <button class="small-button" onclick="closeConfirm()">취소</button>
+          <button
+            class="cta-button"
+            style="background-color: #d9534f; border-color: #d9534f"
+            onclick="confirmDelete()"
+          >
+            삭제
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 토스트 알림 -->
+    <div id="toast" class="toast"></div>
 
     <footer>
       <p>&copy; 2026 Sunset Glow Travel. 모든 여행이 쉼표가 되길.</p>
     </footer>
 
     <script>
-      function showDetail(type) {
-        const detailSection = document.getElementById("activity-detail");
-        const detailTitle = document.getElementById("detail-title");
-        const detailContent = document.getElementById("detail-content");
+      const STORAGE_KEY = "community_posts";
 
-        // 섹션 보이기
-        detailSection.style.display = "block";
+      // ===== 토스트 =====
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 2500);
+      }
 
-        if (type === "reviews") {
-          detailTitle.innerText = "내가 작성한 리뷰";
-          detailContent.innerHTML = `
-            <div class="activity-item"><span>제주 평대리 카페 - "노을이 환상적이에요"</span></div>
-            <div class="activity-item"><span>강릉 안목해변 - "커피 한 잔의 여유"</span></div>
-            <div class="activity-item"><span>담양 메타세쿼이아 - "자전거 타기 좋아요"</span></div>
-            <p style="margin-top:15px; font-size:0.8rem; color:var(--primary-warm);">* 최근 30일 이내 작성된 리뷰입니다.</p>
-          `;
-        } else if (type === "places") {
-          detailTitle.innerText = "다녀온 여행지";
-          detailContent.innerHTML = `
-            <div class="activity-item"><span>제주특별자치도 (2023.10 방문)</span></div>
-            <div class="activity-item"><span>강원도 강릉시 (2023.08 방문)</span></div>
-            <div class="activity-item"><span>전라남도 담양군 (2023.05 방문)</span></div>
-            <div class="activity-item"><span>경상북도 경주시 (2023.03 방문)</span></div>
-          `;
+      // ===== 내 게시글 로드 =====
+      function loadMyPosts(userId) {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (!stored) return [];
+        const posts = JSON.parse(stored);
+        return posts.filter((p) => !p.isDefault && p.userId === userId);
+      }
+
+      function renderMyPosts(userId) {
+        const listEl = document.getElementById("my-posts-list");
+        const countEl = document.getElementById("my-post-count");
+        const myPosts = loadMyPosts(userId);
+
+        countEl.textContent = myPosts.length;
+
+        if (myPosts.length === 0) {
+          listEl.innerHTML = `
+            <div class="my-posts-empty">
+              아직 작성한 글이 없습니다.<br>
+              <a href="community.html">커뮤니티에서 첫 글을 작성해보세요! ✏️</a>
+            </div>`;
+          return;
         }
 
-        // 선택된 섹션으로 부드럽게 스크롤 (모바일 대응)
-        if (window.innerWidth < 768) {
-          detailSection.scrollIntoView({ behavior: "smooth" });
+        listEl.innerHTML = myPosts
+          .map(
+            (post) => `
+          <div class="my-post-item">
+            <div class="my-post-info">
+              <div class="my-post-title">${escapeHtml(post.title)}</div>
+              <div class="my-post-meta">
+                <span class="my-post-category">${escapeHtml(post.category)}</span>
+                <span>${post.date}</span>
+                <span>댓글 ${(post.comments || []).length}개</span>
+              </div>
+            </div>
+            <button class="my-post-delete-btn" onclick="requestDelete('${post.id}')">🗑️ 삭제</button>
+          </div>
+        `
+          )
+          .join("");
+
+        // 렌더링 후 현재 userId 보관
+        window._myPageUserId = userId;
+      }
+
+      function escapeHtml(text) {
+        const div = document.createElement("div");
+        div.textContent = text || "";
+        return div.innerHTML;
+      }
+
+      // ===== 게시글 삭제 =====
+      let deleteTargetId = null;
+
+      function requestDelete(postId) {
+        deleteTargetId = postId;
+        document.getElementById("confirmModal").style.display = "flex";
+      }
+
+      function closeConfirm() {
+        deleteTargetId = null;
+        document.getElementById("confirmModal").style.display = "none";
+      }
+
+      function confirmDelete() {
+        if (!deleteTargetId) return;
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (!stored) { closeConfirm(); return; }
+
+        const posts = JSON.parse(stored);
+        const updated = posts.filter((p) => p.id !== deleteTargetId);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+
+        closeConfirm();
+        showToast("🗑️ 게시글이 삭제되었습니다.");
+
+        // 목록 새로고침
+        if (window._myPageUserId) {
+          renderMyPosts(window._myPageUserId);
         }
       }
+
+      // ===== 비밀번호 변경 =====
+      async function changePassword() {
+        const newPw = document.getElementById("new-pw").value.trim();
+        const confirmPw = document.getElementById("confirm-pw").value.trim();
+
+        if (!newPw) {
+          showToast("⚠️ 새 비밀번호를 입력해주세요.");
+          return;
+        }
+        if (newPw.length < 6) {
+          showToast("⚠️ 비밀번호는 6자 이상이어야 합니다.");
+          return;
+        }
+        if (newPw !== confirmPw) {
+          showToast("⚠️ 비밀번호가 일치하지 않습니다.");
+          return;
+        }
+
+        if (!window.supabaseClient) {
+          showToast("⚠️ 인증 서버에 연결할 수 없습니다.");
+          return;
+        }
+
+        try {
+          const { error } = await window.supabaseClient.auth.updateUser({
+            password: newPw,
+          });
+
+          if (error) {
+            showToast("❌ 비밀번호 변경 실패: " + error.message);
+          } else {
+            showToast("✅ 비밀번호가 성공적으로 변경되었습니다!");
+            document.getElementById("new-pw").value = "";
+            document.getElementById("confirm-pw").value = "";
+          }
+        } catch (e) {
+          showToast("❌ 오류가 발생했습니다. 다시 시도해주세요.");
+        }
+      }
+
+      // ===== 마이페이지 초기화 (auth.js 이후 실행) =====
+      window.addEventListener("mypage-ready", async (e) => {
+        const user = e.detail.user;
+        if (!user) return;
+
+        // 프로필 정보 표시
+        const displayName =
+          user.user_metadata?.full_name ||
+          user.user_metadata?.name ||
+          user.email.split("@")[0];
+
+        document.getElementById("user-display-name").textContent = displayName;
+        document.getElementById("user-email").textContent = user.email;
+
+        // 내 게시글 렌더링
+        renderMyPosts(user.id);
+      });
+
+      // 로그아웃 링크 연결
+      document.getElementById("mypage-logout-link").addEventListener("click", async (e) => {
+        e.preventDefault();
+        if (window.supabaseClient) {
+          await window.supabaseClient.auth.signOut();
+          alert("로그아웃 되었습니다.");
+          window.location.href = "main.html";
+        }
+      });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="auth.js"></script>

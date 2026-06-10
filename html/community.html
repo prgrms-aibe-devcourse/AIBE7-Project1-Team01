@@ -326,6 +326,73 @@
       </div>
     </div>
 
+    <!-- 게시글 수정 모달 -->
+    <div id="editModal" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 style="color: var(--secondary-warm)">게시글 수정</h2>
+          <button class="close-modal" onclick="closeEditModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="editPostForm">
+            <div class="form-group">
+              <label>카테고리</label>
+              <select id="editPostCategory" class="input-field">
+                <option value="여행 리뷰">여행 리뷰</option>
+                <option value="여행 꿀팁">여행 꿀팁</option>
+                <option value="질문 하기">질문 하기</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>제목</label>
+              <input
+                id="editPostTitle"
+                type="text"
+                class="input-field"
+                placeholder="제목을 입력하세요"
+              />
+            </div>
+            <div class="form-group">
+              <label>내용</label>
+              <textarea
+                id="editPostContent"
+                class="input-field"
+                placeholder="내용을 입력하세요"
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label>사진 <span style="font-weight:400; font-size:0.8rem; color:var(--text-light);">(변경 시 새 사진 선택)</span></label>
+              <div class="image-upload-area" id="editImageUploadArea">
+                <input type="file" id="editPostImage" accept="image/*" onchange="previewEditImage(event)" />
+                <div class="image-upload-placeholder" id="editImagePlaceholder">
+                  <span class="icon">🖼️</span>
+                  <span class="text">클릭하여 사진을 선택하세요</span>
+                  <span class="hint">JPG, PNG, GIF, WEBP · 최대 5MB</span>
+                </div>
+                <div class="image-preview-wrap" id="editImagePreviewWrap">
+                  <img id="editImagePreview" src="" alt="미리보기" />
+                  <button type="button" class="image-remove-btn" onclick="removeEditImage(event)" title="사진 제거">✕</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="small-button"
+            onclick="closeEditModal()"
+            style="margin-right: 10px"
+          >
+            취소
+          </button>
+          <button id="editSubmitBtn" type="button" class="cta-button" onclick="submitEdit()">
+            수정 완료
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- 삭제 확인 모달 -->
     <div id="confirmModal" class="confirm-overlay">
       <div class="confirm-box">
@@ -346,10 +413,11 @@
     <!-- 토스트 알림 -->
     <div id="toast" class="toast"></div>
 
-
+    <footer>
+      <p>&copy; 2026 Sunset Glow Travel. 모든 여행이 쉼표가 되길.</p>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="/config.js"></script>
     <script src="../js/community.js"></script>
     <script src="../js/community-post.js"></script>
   </body>

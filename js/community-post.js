@@ -105,6 +105,7 @@
         content,
         author,
         image_url: imageUrl,
+        created_at: new Date().toISOString(),
       })
       .select()
       .single();
@@ -122,6 +123,38 @@
     const client = getClient();
     const { error } = await client.from("posts").delete().eq("id", postId);
     if (error) throw new Error("게시글 삭제 실패: " + error.message);
+  }
+
+  /**
+   * posts 테이블의 글을 수정합니다 (RLS: 본인 글만 가능).
+   * @param {string} postId
+   * @param {{ category:string, title:string, content:string, imageFile:File|null, existingImageUrl:string|null }} params
+   * @returns {Promise<object>} 수정된 row
+   */
+  async function updatePost(postId, { category, title, content, imageFile, existingImageUrl, userId }) {
+    let imageUrl = existingImageUrl;
+
+    // 새 이미지가 있으면 업로드
+    if (imageFile) {
+      imageUrl = await uploadImage(imageFile, userId);
+    }
+
+    const client = getClient();
+    const { data, error } = await client
+      .from("posts")
+      .update({
+        category,
+        title,
+        content,
+        image_url: imageUrl,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", postId)
+      .select()
+      .single();
+
+    if (error) throw new Error("게시글 수정 실패: " + error.message);
+    return data;
   }
 
   // ============================================================
@@ -335,6 +368,155 @@
   }
 
   // ============================================================
+  // 게시글 수정
+  // ============================================================
+
+  let _editTargetPost = null; // { id, image_url, user_id }
+
+  async function openEditModal(postId) {
+    if (!window.supabaseClient) {
+      showToast("⚠️ 로그인이 필요합니다.");
+      return;
+    }
+    const { data: { session } } = await window.supabaseClient.auth.getSession();
+    if (!session?.user) {
+      showToast("⚠️ 로그인 후 수정할 수 있습니다.");
+      return;
+    }
+
+    const client = getClient();
+    const { data: post, error } = await client
+      .from("posts")
+      .select("*")
+      .eq("id", postId)
+      .single();
+
+    if (error || !post) {
+      showToast("❌ 게시글 정보를 불러오지 못했습니다.");
+      return;
+    }
+
+    if (post.user_id !== session.user.id) {
+      showToast("⚠️ 본인 게시글만 수정할 수 있습니다.");
+      return;
+    }
+
+    _editTargetPost = { id: post.id, image_url: post.image_url, user_id: post.user_id };
+
+    document.getElementById("editPostCategory").value = post.category;
+    document.getElementById("editPostTitle").value = post.title;
+    document.getElementById("editPostContent").value = post.content;
+
+    const editPlaceholder = document.getElementById("editImagePlaceholder");
+    const editPreviewWrap = document.getElementById("editImagePreviewWrap");
+    const editPreview = document.getElementById("editImagePreview");
+    const editFileInput = document.getElementById("editPostImage");
+    if (editFileInput) editFileInput.value = "";
+
+    if (post.image_url) {
+      editPreview.src = post.image_url;
+      editPreviewWrap.style.display = "block";
+      editPlaceholder.style.display = "none";
+    } else {
+      editPreview.src = "";
+      editPreviewWrap.style.display = "none";
+      editPlaceholder.style.display = "flex";
+    }
+
+    document.getElementById("editModal").style.display = "flex";
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeEditModal() {
+    document.getElementById("editModal").style.display = "none";
+    document.body.style.overflow = "auto";
+    _editTargetPost = null;
+    document.getElementById("editPostTitle").value = "";
+    document.getElementById("editPostContent").value = "";
+    document.getElementById("editPostImage").value = "";
+    document.getElementById("editImagePreview").src = "";
+    document.getElementById("editImagePreviewWrap").style.display = "none";
+    document.getElementById("editImagePlaceholder").style.display = "flex";
+  }
+
+  function previewEditImage(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    if (file.size > MAX_IMAGE_BYTES) {
+      showToast("⚠️ 이미지 파일은 5MB 이하만 등록 가능합니다.");
+      event.target.value = "";
+      return;
+    }
+    if (!ALLOWED_MIME.includes(file.type)) {
+      showToast("⚠️ JPG, PNG, GIF, WEBP 형식만 등록 가능합니다.");
+      event.target.value = "";
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      document.getElementById("editImagePreview").src = e.target.result;
+      document.getElementById("editImagePlaceholder").style.display = "none";
+      document.getElementById("editImagePreviewWrap").style.display = "block";
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function removeEditImage(event) {
+    if (event) event.stopPropagation();
+    document.getElementById("editPostImage").value = "";
+    document.getElementById("editImagePreview").src = "";
+    document.getElementById("editImagePlaceholder").style.display = "flex";
+    document.getElementById("editImagePreviewWrap").style.display = "none";
+    if (_editTargetPost) _editTargetPost.image_url = null;
+  }
+
+  async function submitEdit() {
+    if (!_editTargetPost) return;
+    const { data: { session } } = await window.supabaseClient.auth.getSession();
+    if (!session?.user) {
+      showToast("⚠️ 로그인이 필요합니다.");
+      return;
+    }
+
+    const category = document.getElementById("editPostCategory").value;
+    const title = document.getElementById("editPostTitle").value.trim();
+    const content = document.getElementById("editPostContent").value.trim();
+    const fileInput = document.getElementById("editPostImage");
+    const imageFile = fileInput?.files?.[0] ?? null;
+
+    if (!title) { showToast("⚠️ 제목을 입력해주세요."); return; }
+    if (!content) { showToast("⚠️ 내용을 입력해주세요."); return; }
+
+    const submitBtn = document.getElementById("editSubmitBtn");
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "수정 중...";
+    }
+
+    try {
+      await updatePost(_editTargetPost.id, {
+        category,
+        title,
+        content,
+        imageFile,
+        existingImageUrl: _editTargetPost.image_url,
+        userId: session.user.id,
+      });
+      closeEditModal();
+      await renderPosts();
+      showToast("✅ 게시글이 수정되었습니다!");
+    } catch (err) {
+      console.error(err);
+      showToast("❌ " + (err.message || "수정 중 오류가 발생했습니다."));
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "수정 완료";
+      }
+    }
+  }
+
+  // ============================================================
   // 렌더링
   // ============================================================
 
@@ -383,9 +565,15 @@
   }
 
   function buildPostCard(post) {
-    const canDelete = _currentUserId && post.user_id === _currentUserId;
+    const canEdit = _currentUserId && post.user_id === _currentUserId;
     const imageUrl = post.image_url || defaultCategoryImage(post.category);
     const dateStr = formatDate(post.created_at);
+
+    const actionBtns = canEdit ? `
+      <div class="post-action-btns">
+        <button class="edit-btn" onclick="openEditModal('${post.id}')">✏️ 수정</button>
+        <button class="delete-btn" onclick="requestDelete('${post.id}')">🗑️ 삭제</button>
+      </div>` : "";
 
     return `
       <article class="post-card" data-category="${escapeHtml(post.category)}">
@@ -400,7 +588,7 @@
             <span>작성자: ${escapeHtml(post.author)}</span>
             <span>${dateStr}</span>
           </div>
-          ${canDelete ? `<button class="delete-btn" onclick="requestDelete('${post.id}')">🗑️ 삭제</button>` : ""}
+          ${actionBtns}
         </div>
       </article>
     `;
@@ -430,6 +618,11 @@
   window.confirmDelete   = confirmDelete;
   window.filterPosts     = filterPosts;
   window.renderPosts     = renderPosts;
+  window.openEditModal   = openEditModal;
+  window.closeEditModal  = closeEditModal;
+  window.previewEditImage = previewEditImage;
+  window.removeEditImage  = removeEditImage;
+  window.submitEdit       = submitEdit;
 
   // ============================================================
   // 초기화

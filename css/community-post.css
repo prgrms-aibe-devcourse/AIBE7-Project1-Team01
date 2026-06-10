@@ -47,6 +47,33 @@
 }
 
 /* ============================================================
+   게시글 액션 버튼 그룹 (수정 + 삭제)
+   ============================================================ */
+.post-action-btns {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+/* ============================================================
+   수정 버튼
+   ============================================================ */
+.edit-btn {
+  background: none;
+  border: 1px solid var(--primary-warm, #b47838);
+  color: var(--primary-warm, #b47838);
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: var(--transition, 0.2s ease);
+}
+.edit-btn:hover {
+  background-color: var(--primary-warm, #b47838);
+  color: white;
+}
+
+/* ============================================================
    삭제 버튼
    ============================================================ */
 .delete-btn {
@@ -58,7 +85,6 @@
   font-size: 0.8rem;
   cursor: pointer;
   transition: var(--transition, 0.2s ease);
-  margin-top: 10px;
 }
 .delete-btn:hover {
   background-color: #d9534f;

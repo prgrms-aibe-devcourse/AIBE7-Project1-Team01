@@ -3,13 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Motipe - 대화형 축제 추천</title>
+    <title>MOTIPE AI - 대화형 축제 · 여행 추천</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <div class="chat-section">
-            <h2>💬 Motipe AI 챗봇</h2>
+            <header class="brand-header">
+                <div class="brand-logo">
+                    <span class="brand-mark">✦</span>
+                    <div class="brand-text">
+                        <h1 class="brand-title">MOTIPE <span class="brand-ai">AI</span></h1>
+                        <p class="brand-tagline">당신의 여행과 축제를 안내하는 AI 가이드</p>
+                    </div>
+                </div>
+            </header>
             <div class="chat-box" id="chatBox">
                 <div class="message assistant">안녕하세요! 지역 축제에 따른 여행지를 알려드릴게요. [행사] 혹은 [축제] 라는 키워드를 포함하여 입력해서 대화를 시작하세요!</div>
             </div>
@@ -20,7 +31,7 @@
         </div>
 
         <div class="dashboard-section">
-            <h2>🗂️ 나의 여행 매니저 (CRUD)</h2>
+            <h2 class="dashboard-title">🧭 나의 여행 매니저</h2>
             
             <div class="card">
                 <h3>📌 추천된 여행지 바로 임시 저장 (Scrap)</h3>
@@ -42,22 +53,16 @@
                 <ul id="history-list"></ul>
             </div>
 
-<div class="planner-photo-card" style="width: 399px; margin: 20px auto; font-family: sans-serif;">
-    <h4 style="margin-bottom: 10px; color: #333;">🗺️ 추천 여행지 사진</h4>
-    
-    <div class="photo-box" style="width: 399px; height: 224px; position: relative; background-color: #e9ecef; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-        <div id="photo-loading" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #6c757d; font-size: 14px;">
-            📸 이미지를 불러오는 중...
-        </div>
-        <img id="planner-img" src="" alt="추천 여행지 사진" style="width: 399px; height: 224px; object-fit: cover; display: none;" />
-    </div>
-    
-    <p id="unsplash-credit" style="font-size: 11px; color: #888; margin-top: 6px; text-align: right; display: none;">
-        Photo by <a id="author-link" href="#" target="_blank" style="color: #495057; text-decoration: underline;"></a> on Unsplash
-    </p>
-</div>
-
-
+            <div class="card planner-photo-card">
+                <h3>🗺️ 추천 여행지 사진</h3>
+                <div class="photo-box">
+                    <div id="photo-loading" class="photo-loading">📸 이미지를 불러오는 중...</div>
+                    <img id="planner-img" src="" alt="추천 여행지 사진" class="planner-img" />
+                </div>
+                <p id="unsplash-credit" class="photo-credit">
+                    Photo by <a id="author-link" href="#" target="_blank"></a> on Unsplash
+                </p>
+            </div>
         </div>
     </div>
     

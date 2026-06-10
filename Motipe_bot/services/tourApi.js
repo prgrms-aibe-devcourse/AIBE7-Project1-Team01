@@ -17,7 +17,7 @@ const CONTENT_TYPE = {
  * @param {number} contentTypeId - 관광 타입 ID (선택 사항)
  */
 async function fetchTourData(keyword, contentTypeId = '') {
-  const BASE_URL = 'https://apis.data.go.kr/B551011/KorService2/searchKeyword2';
+  const BASE_URL = 'https://apis.data.go.kr/B551011/KorService2/searchFestival2';
   
   try {
     if (!process.env.TOUR_API_KEY) {

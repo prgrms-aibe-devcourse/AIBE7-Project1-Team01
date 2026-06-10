@@ -1,5 +1,5 @@
-수정된 전체 server.js입니다:
-javascriptrequire("dotenv").config();
+
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const path = require("path");

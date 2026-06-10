@@ -111,7 +111,11 @@
       .pw-change-btn {
         width: 100%;
         padding: 12px;
-        background: linear-gradient(135deg, var(--primary-warm), var(--secondary-warm));
+        background: linear-gradient(
+          135deg,
+          var(--primary-warm),
+          var(--secondary-warm)
+        );
         color: white;
         border: none;
         border-radius: 8px;
@@ -191,17 +195,161 @@
         gap: 10px;
         justify-content: center;
       }
+
+      /* 회원탈퇴 모달 */
+      .withdrawal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.55);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 3500;
+        backdrop-filter: blur(4px);
+      }
+      .withdrawal-box {
+        background-color: var(--card-bg);
+        padding: 40px 44px;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22);
+        width: 100%;
+        max-width: 420px;
+        animation: modalFadeIn 0.25s ease;
+      }
+      @keyframes modalFadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .withdrawal-box .wd-icon {
+        font-size: 2.4rem;
+        margin-bottom: 12px;
+      }
+      .withdrawal-box h4 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #c0392b;
+        margin: 0 0 8px;
+      }
+      .withdrawal-box .wd-desc {
+        font-size: 0.88rem;
+        color: var(--text-light);
+        margin-bottom: 22px;
+        line-height: 1.6;
+      }
+      .withdrawal-box .wd-label {
+        display: block;
+        text-align: left;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-main);
+        margin-bottom: 6px;
+      }
+      .withdrawal-box .wd-input {
+        width: 100%;
+        padding: 10px 14px;
+        border: 1.5px solid #e0cfc0;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        outline: none;
+        box-sizing: border-box;
+        transition: border-color 0.2s;
+        background: var(--bg-warm, #fdf8f3);
+        color: var(--text-main);
+      }
+      .withdrawal-box .wd-input:focus {
+        border-color: #c0392b;
+      }
+      .withdrawal-box .wd-error {
+        display: none;
+        font-size: 0.82rem;
+        color: #c0392b;
+        margin-top: 6px;
+        text-align: left;
+      }
+      .withdrawal-box .wd-btn-group {
+        display: flex;
+        gap: 10px;
+        margin-top: 22px;
+        justify-content: center;
+      }
+      .withdrawal-box .wd-cancel-btn {
+        padding: 10px 24px;
+        border: 1.5px solid #ccc;
+        background: none;
+        border-radius: 8px;
+        font-size: 0.92rem;
+        cursor: pointer;
+        color: var(--text-light);
+        transition: background 0.2s;
+        font-weight: 600;
+      }
+      .withdrawal-box .wd-cancel-btn:hover {
+        background: #f5f5f5;
+      }
+      .withdrawal-box .wd-confirm-btn {
+        padding: 10px 24px;
+        border: none;
+        background: linear-gradient(135deg, #c0392b, #e74c3c);
+        color: white;
+        border-radius: 8px;
+        font-size: 0.92rem;
+        cursor: pointer;
+        font-weight: 700;
+        transition:
+          opacity 0.2s,
+          transform 0.15s;
+      }
+      .withdrawal-box .wd-confirm-btn:hover {
+        opacity: 0.88;
+        transform: translateY(-1px);
+      }
+      .withdrawal-box .wd-confirm-btn:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* 회원탈퇴 트리거 버튼 (홈페이지 테마에 맞춘 웜 레드) */
+      .withdrawal-trigger-btn {
+        padding: 10px 24px;
+        background-color: transparent;
+        color: #d9534f; /* 노을빛과 어울리는 따뜻한 레드 */
+        border: 1px solid #d9534f;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      .withdrawal-trigger-btn:hover {
+        background-color: #d9534f;
+        color: white;
+        box-shadow: 0 4px 12px rgba(217, 83, 79, 0.2);
+      }
     </style>
   </head>
   <body>
     <nav class="navbar">
       <div class="nav-brand-group">
-        <a href="main.html" class="nav-logo">
-          <img src="../icons/screen.png" alt="Motipe 로고" class="nav-logo-img" />
+        <a href="index.html" class="nav-logo">
+          <img
+            src="../icons/screen.png"
+            alt="Motipe 로고"
+            class="nav-logo-img"
+          />
         </a>
         <div class="nav-left">
-          <a href="main.html">지도</a>
-          <a href="#">캘린더</a>
+          <a href="index.html">지도</a>
           <a href="community.html">커뮤니티</a>
         </div>
       </div>
@@ -239,7 +387,10 @@
       <section class="profile-card">
         <div class="profile-info">
           <h2>안녕하세요, <span id="user-display-name">여행자</span>님</h2>
-          <p id="user-email" style="color: var(--text-light); margin-bottom: 20px">
+          <p
+            id="user-email"
+            style="color: var(--text-light); margin-bottom: 20px"
+          >
             로딩 중...
           </p>
           <p>"오늘도 당신의 여정에 따스한 햇살이 함께하기를 바랍니다."</p>
@@ -253,7 +404,9 @@
             내가 작성한 글
             <span class="post-count-badge" id="my-post-count">0</span>
           </h3>
-          <a href="community.html" class="go-community-btn">커뮤니티 바로가기 →</a>
+          <a href="community.html" class="go-community-btn"
+            >커뮤니티 바로가기 →</a
+          >
         </div>
         <div class="my-posts-list" id="my-posts-list">
           <div class="my-posts-empty">로딩 중...</div>
@@ -282,7 +435,11 @@
               placeholder="한 번 더 입력하세요"
             />
           </div>
-          <button type="button" class="pw-change-btn" onclick="changePassword()">
+          <button
+            type="button"
+            class="pw-change-btn"
+            onclick="changePassword()"
+          >
             비밀번호 변경하기
           </button>
         </form>
@@ -293,9 +450,31 @@
         class="settings-card"
         style="grid-column: 1 / -1; text-align: center"
       >
-        <div style="display: flex; justify-content: center; gap: 40px">
-          <a href="#" id="mypage-logout-link">로그아웃</a>
-          <span class="danger-link">회원 탈퇴</span>
+        <div
+          style="
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            align-items: center;
+          "
+        >
+          <a
+            href="#"
+            id="mypage-logout-link"
+            style="
+              text-decoration: none;
+              color: var(--text-light);
+              font-weight: 600;
+            "
+            >로그아웃</a
+          >
+          <button
+            type="button"
+            class="withdrawal-trigger-btn"
+            id="withdrawal-btn"
+          >
+            회원 탈퇴
+          </button>
         </div>
       </section>
     </main>
@@ -312,6 +491,36 @@
             onclick="confirmDelete()"
           >
             삭제
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 회원탈퇴 이메일 확인 모달 -->
+    <div id="withdrawalModal" class="withdrawal-overlay">
+      <div class="withdrawal-box">
+        <div class="wd-icon">⚠️</div>
+        <h4>회원 탈퇴</h4>
+        <p class="wd-desc">
+          탈퇴 시 모든 데이터가 <strong>영구적으로 삭제</strong>되며 복구할 수
+          없습니다.<br />
+          계속하시려면 가입하신 이메일을 입력해주세요.
+        </p>
+        <label class="wd-label" for="withdrawal-email-input">이메일 확인</label>
+        <input
+          type="email"
+          id="withdrawal-email-input"
+          class="wd-input"
+          placeholder="가입한 이메일을 입력하세요"
+          autocomplete="off"
+        />
+        <div class="wd-error" id="withdrawal-error">
+          ⚠️ 이메일이 일치하지 않습니다. 확인해주세요.
+        </div>
+        <div class="wd-btn-group">
+          <button class="wd-cancel-btn" id="withdrawal-cancel-btn">취소</button>
+          <button class="wd-confirm-btn" id="withdrawal-confirm-btn">
+            탈퇴하기
           </button>
         </div>
       </div>
@@ -375,7 +584,7 @@
             </div>
             <button class="my-post-delete-btn" onclick="requestDelete('${post.id}')">🗑️ 삭제</button>
           </div>
-        `
+        `,
           )
           .join("");
 
@@ -405,7 +614,10 @@
       function confirmDelete() {
         if (!deleteTargetId) return;
         const stored = localStorage.getItem(STORAGE_KEY);
-        if (!stored) { closeConfirm(); return; }
+        if (!stored) {
+          closeConfirm();
+          return;
+        }
 
         const posts = JSON.parse(stored);
         const updated = posts.filter((p) => p.id !== deleteTargetId);
@@ -461,9 +673,14 @@
       }
 
       // ===== 마이페이지 초기화 (community.js 이후 실행) =====
+      let _currentUserEmail = null;
+
       window.addEventListener("mypage-ready", async (e) => {
         const user = e.detail.user;
         if (!user) return;
+
+        // 현재 로그인된 이메일 저장 (탈퇴 확인용)
+        _currentUserEmail = user.email;
 
         // 프로필 정보 표시
         const displayName =
@@ -479,16 +696,117 @@
       });
 
       // 로그아웃 링크 연결
-      document.getElementById("mypage-logout-link").addEventListener("click", async (e) => {
-        e.preventDefault();
-        if (window.supabaseClient) {
+      document
+        .getElementById("mypage-logout-link")
+        .addEventListener("click", async (e) => {
+          e.preventDefault();
+          if (window.supabaseClient) {
+            await window.supabaseClient.auth.signOut();
+            alert("로그아웃 되었습니다.");
+            window.location.href = "index.html";
+          }
+        });
+
+      // ===== 회원탈퇴 모달 =====
+      const withdrawalModal = document.getElementById("withdrawalModal");
+      const withdrawalInput = document.getElementById("withdrawal-email-input");
+      const withdrawalError = document.getElementById("withdrawal-error");
+      const withdrawalConfirm = document.getElementById(
+        "withdrawal-confirm-btn",
+      );
+      const withdrawalCancel = document.getElementById("withdrawal-cancel-btn");
+
+      function openWithdrawalModal() {
+        withdrawalInput.value = "";
+        withdrawalError.style.display = "none";
+        withdrawalConfirm.disabled = false;
+        withdrawalModal.style.display = "flex";
+        setTimeout(() => withdrawalInput.focus(), 100);
+      }
+
+      function closeWithdrawalModal() {
+        withdrawalModal.style.display = "none";
+      }
+
+      // 탈퇴 버튼 클릭 → 모달 열기
+      document
+        .getElementById("withdrawal-btn")
+        .addEventListener("click", openWithdrawalModal);
+
+      // 취소 버튼
+      withdrawalCancel.addEventListener("click", closeWithdrawalModal);
+
+      // 모달 배경 클릭 시 닫기
+      withdrawalModal.addEventListener("click", (e) => {
+        if (e.target === withdrawalModal) closeWithdrawalModal();
+      });
+
+      // Enter 키 지원
+      withdrawalInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") withdrawalConfirm.click();
+      });
+
+      // 탈퇴 확인 버튼
+      withdrawalConfirm.addEventListener("click", async () => {
+        const inputEmail = withdrawalInput.value.trim();
+
+        // 이메일 불일치 검사
+        if (!inputEmail || inputEmail !== _currentUserEmail) {
+          withdrawalError.style.display = "block";
+          withdrawalInput.style.borderColor = "#c0392b";
+          withdrawalInput.focus();
+          return;
+        }
+
+        withdrawalError.style.display = "none";
+        withdrawalInput.style.borderColor = "";
+        withdrawalConfirm.disabled = true;
+        withdrawalConfirm.textContent = "처리 중...";
+
+        try {
+          if (!window.supabaseClient) throw new Error("인증 서버 연결 불가");
+
+          // 1) 현재 세션 토큰 가져오기
+          const {
+            data: { session },
+          } = await window.supabaseClient.auth.getSession();
+          if (!session) throw new Error("세션 없음");
+
+          // 2) 서버에 탈퇴 요청
+          const res = await fetch("/api/delete-account", {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + session.access_token,
+            },
+          });
+
+          const body = await res.json().catch(() => ({}));
+
+          if (!res.ok) {
+            throw new Error(body.message || "탈퇴 처리 실패");
+          }
+
+          // 3) 로컬 로그아웃 처리
           await window.supabaseClient.auth.signOut();
-          alert("로그아웃 되었습니다.");
-          window.location.href = "main.html";
+
+          closeWithdrawalModal();
+          showToast("👋 탈퇴가 완료되었습니다. 이용해주셔서 감사합니다.");
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 2000);
+        } catch (err) {
+          console.error("탈퇴 오류:", err);
+          withdrawalConfirm.disabled = false;
+          withdrawalConfirm.textContent = "탈퇴하기";
+          showToast(
+            "❌ " + (err.message || "오류가 발생했습니다. 다시 시도해주세요."),
+          );
         }
       });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/config.js"></script>
     <script src="../js/community.js"></script>
   </body>
 </html>

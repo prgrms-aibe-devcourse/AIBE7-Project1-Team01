@@ -1,0 +1,236 @@
+/* community-post.css
+   커뮤니티 글 등록/조회 관련 스타일
+   의존: main.css (CSS 변수 정의)
+------------------------------------------------------------ */
+
+/* ============================================================
+   카테고리 뱃지
+   ============================================================ */
+.category-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.category-badge.review {
+  background-color: #fef3e2;
+  color: #c68642;
+}
+.category-badge.tip {
+  background-color: #e8f5e9;
+  color: #388e3c;
+}
+.category-badge.question {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+/* ============================================================
+   게시글 카드
+   ============================================================ */
+.post-card {
+  animation: postCardIn 0.45s ease both;
+}
+@keyframes postCardIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* 빈 목록 메시지 */
+.empty-message {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-light);
+  font-size: 1.1rem;
+}
+
+/* ============================================================
+   삭제 버튼
+   ============================================================ */
+.delete-btn {
+  background: none;
+  border: 1px solid #d9534f;
+  color: #d9534f;
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: var(--transition, 0.2s ease);
+  margin-top: 10px;
+}
+.delete-btn:hover {
+  background-color: #d9534f;
+  color: white;
+}
+
+/* ============================================================
+   토스트 알림
+   ============================================================ */
+.toast {
+  position: fixed;
+  bottom: 90px;
+  right: 30px;
+  background-color: var(--secondary-warm, #c68642);
+  color: white;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  z-index: 4000;
+  pointer-events: none;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   삭제 확인 모달
+   ============================================================ */
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+  backdrop-filter: blur(3px);
+}
+.confirm-box {
+  background-color: var(--card-bg, #fff);
+  padding: 35px 40px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  animation: modalFadeUp 0.3s ease;
+}
+.confirm-box p {
+  margin-bottom: 20px;
+  font-size: 1.05rem;
+  color: var(--text-main, #333);
+}
+.confirm-box .btn-group {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* ============================================================
+   이미지 업로드 영역 (모달 내부)
+   ============================================================ */
+.image-upload-area {
+  border: 2px dashed var(--accent-sepia, #c9aa80);
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition, 0.2s ease);
+  background-color: var(--bg-warm, #faf6f0);
+  position: relative;
+}
+.image-upload-area:hover {
+  border-color: var(--primary-warm, #b47838);
+  background-color: rgba(180, 120, 60, 0.04);
+}
+
+/* 투명 파일 인풋 (전체 영역 클릭 가능) */
+.image-upload-area input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+/* 업로드 안내 텍스트 */
+.image-upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+}
+.image-upload-placeholder .upload-icon {
+  width: 48px;
+  height: 48px;
+  opacity: 0.55;
+}
+.image-upload-placeholder .upload-text {
+  font-size: 0.85rem;
+  color: var(--text-light, #999);
+}
+.image-upload-placeholder .upload-hint {
+  font-size: 0.75rem;
+  color: var(--text-light, #999);
+  opacity: 0.7;
+}
+
+/* 이미지 미리보기 */
+.image-preview-wrap {
+  position: relative;
+  display: none; /* JS가 제어 */
+}
+.image-preview-wrap img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+}
+
+/* 미리보기 위 제거 버튼 */
+.image-remove-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: rgba(0, 0, 0, 0.55);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition, 0.2s ease);
+}
+.image-remove-btn:hover {
+  background: rgba(217, 83, 79, 0.85);
+}
+
+/* ============================================================
+   업로드 로딩 스피너 (등록 중 표시)
+   ============================================================ */
+.upload-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================================
+   버튼 비활성화 상태
+   ============================================================ */
+button:disabled,
+button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

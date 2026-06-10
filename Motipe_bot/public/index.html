@@ -24,7 +24,7 @@
             
             <div class="card">
                 <h3>📌 추천된 여행지 바로 임시 저장 (Scrap)</h3>
-                <div id="recommendationCard">추천된 축제가 이곳에 표시됩니다.</div>
+                <div id="recommendation-container">추천된 축제가 이곳에 표시됩니다.</div>
             </div>
 
             <div class="card">
@@ -39,11 +39,29 @@
                     <input type="date" id="histDate">
                     <button onclick="addHistory()">기록 추가</button>
                 </div>
-                <ul id="historyList"></ul>
+                <ul id="history-list"></ul>
             </div>
+
+<div class="planner-photo-card" style="width: 399px; margin: 20px auto; font-family: sans-serif;">
+    <h4 style="margin-bottom: 10px; color: #333;">🗺️ 추천 여행지 사진</h4>
+    
+    <div class="photo-box" style="width: 399px; height: 224px; position: relative; background-color: #e9ecef; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <div id="photo-loading" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #6c757d; font-size: 14px;">
+            📸 이미지를 불러오는 중...
+        </div>
+        <img id="planner-img" src="" alt="추천 여행지 사진" style="width: 399px; height: 224px; object-fit: cover; display: none;" />
+    </div>
+    
+    <p id="unsplash-credit" style="font-size: 11px; color: #888; margin-top: 6px; text-align: right; display: none;">
+        Photo by <a id="author-link" href="#" target="_blank" style="color: #495057; text-decoration: underline;"></a> on Unsplash
+    </p>
+</div>
+
+
         </div>
     </div>
+    
 
-    <script src="script.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>

@@ -102,33 +102,51 @@ app.post('/api/saved', async (req, res) => {
 
 
 app.post('/api/chat', async (req, res) => {
-    const { message } = req.body;
+    const { message, step } = req.body;
 
     try {
         const chatCompletion = await groq.chat.completions.create({
-          "messages": [
-        {
-            "role": "system",
-            "content": `당신은 대한민국 국내 여행 전문 가이드입니다. 
-            모든 답변은 반드시 대한민국 내의 장소로 한정하세요.
-            답변은 오직 다음 4가지 카테고리(축제, 숙소, 맛집, 교통수단)에 대한 정보만 제공하세요.
-            위 4가지 범주를 벗어나는 질문에는 정중히 답변이 어렵다고 알리고 국내 여행지 관련 4가지 범주 중 하나로 질문을 유도하세요.`
-        },
-        {
-            "role": "user",
-            "content": message
-        }
-    ],
-            // 사용할 모델 선택
-            "model": "llama-3.1-8b-instant", 
+            model: "llama-3.1-8b-instant", // 사용 중인 모델명
+            messages: [
+                {
+                    role: "system",
+                    content: `당신은 대한민국 국내 여행 전문 가이드 챗봇입니다.
+                    
+                    [🔥 필수 출력 규칙 - 엄격히 준수할 것 🔥]
+                    1. 모든 답변은 반드시 '한국어(Korean)'로만 작성하세요.
+                    2. 고유명사나 IT 기술적 용어에 한해 '영어(English)' 사용이 허용됩니다.
+                    3. 한자(Chinese), 일본어(Japanese), 태국어(Thai) 등 기타 외국어와 알 수 없는 유니코드 특수 기호는 절대 사용하지 마세요.
+                    4. 제공하는 정보는 반드시 대한민국 국내의 '축제, 숙소, 맛집, 교통수단' 4가지 카테고리로 제한합니다.
+                    5. 대답을 지어내거나(Hallucination) 문맥에 맞지 않는 텍스트를 생성하지 마세요.`
+                },
+                {
+                    role: "user",
+                    content: message
+                }
+            ],
+            // 💡 파라미터 튜닝 (매우 중요)
+            temperature: 0.2, // 0~1 사이값. 낮을수록 헛소리(환각)와 이상한 언어 사용 확률이 줄어듭니다.
+            top_p: 0.9,       // 일반적인 문장 구조를 따르도록 유도
+            frequency_penalty: 0, // 값이 높으면 이상한 동의어를 찾다 외국어를 쓸 수 있으므로 0 유지
+            presence_penalty: 0
         });
 
-        const reply = chatCompletion.choices[0]?.message?.content;
-        res.json({ success: true, reply: reply });
-        
+        let rawReply = chatCompletion.choices[0]?.message?.content || "답변을 생성하지 못했습니다.";
+
+        // 🛡️ 2. 백엔드 방어 로직 (Sanitization)
+        // 만약 AI가 프롬프트를 무시하고 한자나 태국어를 출력했다면, 프론트엔드로 보내기 전에 잘라냅니다.
+        // 한자(CJK) 및 태국어(Thai) 유니코드 블록 제거 정규식
+        let safeReply = rawReply.replace(/[\u4E00-\u9FFF\u0E00-\u0E7F]/g, "");
+
+        res.json({ 
+            reply: safeReply, 
+            step: step + 1 
+            // festivalData: 데이터 추출 로직...
+        });
+
     } catch (error) {
-        console.error('Groq API 에러:', error);
-        res.status(500).json({ success: false, message: '챗봇 응답 생성 실패' });
+        console.error("AI 챗봇 통신 에러:", error);
+        res.status(500).json({ reply: "서버 연결에 문제가 발생했습니다. 잠시 후 다시 시도해주세요." });
     }
 });
 

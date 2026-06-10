@@ -171,9 +171,16 @@ app.delete("/api/delete-account", async (req, res) => {
     console.log(`회원탈퇴 완료: userId=${user.id}`);
     return res.json({ success: true, message: "회원탈퇴가 완료되었습니다." });
 
-  } catch (error) {
-    console.error("delete-account error:", error);
-    return res.status(500).json({ message: "서버 오류가 발생했습니다." });
+ } catch (error) {
+    // 1. 서버 터미널 창에 에러 전체(이름, 메시지, 줄번호)를 통째로 찍기
+    console.error("🔥 [디버깅] 탈퇴 처리 중 진짜 에러 발생:", error);
+    
+    // 2. 브라우저로 진짜 에러 메시지를 그대로 던져주기 (임시)
+    return res.status(500).json({ 
+      message: error.message, 
+      detail: error.toString(),
+      stack: error.stack 
+    });
   }
 });
 

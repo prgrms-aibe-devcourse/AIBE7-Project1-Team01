@@ -17,9 +17,13 @@ const CONTENT_TYPE = {
  * @param {number} contentTypeId - 관광 타입 ID (선택 사항)
  */
 async function fetchTourData(keyword, contentTypeId = '') {
-  const BASE_URL = 'https://apis.data.go.kr/B551011/KorService2/searchFestival2';
+  const BASE_URL = 'https://apis.data.go.kr/B551011/KorService2/searchKeyword2';
   
   try {
+    if (!process.env.TOUR_API_KEY) {
+      console.warn('TOUR_API_KEY가 설정되지 않아 Tour API 요청을 건너뜁니다.');
+      return [];
+    }
     const response = await axios.get(BASE_URL, {
       params: {
         serviceKey: decodeURIComponent(process.env.TOUR_API_KEY), // 🔥 axios 내부 인코딩 버그 방지를 위해 decode 후 주입

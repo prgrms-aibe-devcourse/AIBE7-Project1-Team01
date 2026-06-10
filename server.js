@@ -17,11 +17,12 @@ const assetDir = path.join(__dirname, "asset");
 app.get("/config.js", (req, res) => {
   const supabaseUrl = process.env.SUPABASE_URL || "";
   const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || "";
-
+  const kakaoMapKey = process.env.KAKAO_MAP_KEY || "";  // 추가 
   res.type("application/javascript").send(
     `window.SUPABASE_URL=${JSON.stringify(supabaseUrl)};window.SUPABASE_ANON_KEY=${JSON.stringify(
       supabaseAnonKey
-    )};`
+    )};` +
+    `window.KAKAO_MAP_KEY=${JSON.stringify(kakaoMapKey)};`
   );
 });
 

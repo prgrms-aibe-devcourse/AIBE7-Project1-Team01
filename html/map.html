@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Motipe - 지도</title>
+    <link rel="stylesheet" href="../css/map_style.css" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <script src="/config.js"></script>
+    <script>
+      const _s = document.createElement("script");
+      _s.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${window.KAKAO_MAP_KEY}&autoload=false&libraries=clusterer`;
+      _s.type = "text/javascript";
+      _s.onload = () => {
+        kakao.maps.load(() => {
+          const _m = document.createElement("script");
+          _m.type = "module";
+          _m.src = "../js/map_main.js";
+          document.head.appendChild(_m);
+        });
+      };
+      document.head.appendChild(_s);
+    </script>
+  </head>
+  <body>
+    <!-- 헤더 -->
+    <header class="header">
+      <div class="header-inner">
+        <a href="#" class="logo">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 18 18"
+            fill="none"
+            aria-hidden="true"
+          >
+            <polygon points="9,1 17,17 1,17" fill="#C17F3E" />
+          </svg>
+          Motipe
+        </a>
+        <nav class="navbar">
+          <div class="nav-brand-group">
+            <a href="index.html" class="nav-logo">
+              <img src="../icons/screen.png" alt="Motipe 로고" class="nav-logo-img" />
+            </a>
+            <div class="nav-left">
+              <a href="map.html" class="active">지도</a>
+              <a href="community.html">커뮤니티</a>
+            </div>
+          </div>
+          <div class="nav-right">
+            <div id="nav-guest" class="nav-auth-group">
+              <a href="login.html" class="nav-btn-outline">로그인</a>
+              <a href="signup.html" class="nav-btn-outline">회원가입</a>
+            </div>
+            <div id="nav-user" class="nav-auth-group" style="display:none">
+              <a href="mypage.html" class="nav-icon-link">
+                <img src="../icons/mypage-icon.png" alt="마이페이지" class="nav-mypage-img" />
+              </a>
+              <button type="button" id="logout-btn" class="nav-btn-outline">로그아웃</button>
+            </div>
+          </div>
+        </nav>
+        <div class="header-right">
+          <button class="icon-btn" aria-label="내 계정">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+            </svg>
+          </button>
+          <button class="btn-outline">로그아웃</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- 필터 바 -->
+    <div class="filter-bar">
+      <div class="filter-inner">
+        <div class="filter-group">
+          <span class="filter-label">지역</span>
+          <select id="filter-area" class="filter-select">
+            <option value="">전국</option>
+            <option value="1">서울</option>
+            <option value="2">인천</option>
+            <option value="3">대전</option>
+            <option value="4">대구</option>
+            <option value="5">광주</option>
+            <option value="6">부산</option>
+            <option value="7">울산</option>
+            <option value="8">세종</option>
+            <option value="31">경기</option>
+            <option value="32">강원</option>
+            <option value="33">충북</option>
+            <option value="34">충남</option>
+            <option value="35">경북</option>
+            <option value="36">경남</option>
+            <option value="37">전북</option>
+            <option value="38">전남</option>
+            <option value="39">제주</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <span class="filter-label">기간</span>
+          <div class="filter-chips" id="filter-period">
+            <button class="chip active" data-value="ongoing">진행 중</button>
+            <button class="chip" data-value="this-month">이번 달</button>
+            <button class="chip" data-value="3months">3개월 이내</button>
+          </div>
+        </div>
+        <div class="filter-count">
+          <span id="festival-count">0</span>개의 축제
+        </div>
+      </div>
+    </div>
+
+    <!-- 메인 콘텐츠 -->
+    <main class="main-content">
+      <!-- 지도 영역 -->
+      <section class="map-section" aria-label="축제 지도">
+        <div id="kakao-map"></div>
+        <div class="map-overlay" id="map-loading" aria-live="polite">
+          <div class="loading-spinner"></div>
+          <p>축제 정보를 불러오는 중...</p>
+        </div>
+      </section>
+
+      <!-- 리스트 패널 -->
+      <aside class="list-panel" aria-label="축제 목록">
+        <div class="list-header">
+          <h2>축제 목록</h2>
+          <p class="list-subtitle" id="list-subtitle">현재 진행 중인 축제</p>
+        </div>
+        <ul class="festival-list" id="festival-list" role="list">
+          <!-- JS로 렌더링 -->
+        </ul>
+        <div class="list-empty hidden" id="list-empty">
+          <svg
+            width="40"
+            height="40"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.4"
+            aria-hidden="true"
+            style="color: #c9c3b8"
+          >
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="22" y2="22" />
+          </svg>
+          <p>해당 조건의 축제가 없습니다</p>
+        </div>
+      </aside>
+    </main>
+
+    <!-- 모바일 탭 전환 -->
+    <div class="mobile-tabs" role="tablist" aria-label="보기 전환">
+      <button
+        class="tab-btn active"
+        data-tab="map"
+        role="tab"
+        aria-selected="true"
+      >
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+          aria-hidden="true"
+        >
+          <path d="M9 20L3 17V4l6 3 6-3 6 3v13l-6-3-6 3z" />
+        </svg>
+        지도
+      </button>
+      <button class="tab-btn" data-tab="list" role="tab" aria-selected="false">
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+          aria-hidden="true"
+        >
+          <line x1="8" y1="6" x2="21" y2="6" />
+          <line x1="8" y1="12" x2="21" y2="12" />
+          <line x1="8" y1="18" x2="21" y2="18" />
+          <circle cx="3" cy="6" r="1" fill="currentColor" />
+          <circle cx="3" cy="12" r="1" fill="currentColor" />
+          <circle cx="3" cy="18" r="1" fill="currentColor" />
+        </svg>
+        목록
+      </button>
+    </div>
+
+    <!-- 인포윈도우 커스텀 (JS에서 사용) -->
+    <template id="infowindow-tpl">
+      <div class="iw-wrap">
+        <button class="iw-close" aria-label="닫기">✕</button>
+        <p class="iw-title"></p>
+        <p class="iw-date"></p>
+        <a class="iw-link" href="#" target="_blank" rel="noopener"
+          >자세히 보기 →</a
+        >
+      </div>
+    </template>
+  </body>
+</html>

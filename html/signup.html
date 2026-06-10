@@ -22,7 +22,7 @@
   <body>
     <header class="navbar navbar-expand-md fixed-top glass-nav border-bottom">
       <div class="container-fluid px-4 px-lg-5">
-        <a class="navbar-brand brand-name" href="main.html"
+        <a class="navbar-brand brand-name" href="index.html"
           >Sunset Glow Travel</a
         >
         <button
@@ -36,16 +36,9 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div
-          class="collapse navbar-collapse justify-content-between"
-          id="siteNav"
-        >
-          <ul class="navbar-nav mx-auto gap-md-4">
-            <li class="nav-item">
-              <a class="nav-link nav-link-custom" href="main.html">Home</a>
-            </li>
-          </ul>
-          <div class="d-flex align-items-center gap-3">
+        <div class="collapse navbar-collapse justify-content-end" id="siteNav">
+          <div class="d-flex align-items-center gap-4">
+            <a class="nav-link nav-link-custom" href="index.html">Home</a>
             <a class="nav-link nav-link-custom active-link" href="login.html"
               >login</a
             >
@@ -208,25 +201,7 @@
             if (error) {
               throw error;
             }
-            const user = data.user;
 
-            if (!user) {
-              throw new Error(
-                "회원가입은 되었지만 사용자 정보를 가져오지 못했습니다.",
-              );
-            }
-
-            const { error: insertError } = await window.supabaseClient
-              .from("users")
-              .insert({
-                id: user.id,
-                email: email,
-                nickname: name,
-              });
-
-            if (insertError) {
-              throw insertError;
-            }
             alert("회원가입 성공! 로그인 화면으로 이동합니다.");
             window.location.href = "login.html";
           } catch (error) {

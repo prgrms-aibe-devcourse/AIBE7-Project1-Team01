@@ -196,12 +196,11 @@
   <body>
     <nav class="navbar">
       <div class="nav-brand-group">
-        <a href="main.html" class="nav-logo">
+        <a href="index.html" class="nav-logo">
           <img src="../icons/screen.png" alt="Motipe 로고" class="nav-logo-img" />
         </a>
         <div class="nav-left">
-          <a href="main.html">지도</a>
-          <a href="#">캘린더</a>
+          <a href="index.html">지도</a>
           <a href="community.html">커뮤니티</a>
         </div>
       </div>
@@ -484,7 +483,7 @@
         if (window.supabaseClient) {
           await window.supabaseClient.auth.signOut();
           alert("로그아웃 되었습니다.");
-          window.location.href = "main.html";
+          window.location.href = "index.html";
         }
       });
     </script>

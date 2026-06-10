@@ -153,39 +153,6 @@ async function deleteSaved(id) {
     loadSaved();
 }
 
-async function loadPlannerPhoto(keyword) {
-    const imgTag = document.getElementById('planner-img');
-    const loader = document.getElementById('photo-loading');
-    const credit = document.getElementById('unsplash-credit');
-    const authorLink = document.getElementById('author-link');
-
-    if (!keyword) return;
-
-    loader.style.display = 'block';
-    imgTag.style.display = 'none';
-    credit.style.display = 'none';
-
-    try {
-        const res = await fetch(`/api/planner-photo?keyword=${encodeURIComponent(keyword)}`);
-        const data = await res.json();
-        if (data.success) {
-            imgTag.onload = () => {
-                loader.style.display = 'none';
-                imgTag.style.display = 'block';
-            };
-            imgTag.src = data.imageUrl;
-            if (data.authorName && data.authorUrl) {
-                authorLink.textContent = data.authorName;
-                authorLink.href = data.authorUrl;
-                credit.style.display = 'block';
-            }
-        } else {
-            loader.innerText = '이미지를 불러오지 못했습니다.';
-        }
-    } catch (e) {
-        loader.innerText = '이미지 로드 실패';
-    }
-}
 
 function speakText(text) {
     window.speechSynthesis.cancel();

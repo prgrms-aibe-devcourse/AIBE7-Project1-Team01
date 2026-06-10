@@ -5,7 +5,7 @@ const path = require("path");
 const axios = require("axios");
 const { createClient } = require("@supabase/supabase-js");
 const Groq = require("groq-sdk");
-const { fetchTourData, CONTENT_TYPE } = require("./services/tourApi");
+const { getDetailedFestivalData } = require("./services/tourApi");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -28,36 +28,36 @@ app.use(express.static(path.join(__dirname, "public")));
 // 🗺️  지역명 → 기상청 격자 변환 테이블 (단 한 번만 선언)
 // ==========================================================================
 const REGION_GRID = {
-  서울:   { nx: 60,  ny: 127 },
-  인천:   { nx: 55,  ny: 124 },
-  경기:   { nx: 60,  ny: 120 },
-  수원:   { nx: 60,  ny: 121 },
-  부산:   { nx: 98,  ny: 76  },
-  대구:   { nx: 89,  ny: 90  },
-  광주:   { nx: 58,  ny: 74  },
-  대전:   { nx: 67,  ny: 100 },
-  울산:   { nx: 102, ny: 84  },
-  세종:   { nx: 66,  ny: 103 },
-  강원:   { nx: 73,  ny: 134 },
-  춘천:   { nx: 73,  ny: 134 },
-  강릉:   { nx: 92,  ny: 131 },
-  충북:   { nx: 69,  ny: 107 },
-  청주:   { nx: 69,  ny: 107 },
-  충남:   { nx: 68,  ny: 100 },
-  천안:   { nx: 63,  ny: 110 },
-  전북:   { nx: 63,  ny: 89  },
-  전주:   { nx: 63,  ny: 89  },
-  전남:   { nx: 51,  ny: 67  },
-  목포:   { nx: 50,  ny: 67  },
-  여수:   { nx: 73,  ny: 66  },
-  경북:   { nx: 89,  ny: 91  },
-  포항:   { nx: 102, ny: 94  },
-  경주:   { nx: 100, ny: 91  },
-  경남:   { nx: 91,  ny: 77  },
-  창원:   { nx: 89,  ny: 77  },
-  진주:   { nx: 81,  ny: 75  },
-  제주:   { nx: 52,  ny: 38  },
-  서귀포: { nx: 52,  ny: 33  },
+  서울: { nx: 60, ny: 127 },
+  인천: { nx: 55, ny: 124 },
+  경기: { nx: 60, ny: 120 },
+  수원: { nx: 60, ny: 121 },
+  부산: { nx: 98, ny: 76 },
+  대구: { nx: 89, ny: 90 },
+  광주: { nx: 58, ny: 74 },
+  대전: { nx: 67, ny: 100 },
+  울산: { nx: 102, ny: 84 },
+  세종: { nx: 66, ny: 103 },
+  강원: { nx: 73, ny: 134 },
+  춘천: { nx: 73, ny: 134 },
+  강릉: { nx: 92, ny: 131 },
+  충북: { nx: 69, ny: 107 },
+  청주: { nx: 69, ny: 107 },
+  충남: { nx: 68, ny: 100 },
+  천안: { nx: 63, ny: 110 },
+  전북: { nx: 63, ny: 89 },
+  전주: { nx: 63, ny: 89 },
+  전남: { nx: 51, ny: 67 },
+  목포: { nx: 50, ny: 67 },
+  여수: { nx: 73, ny: 66 },
+  경북: { nx: 89, ny: 91 },
+  포항: { nx: 102, ny: 94 },
+  경주: { nx: 100, ny: 91 },
+  경남: { nx: 91, ny: 77 },
+  창원: { nx: 89, ny: 77 },
+  진주: { nx: 81, ny: 75 },
+  제주: { nx: 52, ny: 38 },
+  서귀포: { nx: 52, ny: 33 },
 };
 
 // 메시지에서 지역 + 격자 추출
@@ -74,14 +74,14 @@ function getGridByText(text) {
 function getBaseDateTime() {
   const kst = new Date(Date.now() + 9 * 60 * 60 * 1000);
 
-  const year  = kst.getUTCFullYear();
+  const year = kst.getUTCFullYear();
   const month = String(kst.getUTCMonth() + 1).padStart(2, "0");
-  const day   = String(kst.getUTCDate()).padStart(2, "0");
-  const hour  = kst.getUTCHours();
+  const day = String(kst.getUTCDate()).padStart(2, "0");
+  const hour = kst.getUTCHours();
 
-  const baseTimes    = [23, 20, 17, 14, 11, 8, 5, 2];
+  const baseTimes = [23, 20, 17, 14, 11, 8, 5, 2];
   const adjustedHour = hour > 0 ? hour - 1 : 23;
-  const baseHour     = baseTimes.find((t) => adjustedHour >= t) ?? 23;
+  const baseHour = baseTimes.find((t) => adjustedHour >= t) ?? 23;
 
   let baseDate = `${year}${month}${day}`;
   if (hour === 0 && baseHour === 23) {
@@ -97,7 +97,10 @@ function parseSky(v) {
 }
 
 function parsePty(v) {
-  return { 0: "없음", 1: "🌧️ 비", 2: "🌨️ 비/눈", 3: "❄️ 눈", 4: "🌦️ 소나기" }[v] ?? "없음";
+  return (
+    { 0: "없음", 1: "🌧️ 비", 2: "🌨️ 비/눈", 3: "❄️ 눈", 4: "🌦️ 소나기" }[v] ??
+    "없음"
+  );
 }
 
 async function fetchWeatherInfo(nx, ny) {
@@ -111,16 +114,16 @@ async function fetchWeatherInfo(nx, ny) {
       {
         params: {
           serviceKey: process.env.WEATHER_API_KEY,
-          pageNo:     1,
-          numOfRows:  100,
-          dataType:   "JSON",
-          base_date:  baseDate,
-          base_time:  baseTime,
+          pageNo: 1,
+          numOfRows: 100,
+          dataType: "JSON",
+          base_date: baseDate,
+          base_time: baseTime,
           nx,
           ny,
         },
         timeout: 6000,
-      }
+      },
     );
 
     if (res.data?.response?.header?.resultCode !== "00") return null;
@@ -132,18 +135,20 @@ async function fetchWeatherInfo(nx, ny) {
     const snap = {};
     items
       .filter((it) => it.fcstTime === firstTime)
-      .forEach((it) => { snap[it.category] = it.fcstValue; });
+      .forEach((it) => {
+        snap[it.category] = it.fcstValue;
+      });
 
     return {
       baseDate,
       baseTime,
-      temperature: snap.TMP ? `${snap.TMP}°C`  : "정보 없음",
-      sky:         parseSky(Number(snap.SKY)),
-      pty:         parsePty(Number(snap.PTY)),
-      pop:         snap.POP ? `${snap.POP}%`   : "정보 없음",
-      humidity:    snap.REH ? `${snap.REH}%`   : "정보 없음",
-      windSpeed:   snap.WSD ? `${snap.WSD}m/s` : "정보 없음",
-      rain1h:      snap.PCP && snap.PCP !== "강수없음" ? snap.PCP : "없음",
+      temperature: snap.TMP ? `${snap.TMP}°C` : "정보 없음",
+      sky: parseSky(Number(snap.SKY)),
+      pty: parsePty(Number(snap.PTY)),
+      pop: snap.POP ? `${snap.POP}%` : "정보 없음",
+      humidity: snap.REH ? `${snap.REH}%` : "정보 없음",
+      windSpeed: snap.WSD ? `${snap.WSD}m/s` : "정보 없음",
+      rain1h: snap.PCP && snap.PCP !== "강수없음" ? snap.PCP : "없음",
     };
   } catch (err) {
     console.error("날씨 API 오류:", err.message);
@@ -159,17 +164,17 @@ async function fetchTransportInfo(regionName) {
 
   try {
     const res = await axios.get(
-      "https://apis.data.go.kr/1613000/PublicTransportationMode/getPublicTransportationMode",
+      "https://apis.data.go.kr/1613000/PublicTransportationMode",
       {
         params: {
           serviceKey: process.env.TRANSPORT_API_KEY,
-          pageNo:     1,
-          numOfRows:  10,
-          regionNm:   regionName,
-          _type:      "json",
+          pageNo: 1,
+          numOfRows: 10,
+          regionNm: regionName,
+          _type: "json",
         },
         timeout: 5000,
-      }
+      },
     );
 
     const items = res.data?.response?.body?.items?.item;
@@ -177,8 +182,8 @@ async function fetchTransportInfo(regionName) {
 
     return (Array.isArray(items) ? items : [items]).map((item) => ({
       transportMode: item.transportMode || item.transModNm || "정보 없음",
-      routeCount:    item.routeCo       || item.routeCount  || "-",
-      operInfo:      item.operInfo      || item.operDe      || "",
+      routeCount: item.routeCo || item.routeCount || "-",
+      operInfo: item.operInfo || item.operDe || "",
     }));
   } catch (err) {
     console.error("교통수단 API 오류:", err.message);
@@ -190,9 +195,14 @@ async function fetchTransportInfo(regionName) {
 // 🎨  응답 카드 포맷터
 // ==========================================================================
 const TRANSPORT_ICON = {
-  마을버스: "🚐", 시내버스: "🚌", 좌석버스: "🪑",
-  고속버스: "🚍", 도시철도: "🚇", 지하철: "🚇",
-  철도: "🚂", 기차: "🚂",
+  마을버스: "🚐",
+  시내버스: "🚌",
+  좌석버스: "🪑",
+  고속버스: "🚍",
+  도시철도: "🚇",
+  지하철: "🚇",
+  철도: "🚂",
+  기차: "🚂",
 };
 
 function getTransportIcon(name) {
@@ -200,7 +210,14 @@ function getTransportIcon(name) {
   return match ? match[1] : "🚏";
 }
 
-function buildResponseCard({ region, weatherData, transportData, tourData, isFestival, groqReply }) {
+function buildResponseCard({
+  region,
+  weatherData,
+  transportData,
+  tourData,
+  isFestival,
+  groqReply,
+}) {
   const L = []; // lines
 
   // ── AI 답변 블록 ────────────────────────────────────────────────────────
@@ -226,7 +243,9 @@ function buildResponseCard({ region, weatherData, transportData, tourData, isFes
     if (weatherData.rain1h !== "없음") {
       L.push(`│  ☔  1시간강수   ${weatherData.rain1h}`);
     }
-    L.push(`│  🕐  발표기준    ${weatherData.baseDate} ${weatherData.baseTime}`);
+    L.push(
+      `│  🕐  발표기준    ${weatherData.baseDate} ${weatherData.baseTime}`,
+    );
     L.push(`└──────────────────────────────────┘`);
   }
 
@@ -238,7 +257,7 @@ function buildResponseCard({ region, weatherData, transportData, tourData, isFes
     L.push(`├──────────────────────────────────┤`);
     if (transportData.length > 0) {
       transportData.forEach((t) => {
-        const icon   = getTransportIcon(t.transportMode);
+        const icon = getTransportIcon(t.transportMode);
         const routes = t.routeCount !== "-" ? `  (노선 ${t.routeCount}개)` : "";
         L.push(`│  ${icon}  ${t.transportMode}${routes}`);
         if (t.operInfo) L.push(`│      └ ${t.operInfo}`);
@@ -273,40 +292,53 @@ app.post("/api/chat", async (req, res) => {
   const { message, step } = req.body;
 
   if (!message)
-    return res.status(400).json({ success: false, message: "메시지가 필요합니다." });
+    return res
+      .status(400)
+      .json({ success: false, message: "메시지가 필요합니다." });
   if (!groq)
-    return res.status(500).json({ success: false, message: "GROQ_API_KEY가 설정되지 않았습니다." });
+    return res
+      .status(500)
+      .json({ success: false, message: "GROQ_API_KEY가 설정되지 않았습니다." });
 
   try {
     // 1. 콘텐츠 타입 분류
     let contentType = "";
-    if (message.includes("맛집") || message.includes("식당")) contentType = CONTENT_TYPE.RESTAURANT;
-    if (message.includes("축제") || message.includes("행사")) contentType = CONTENT_TYPE.FESTIVAL;
-    if (message.includes("숙소") || message.includes("호텔")) contentType = CONTENT_TYPE.ACCOMMODATION;
+    if (message.includes("맛집") || message.includes("식당"))
+      contentType = CONTENT_TYPE.RESTAURANT;
+    if (message.includes("축제") || message.includes("행사"))
+      contentType = CONTENT_TYPE.FESTIVAL;
+    if (message.includes("숙소") || message.includes("호텔"))
+      contentType = CONTENT_TYPE.ACCOMMODATION;
 
     const isFestival = contentType === CONTENT_TYPE.FESTIVAL;
-    const gridInfo   = getGridByText(message);
-    const region     = gridInfo?.region ?? null;
+    const gridInfo = getGridByText(message);
+    const region = gridInfo?.region ?? null;
 
     // 2. 3개 API 병렬 호출
     const [tourData, weatherData, transportData] = await Promise.all([
       fetchTourData(message, contentType),
-      gridInfo ? fetchWeatherInfo(gridInfo.nx, gridInfo.ny) : Promise.resolve(null),
+      gridInfo
+        ? fetchWeatherInfo(gridInfo.nx, gridInfo.ny)
+        : Promise.resolve(null),
       isFestival ? fetchTransportInfo(region) : Promise.resolve([]),
     ]);
 
     // 3. GROQ 자연어 답변 생성
-    const tourContext = tourData.length > 0
-      ? tourData.map((d, i) => `[${i + 1}] ${d.title} / ${d.address}`).join("\n")
-      : "관광 정보 없음";
+    const tourContext =
+      tourData.length > 0
+        ? tourData
+            .map((d, i) => `[${i + 1}] ${d.title} / ${d.address}`)
+            .join("\n")
+        : "관광 정보 없음";
 
     const weatherContext = weatherData
       ? `날씨: ${weatherData.sky}, 기온 ${weatherData.temperature}, 강수확률 ${weatherData.pop}, 습도 ${weatherData.humidity}`
       : "";
 
-    const transportContext = isFestival && transportData.length > 0
-      ? `교통수단: ${transportData.map((t) => t.transportMode).join(", ")}`
-      : "";
+    const transportContext =
+      isFestival && transportData.length > 0
+        ? `교통수단: ${transportData.map((t) => t.transportMode).join(", ")}`
+        : "";
 
     const chatCompletion = await groq.chat.completions.create({
       model: "llama-3.1-8b-instant",
@@ -330,30 +362,41 @@ ${transportContext}
         },
         { role: "user", content: message },
       ],
-      temperature:       0.3,
-      top_p:             0.9,
+      temperature: 0.3,
+      top_p: 0.9,
       frequency_penalty: 0,
-      presence_penalty:  0,
+      presence_penalty: 0,
     });
 
-    const rawReply  = chatCompletion.choices[0]?.message?.content || "답변을 생성하지 못했습니다.";
+    const rawReply =
+      chatCompletion.choices[0]?.message?.content ||
+      "답변을 생성하지 못했습니다.";
     const groqReply = rawReply.replace(/[\u4E00-\u9FFF\u0E00-\u0E7F]/g, "");
 
     // 4. 카드 통합 응답
     const formattedReply = buildResponseCard({
-      region, weatherData, transportData, tourData, isFestival, groqReply,
+      region,
+      weatherData,
+      transportData,
+      tourData,
+      isFestival,
+      groqReply,
     });
 
     res.json({
-      reply:            formattedReply,
-      step:             (step ?? 0) + 1,
-      rawTourData:      tourData,
-      rawWeatherData:   weatherData,
+      reply: formattedReply,
+      step: (step ?? 0) + 1,
+      rawTourData: tourData,
+      rawWeatherData: weatherData,
       rawTransportData: transportData,
     });
   } catch (error) {
     console.error("채팅 오류:", error);
-    res.status(500).json({ reply: "시스템 오류가 발생했습니다. 잠시 후 다시 시도해주세요." });
+    res
+      .status(500)
+      .json({
+        reply: "시스템 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
+      });
   }
 });
 
@@ -364,19 +407,33 @@ app.get("/api/history", async (req, res) => {
   try {
     res.json({
       success: true,
-      data: [{ id: 1, title: "대구 치맥 페스티벌", date: "2025-07-05", region: "대구" }],
+      data: [
+        {
+          id: 1,
+          title: "대구 치맥 페스티벌",
+          date: "2025-07-05",
+          region: "대구",
+        },
+      ],
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: "이력을 가져오지 못했습니다." });
+    res
+      .status(500)
+      .json({ success: false, message: "이력을 가져오지 못했습니다." });
   }
 });
 
 app.post("/api/history", async (req, res) => {
   const { title, date } = req.body;
   if (!title)
-    return res.status(400).json({ success: false, message: "여행지 이름이 필요합니다." });
+    return res
+      .status(400)
+      .json({ success: false, message: "여행지 이름이 필요합니다." });
   console.log(`✅ [이력 추가] 여행지: ${title}, 날짜: ${date}`);
-  res.json({ success: true, message: "여행 이력이 성공적으로 추가되었습니다!" });
+  res.json({
+    success: true,
+    message: "여행 이력이 성공적으로 추가되었습니다!",
+  });
 });
 
 // ==========================================================================
@@ -389,7 +446,9 @@ app.get("/api/saved", async (req, res) => {
       data: [{ id: 1, title: "제주도 감귤 체험", date: "2026-10-12" }],
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: "보관함 목록을 가져오지 못했습니다." });
+    res
+      .status(500)
+      .json({ success: false, message: "보관함 목록을 가져오지 못했습니다." });
   }
 });
 
@@ -398,7 +457,12 @@ app.post("/api/saved", async (req, res) => {
   const userId = req.headers["user-id"];
 
   if (!supabase)
-    return res.status(500).json({ success: false, message: "Supabase 환경변수가 설정되지 않았습니다." });
+    return res
+      .status(500)
+      .json({
+        success: false,
+        message: "Supabase 환경변수가 설정되지 않았습니다.",
+      });
 
   try {
     const { error } = await supabase
@@ -416,7 +480,10 @@ app.post("/api/saved", async (req, res) => {
 // ==========================================================================
 app.get("/api/recommendation", (req, res) => {
   const regions = ["서산", "부산", "제주도"];
-  res.json({ success: true, region: regions[Math.floor(Math.random() * regions.length)] });
+  res.json({
+    success: true,
+    region: regions[Math.floor(Math.random() * regions.length)],
+  });
 });
 
 app.get("/api/planner-photo", async (req, res) => {
@@ -424,13 +491,20 @@ app.get("/api/planner-photo", async (req, res) => {
 
   // ── 키워드 검증 ──────────────────────────────────────────────────────────
   if (!keyword) {
-    return res.status(400).json({ success: false, message: "keyword 파라미터가 필요합니다." });
+    return res
+      .status(400)
+      .json({ success: false, message: "keyword 파라미터가 필요합니다." });
   }
 
   // ── API 키 검증 ──────────────────────────────────────────────────────────
   if (!process.env.PEXELS_API_KEY) {
     console.error("❌ PEXELS_API_KEY 환경변수가 설정되지 않았습니다.");
-    return res.status(500).json({ success: false, message: "이미지 API 키가 설정되지 않았습니다." });
+    return res
+      .status(500)
+      .json({
+        success: false,
+        message: "이미지 API 키가 설정되지 않았습니다.",
+      });
   }
 
   try {
@@ -440,12 +514,12 @@ app.get("/api/planner-photo", async (req, res) => {
         Authorization: process.env.PEXELS_API_KEY, // Bearer 불필요, 키 그대로 전달
       },
       params: {
-        query:       keyword,
-        per_page:    5,        // 5장 중 랜덤 1장 선택 → 매번 다른 이미지
-        page:        1,
+        query: keyword,
+        per_page: 5, // 5장 중 랜덤 1장 선택 → 매번 다른 이미지
+        page: 1,
         orientation: "landscape",
-        size:        "medium",
-        locale:      "ko-KR",
+        size: "medium",
+        locale: "ko-KR",
       },
       timeout: 7000,
     });
@@ -455,53 +529,71 @@ app.get("/api/planner-photo", async (req, res) => {
     // ── 결과 없음 처리 ───────────────────────────────────────────────────
     if (!photos || photos.length === 0) {
       // 한국어 키워드로 결과 없으면 영어로 재시도
-      const fallbackResponse = await axios.get("https://api.pexels.com/v1/search", {
-        headers: { Authorization: process.env.PEXELS_API_KEY },
-        params: {
-          query:       "Korea travel",  // 기본 폴백 키워드
-          per_page:    5,
-          page:        1,
-          orientation: "landscape",
+      const fallbackResponse = await axios.get(
+        "https://api.pexels.com/v1/search",
+        {
+          headers: { Authorization: process.env.PEXELS_API_KEY },
+          params: {
+            query: "Korea travel", // 기본 폴백 키워드
+            per_page: 5,
+            page: 1,
+            orientation: "landscape",
+          },
+          timeout: 7000,
         },
-        timeout: 7000,
-      });
+      );
 
       const fallbackPhotos = fallbackResponse.data?.photos;
       if (!fallbackPhotos || fallbackPhotos.length === 0) {
-        return res.status(404).json({ success: false, message: "이미지를 찾을 수 없습니다." });
+        return res
+          .status(404)
+          .json({ success: false, message: "이미지를 찾을 수 없습니다." });
       }
 
-      const pick = fallbackPhotos[Math.floor(Math.random() * fallbackPhotos.length)];
+      const pick =
+        fallbackPhotos[Math.floor(Math.random() * fallbackPhotos.length)];
       return res.json({
-        success:      true,
-        imageUrl:     pick.src.large,       // 399×224 대역 최적 사이즈
-        photographer: pick.photographer,    // 저작자 (Pexels 정책상 표시 권장)
-        pexelsUrl:    pick.url,
+        success: true,
+        imageUrl: pick.src.large, // 399×224 대역 최적 사이즈
+        photographer: pick.photographer, // 저작자 (Pexels 정책상 표시 권장)
+        pexelsUrl: pick.url,
       });
     }
 
     // ── 랜덤 1장 선택 후 반환 ───────────────────────────────────────────
     const pick = photos[Math.floor(Math.random() * photos.length)];
     return res.json({
-      success:      true,
-      imageUrl:     pick.src.large,
+      success: true,
+      imageUrl: pick.src.large,
       photographer: pick.photographer,
-      pexelsUrl:    pick.url,
+      pexelsUrl: pick.url,
     });
-
   } catch (err) {
     // ── 에러 유형별 안내 ────────────────────────────────────────────────
     const status = err.response?.status;
     if (status === 401) {
       console.error("❌ Pexels API 인증 실패 — API 키를 확인하세요.");
-      return res.status(500).json({ success: false, message: "이미지 API 인증에 실패했습니다. API 키를 확인하세요." });
+      return res
+        .status(500)
+        .json({
+          success: false,
+          message: "이미지 API 인증에 실패했습니다. API 키를 확인하세요.",
+        });
     }
     if (status === 429) {
       console.error("❌ Pexels API 요청 한도 초과");
-      return res.status(429).json({ success: false, message: "이미지 요청 한도를 초과했습니다. 잠시 후 다시 시도해주세요." });
+      return res
+        .status(429)
+        .json({
+          success: false,
+          message:
+            "이미지 요청 한도를 초과했습니다. 잠시 후 다시 시도해주세요.",
+        });
     }
     console.error("이미지 API 오류:", err.message);
-    return res.status(500).json({ success: false, message: "이미지를 불러오지 못했습니다." });
+    return res
+      .status(500)
+      .json({ success: false, message: "이미지를 불러오지 못했습니다." });
   }
 });
 

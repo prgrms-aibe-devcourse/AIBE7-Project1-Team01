@@ -3,13 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="../icons/MOTIPE%20favicon.png" />
     <title>Motipe - 지도</title>
     <link rel="stylesheet" href="../css/map_style.css" />
     <link rel="stylesheet" href="../css/main.css" />
     <script src="/config.js"></script>
     <script>
       const _s = document.createElement("script");
-      _s.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${window.KAKAO_MAP_KEY}&autoload=false&libraries=clusterer`;
+      _s.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${window.KAKAO_MAP_KEY}&autoload=false&libraries=clusterer,services`;
       _s.type = "text/javascript";
       _s.onload = () => {
         kakao.maps.load(() => {
@@ -24,62 +25,49 @@
   </head>
   <body>
     <!-- 헤더 -->
-    <header class="header">
-      <div class="header-inner">
-        <a href="#" class="logo">
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 18 18"
-            fill="none"
-            aria-hidden="true"
-          >
-            <polygon points="9,1 17,17 1,17" fill="#C17F3E" />
-          </svg>
-          Motipe
+    <nav class="navbar">
+      <div class="nav-brand-group">
+        <a href="index.html" class="nav-logo">
+          <img src="../icons/screen.png" alt="Motipe 로고" class="nav-logo-img" />
         </a>
-        <nav class="navbar">
-          <div class="nav-brand-group">
-            <a href="index.html" class="nav-logo">
-              <img src="../icons/screen.png" alt="Motipe 로고" class="nav-logo-img" />
-            </a>
-            <div class="nav-left">
-              <a href="map.html" class="active">지도</a>
-              <a href="community.html">커뮤니티</a>
-            </div>
-          </div>
-          <div class="nav-right">
-            <div id="nav-guest" class="nav-auth-group">
-              <a href="login.html" class="nav-btn-outline">로그인</a>
-              <a href="signup.html" class="nav-btn-outline">회원가입</a>
-            </div>
-            <div id="nav-user" class="nav-auth-group" style="display:none">
-              <a href="mypage.html" class="nav-icon-link">
-                <img src="../icons/mypage-icon.png" alt="마이페이지" class="nav-mypage-img" />
-              </a>
-              <button type="button" id="logout-btn" class="nav-btn-outline">로그아웃</button>
-            </div>
-          </div>
-        </nav>
-        <div class="header-right">
-          <button class="icon-btn" aria-label="내 계정">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.6"
-              aria-hidden="true"
-            >
-              <circle cx="12" cy="8" r="4" />
-              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
-            </svg>
-          </button>
-          <button class="btn-outline">로그아웃</button>
+        <div class="nav-left">
+          <a href="map.html">지도</a>
+          <a href="#">캘린더</a>
+          <a href="community.html">커뮤니티</a>
         </div>
       </div>
-    </header>
+      <div class="nav-right">
+        <div id="nav-guest" class="nav-auth-group">
+          <a href="login.html" class="nav-btn-outline">로그인</a>
+          <a href="signup.html" class="nav-btn-outline">회원가입</a>
+        </div>
+        <div id="nav-user" class="nav-auth-group" style="display: none">
+          <a href="mypage.html" class="nav-icon-link">
+            <img src="../icons/mypage-icon.png" alt="마이페이지" class="nav-mypage-img" />
+          </a>
+          <button type="button" id="logout-btn" class="nav-btn-outline">로그아웃</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 검색 바 -->
+    <div class="map-search-bar">
+      <div class="map-search-inner">
+        <div class="map-search-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" class="map-search-icon">
+            <circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/>
+          </svg>
+          <input
+            type="text"
+            id="map-search-input"
+            class="map-search-input"
+            placeholder="축제명, 장소, 지역을 검색하세요"
+            aria-label="검색"
+          />
+          <button id="map-search-btn" class="map-search-btn">검색</button>
+        </div>
+      </div>
+    </div>
 
     <!-- 필터 바 -->
     <div class="filter-bar">
@@ -130,6 +118,19 @@
           <div class="loading-spinner"></div>
           <p>축제 정보를 불러오는 중...</p>
         </div>
+
+        <!-- 검색 결과 패널 (지도 위 오버레이) -->
+        <div class="search-result-panel hidden" id="search-result-panel">
+          <div class="search-result-header">
+            <div class="search-result-tabs">
+              <button class="search-tab active" id="search-tab-festival">축제 (0)</button>
+              <button class="search-tab" id="search-tab-place">장소 (0)</button>
+            </div>
+            <button class="search-result-close" id="search-result-close" aria-label="닫기">✕</button>
+          </div>
+          <ul class="search-result-list" id="search-festival-list" role="list"></ul>
+          <ul class="search-result-list hidden" id="search-place-list" role="list"></ul>
+        </div>
       </section>
 
       <!-- 리스트 패널 -->
@@ -142,18 +143,8 @@
           <!-- JS로 렌더링 -->
         </ul>
         <div class="list-empty hidden" id="list-empty">
-          <svg
-            width="40"
-            height="40"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.4"
-            aria-hidden="true"
-            style="color: #c9c3b8"
-          >
-            <circle cx="11" cy="11" r="7" />
-            <line x1="16.5" y1="16.5" x2="22" y2="22" />
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" style="color: #c9c3b8">
+            <circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/>
           </svg>
           <p>해당 조건의 축제가 없습니다</p>
         </div>
@@ -162,56 +153,32 @@
 
     <!-- 모바일 탭 전환 -->
     <div class="mobile-tabs" role="tablist" aria-label="보기 전환">
-      <button
-        class="tab-btn active"
-        data-tab="map"
-        role="tab"
-        aria-selected="true"
-      >
-        <svg
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.6"
-          aria-hidden="true"
-        >
-          <path d="M9 20L3 17V4l6 3 6-3 6 3v13l-6-3-6 3z" />
+      <button class="tab-btn active" data-tab="map" role="tab" aria-selected="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <path d="M9 20L3 17V4l6 3 6-3 6 3v13l-6-3-6 3z"/>
         </svg>
         지도
       </button>
       <button class="tab-btn" data-tab="list" role="tab" aria-selected="false">
-        <svg
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.6"
-          aria-hidden="true"
-        >
-          <line x1="8" y1="6" x2="21" y2="6" />
-          <line x1="8" y1="12" x2="21" y2="12" />
-          <line x1="8" y1="18" x2="21" y2="18" />
-          <circle cx="3" cy="6" r="1" fill="currentColor" />
-          <circle cx="3" cy="12" r="1" fill="currentColor" />
-          <circle cx="3" cy="18" r="1" fill="currentColor" />
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
+          <circle cx="3" cy="6" r="1" fill="currentColor"/><circle cx="3" cy="12" r="1" fill="currentColor"/><circle cx="3" cy="18" r="1" fill="currentColor"/>
         </svg>
         목록
       </button>
     </div>
 
-    <!-- 인포윈도우 커스텀 (JS에서 사용) -->
+    <!-- 인포윈도우 템플릿 -->
     <template id="infowindow-tpl">
       <div class="iw-wrap">
         <button class="iw-close" aria-label="닫기">✕</button>
         <p class="iw-title"></p>
         <p class="iw-date"></p>
-        <a class="iw-link" href="#" target="_blank" rel="noopener"
-          >자세히 보기 →</a
-        >
+        <a class="iw-link" href="#" target="_blank" rel="noopener">자세히 보기 →</a>
       </div>
     </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/community.js"></script>
   </body>
 </html>

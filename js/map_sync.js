@@ -20,6 +20,9 @@ function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
+// map_sync.js의 parseFestival 함수만 교체
+// cat2 필드로 카테고리 저장
+
 function parseFestival(item) {
   return {
     content_id: String(item.contentid),
@@ -38,6 +41,7 @@ function parseFestival(item) {
       ? `https://www.visitkorea.or.kr/detail/ms_detail.do?cotid=${item.contentid}`
       : null,
     area_code: item.areacode ? String(item.areacode) : null,
+    category: item.cat2 || null, // ← 추가
     synced_at: new Date().toISOString(),
   };
 }

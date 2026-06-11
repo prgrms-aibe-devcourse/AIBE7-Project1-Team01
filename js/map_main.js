@@ -1,5 +1,10 @@
 // js/map_main.js
-import { fetchFestivals } from "./map_api.js";
+import {
+  fetchFestivals,
+  fetchMyBookmarks,
+  addBookmark,
+  removeBookmark,
+} from "./map_api.js";
 import {
   initMap,
   renderMarkers,
@@ -19,21 +24,43 @@ import {
 const state = {
   period: "ongoing",
   areaCode: "",
+  category: "",
+  dateFrom: "",
+  dateTo: "",
 };
 
 let allFestivals = [];
+let myBookmarks = new Set(); // 내 즐겨찾기 festival_id 목록
 
 async function load() {
   showLoading(true);
   try {
-    allFestivals = await fetchFestivals(state);
-    renderMarkers(allFestivals, onMarkerClick);
-    renderList(allFestivals, onCardClick);
+    [allFestivals] = await Promise.all([
+      fetchFestivals(state),
+      loadBookmarks(),
+    ]);
+
+    const sorted = [
+      ...allFestivals.filter((f) => myBookmarks.has(f.id)),
+      ...allFestivals.filter((f) => !myBookmarks.has(f.id)),
+    ];
+
+    renderMarkers(sorted, onMarkerClick);
+    renderList(sorted, onCardClick, myBookmarks, onBookmarkToggle);
   } catch (err) {
     console.error("축제 데이터 로드 실패:", err);
     showError();
   } finally {
     showLoading(false);
+  }
+}
+
+async function loadBookmarks() {
+  try {
+    const ids = await fetchMyBookmarks();
+    myBookmarks = new Set(ids);
+  } catch {
+    myBookmarks = new Set();
   }
 }
 
@@ -48,6 +75,30 @@ function onCardClick(festival) {
   if (window.innerWidth <= 768) switchTab("map");
 }
 
+async function onBookmarkToggle(festivalId, btn) {
+  const isBookmarked = myBookmarks.has(festivalId);
+
+  if (isBookmarked) {
+    const { error } = await removeBookmark(festivalId);
+    if (!error) {
+      myBookmarks.delete(festivalId);
+      btn.textContent = "♡";
+      btn.classList.remove("bookmarked");
+    }
+  } else {
+    const { error } = await addBookmark(festivalId);
+    if (error === "login_required") {
+      alert("로그인 후 이용할 수 있습니다.");
+      return;
+    }
+    if (!error) {
+      myBookmarks.add(festivalId);
+      btn.textContent = "♥";
+      btn.classList.add("bookmarked");
+    }
+  }
+}
+
 // ===== 검색 =====
 document.getElementById("map-search-input").addEventListener("keydown", (e) => {
   if (e.key === "Enter") handleSearch();
@@ -60,7 +111,6 @@ function handleSearch() {
   const keyword = document.getElementById("map-search-input").value.trim();
   if (!keyword) return;
 
-  // 1. 축제 검색 (로컬 필터링)
   const lower = keyword.toLowerCase();
   const matchedFestivals = allFestivals.filter(
     (f) =>
@@ -68,7 +118,6 @@ function handleSearch() {
       (f.addr && f.addr.toLowerCase().includes(lower)),
   );
 
-  // 2. 장소 검색 (카카오 API)
   searchPlaces(keyword, (places) => {
     renderSearchResults(
       matchedFestivals,
@@ -91,8 +140,7 @@ function handleSearch() {
 // ===== 필터 이벤트 =====
 document.getElementById("filter-area").addEventListener("change", (e) => {
   state.areaCode = e.target.value;
-  clearPlaceMarkers();
-  document.getElementById("search-result-panel").classList.add("hidden");
+  resetSearchUI();
   load();
 });
 
@@ -104,8 +152,38 @@ document.getElementById("filter-period").addEventListener("click", (e) => {
     .forEach((c) => c.classList.remove("active"));
   chip.classList.add("active");
   state.period = chip.dataset.value;
-  clearPlaceMarkers();
-  document.getElementById("search-result-panel").classList.add("hidden");
+
+  const dateRange = document.getElementById("filter-date-range");
+  if (state.period === "custom") {
+    dateRange.classList.remove("hidden");
+  } else {
+    dateRange.classList.add("hidden");
+    state.dateFrom = "";
+    state.dateTo = "";
+    resetSearchUI();
+    load();
+  }
+});
+
+document.getElementById("filter-date-from").addEventListener("change", (e) => {
+  state.dateFrom = e.target.value;
+  if (state.dateFrom && state.dateTo) {
+    resetSearchUI();
+    load();
+  }
+});
+
+document.getElementById("filter-date-to").addEventListener("change", (e) => {
+  state.dateTo = e.target.value;
+  if (state.dateFrom && state.dateTo) {
+    resetSearchUI();
+    load();
+  }
+});
+
+document.getElementById("filter-category").addEventListener("change", (e) => {
+  state.category = e.target.value;
+  resetSearchUI();
   load();
 });
 
@@ -125,7 +203,11 @@ function switchTab(tab) {
   });
 }
 
-// ===== 유틸 =====
+function resetSearchUI() {
+  clearPlaceMarkers();
+  document.getElementById("search-result-panel").classList.add("hidden");
+}
+
 function showLoading(on) {
   document.getElementById("map-loading").classList.toggle("hidden", !on);
 }
@@ -138,7 +220,6 @@ function showError() {
     </li>`;
 }
 
-// ===== 초기화 =====
 (async () => {
   await initMap();
   await load();

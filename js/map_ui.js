@@ -1,6 +1,11 @@
 // js/map_ui.js
 
-export function renderList(festivals, onCardClick) {
+export function renderList(
+  festivals,
+  onCardClick,
+  bookmarks = new Set(),
+  onBookmarkToggle,
+) {
   const list = document.getElementById("festival-list");
   const empty = document.getElementById("list-empty");
   const countEl = document.getElementById("festival-count");
@@ -25,6 +30,7 @@ export function renderList(festivals, onCardClick) {
 
   festivals.forEach((f) => {
     const isOngoing = f.start_date <= today && f.end_date >= today;
+    const isBookmarked = bookmarks.has(f.id);
     const card = document.createElement("li");
     card.className = "festival-card";
     card.setAttribute("role", "button");
@@ -37,7 +43,12 @@ export function renderList(festivals, onCardClick) {
     const badgeText = isOngoing ? "진행 중" : "예정";
 
     card.innerHTML = `
-      <span class="card-badge ${badgeClass}">${badgeDot} ${badgeText}</span>
+      <div class="card-top-row">
+        <span class="card-badge ${badgeClass}">${badgeDot} ${badgeText}</span>
+        <button class="bookmark-btn ${isBookmarked ? "bookmarked" : ""}" aria-label="즐겨찾기" title="즐겨찾기">
+          ${isBookmarked ? "♥" : "♡"}
+        </button>
+      </div>
       <p class="card-title">${escHtml(f.title)}</p>
       <div class="card-meta">
         <div class="card-meta-row">
@@ -60,23 +71,21 @@ export function renderList(festivals, onCardClick) {
             : ""
         }
       </div>
-      ${
-        f.detail_url
-          ? `
-      <a class="card-link" href="${escHtml(f.detail_url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
-        자세히 보기
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-        </svg>
-      </a>`
-          : ""
-      }
     `;
 
+    // 카드 클릭 (하트 버튼 제외)
     card.addEventListener("click", () => {
       setActiveCard(f.id);
       onCardClick(f);
     });
+
+    // 하트 버튼 클릭
+    const bookmarkBtn = card.querySelector(".bookmark-btn");
+    bookmarkBtn.addEventListener("click", (e) => {
+      e.stopPropagation(); // 카드 클릭 이벤트 방지
+      if (onBookmarkToggle) onBookmarkToggle(f.id, bookmarkBtn);
+    });
+
     card.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();

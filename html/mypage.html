@@ -111,7 +111,11 @@
       .pw-change-btn {
         width: 100%;
         padding: 12px;
-        background: linear-gradient(135deg, var(--primary-warm), var(--secondary-warm));
+        background: linear-gradient(
+          135deg,
+          var(--primary-warm),
+          var(--secondary-warm)
+        );
         color: white;
         border: none;
         border-radius: 8px;
@@ -197,7 +201,11 @@
     <nav class="navbar">
       <div class="nav-brand-group">
         <a href="index.html" class="nav-logo">
-          <img src="../icons/screen.png" alt="Motipe 로고" class="nav-logo-img" />
+          <img
+            src="../icons/screen.png"
+            alt="Motipe 로고"
+            class="nav-logo-img"
+          />
         </a>
         <div class="nav-left">
           <a href="map.html">지도</a>
@@ -238,7 +246,10 @@
       <section class="profile-card">
         <div class="profile-info">
           <h2>안녕하세요, <span id="user-display-name">여행자</span>님</h2>
-          <p id="user-email" style="color: var(--text-light); margin-bottom: 20px">
+          <p
+            id="user-email"
+            style="color: var(--text-light); margin-bottom: 20px"
+          >
             로딩 중...
           </p>
           <p>"오늘도 당신의 여정에 따스한 햇살이 함께하기를 바랍니다."</p>
@@ -252,9 +263,25 @@
             내가 작성한 글
             <span class="post-count-badge" id="my-post-count">0</span>
           </h3>
-          <a href="community.html" class="go-community-btn">커뮤니티 바로가기 →</a>
+          <a href="community.html" class="go-community-btn"
+            >커뮤니티 바로가기 →</a
+          >
         </div>
         <div class="my-posts-list" id="my-posts-list">
+          <div class="my-posts-empty">로딩 중...</div>
+        </div>
+      </section>
+
+      <!-- 북마크 -->
+      <section class="settings-card">
+        <div class="section-header">
+          <h3>
+            즐겨찾기한 축제
+            <span class="post-count-badge" id="bookmark-count">0</span>
+          </h3>
+          <a href="map.html" class="go-community-btn">지도에서 보기 →</a>
+        </div>
+        <div class="my-posts-list" id="bookmark-list">
           <div class="my-posts-empty">로딩 중...</div>
         </div>
       </section>
@@ -281,7 +308,11 @@
               placeholder="한 번 더 입력하세요"
             />
           </div>
-          <button type="button" class="pw-change-btn" onclick="changePassword()">
+          <button
+            type="button"
+            class="pw-change-btn"
+            onclick="changePassword()"
+          >
             비밀번호 변경하기
           </button>
         </form>
@@ -374,7 +405,7 @@
             </div>
             <button class="my-post-delete-btn" onclick="requestDelete('${post.id}')">🗑️ 삭제</button>
           </div>
-        `
+        `,
           )
           .join("");
 
@@ -404,7 +435,10 @@
       function confirmDelete() {
         if (!deleteTargetId) return;
         const stored = localStorage.getItem(STORAGE_KEY);
-        if (!stored) { closeConfirm(); return; }
+        if (!stored) {
+          closeConfirm();
+          return;
+        }
 
         const posts = JSON.parse(stored);
         const updated = posts.filter((p) => p.id !== deleteTargetId);
@@ -459,6 +493,53 @@
         }
       }
 
+      async function renderBookmarks() {
+        const listEl = document.getElementById("bookmark-list");
+        const countEl = document.getElementById("bookmark-count");
+
+        try {
+          // supabase-js CDN에서 직접 사용
+          const { data, error } = await window.supabaseClient
+            .from("festival_bookmarks")
+            .select(
+              "festival_id, festivals(id, title, start_date, end_date, addr, detail_url)",
+            )
+            .order("created_at", { ascending: false });
+
+          if (error) throw error;
+
+          const bookmarks = data.map((b) => b.festivals).filter(Boolean);
+          countEl.textContent = bookmarks.length;
+
+          if (bookmarks.length === 0) {
+            listEl.innerHTML = `
+              <div class="my-posts-empty">
+                즐겨찾기한 축제가 없습니다.<br>
+                <a href="map.html">지도에서 축제를 찜해보세요! ♡</a>
+              </div>`;
+            return;
+          }
+
+          listEl.innerHTML = bookmarks
+            .map(
+              (f) => `
+            <div class="my-post-item">
+              <div class="my-post-info">
+                <div class="my-post-title">${escapeHtml(f.title)}</div>
+                <div class="my-post-meta">
+                  <span>${f.start_date} ~ ${f.end_date}</span>
+                  ${f.addr ? `<span>${escapeHtml(f.addr.slice(0, 20))}</span>` : ""}
+                </div>
+              </div>
+              
+            </div>
+          `,
+            )
+            .join("");
+        } catch (e) {
+          listEl.innerHTML = `<div class="my-posts-empty">즐겨찾기를 불러오지 못했습니다.</div>`;
+        }
+      }
       // ===== 마이페이지 초기화 (community.js 이후 실행) =====
       window.addEventListener("mypage-ready", async (e) => {
         const user = e.detail.user;
@@ -475,17 +556,21 @@
 
         // 내 게시글 렌더링
         renderMyPosts(user.id);
+        // 북마크
+        renderBookmarks();
       });
 
       // 로그아웃 링크 연결
-      document.getElementById("mypage-logout-link").addEventListener("click", async (e) => {
-        e.preventDefault();
-        if (window.supabaseClient) {
-          await window.supabaseClient.auth.signOut();
-          alert("로그아웃 되었습니다.");
-          window.location.href = "index.html";
-        }
-      });
+      document
+        .getElementById("mypage-logout-link")
+        .addEventListener("click", async (e) => {
+          e.preventDefault();
+          if (window.supabaseClient) {
+            await window.supabaseClient.auth.signOut();
+            alert("로그아웃 되었습니다.");
+            window.location.href = "index.html";
+          }
+        });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../js/community.js"></script>

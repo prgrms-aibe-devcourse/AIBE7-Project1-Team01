@@ -141,16 +141,19 @@ function showOverlay(festival, position) {
   const content = tpl.content.cloneNode(true);
 
   const wrap = content.querySelector(".iw-wrap");
+
+  // 사진 있으면 이미지 추가
+  if (festival.image_url) {
+    const img = document.createElement("img");
+    img.src = festival.image_url;
+    img.alt = festival.title;
+    img.className = "iw-image";
+    wrap.insertBefore(img, wrap.firstChild);
+  }
+
   wrap.querySelector(".iw-title").textContent = festival.title;
   wrap.querySelector(".iw-date").textContent =
     `${festival.start_date} ~ ${festival.end_date}`;
-
-  const link = wrap.querySelector(".iw-link");
-  if (festival.detail_url) {
-    link.href = festival.detail_url;
-  } else {
-    link.style.display = "none";
-  }
 
   const container = document.createElement("div");
   container.appendChild(content);

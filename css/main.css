@@ -955,22 +955,42 @@ article h3 {
   }
 }
 
-/* AI 트리거 버튼 스타일 */
+/* AI 트리거 버튼 스타일 (visittheusa.com/ko 스타일) */
 .ai-trigger-btn {
-  margin-left: 8px;
-  padding: 10px 16px;
-  background: linear-gradient(135deg, #6b4c9a, #d56c70);
-  color: white;
-  border: none;
-  border-radius: 20px;
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #d14d33;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  border-right: none;
+  border-radius: 28px 0 0 28px;
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   cursor: pointer;
-  font-weight: bold;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  outline: none;
 }
 
-.ai-trigger-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(213, 108, 112, 0.3);
+.ai-trigger-btn:hover,
+.ai-trigger-btn:focus-visible {
+  background-color: #b83a21;
+  padding-left: 24px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.ai-trigger-btn:focus-visible {
+  outline: 3px solid #101F36;
+  outline-offset: 2px;
 }
 
 /* 챗봇 모달 오버레이 (배경 어둡게) */

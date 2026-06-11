@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="../icons/MOTIPE%20favicon.png" />
-    <title>마이페이지 - 노을빛 여행</title>
+    <title>마이페이지</title>
     <link rel="stylesheet" href="../css/main.css" />
     <style>
       /* 내 게시글 목록 */
@@ -349,6 +349,7 @@
           />
         </a>
         <div class="nav-left">
+          <a href="map.html">지도</a>
           <a href="community.html">커뮤니티</a>
         </div>
       </div>
@@ -376,10 +377,17 @@
       </div>
     </nav>
 
-    <header>
-      <h1>MY PAGE</h1>
-      <p>나의 여행 기록과 계정 설정을 관리하세요</p>
-    </header>
+    <section class="mypage-header">
+      <h2
+        class="font-winter"
+        style="color: var(--secondary-warm); font-size: 2.2rem; margin: 0"
+      >
+        MY PAGE
+      </h2>
+      <p style="color: var(--text-main); margin-top: 10px">
+        나의 여행 기록과 계정 설정을 관리하세요
+      </p>
+    </section>
 
     <main class="container">
       <!-- 프로필 섹션 -->
@@ -531,13 +539,11 @@
     <footer>
       <p>&copy; 2026 Sunset Glow Travel. 모든 여행이 쉼표가 되길.</p>
     </footer>
-
     <script>
-      const STORAGE_KEY = "community_posts";
-
       // ===== 토스트 =====
       function showToast(message) {
         const toast = document.getElementById("toast");
+        if (!toast) return;
         toast.textContent = message;
         toast.classList.add("show");
         setTimeout(() => {
@@ -545,18 +551,23 @@
         }, 2500);
       }
 
-      // ===== 내 게시글 로드 =====
-      function loadMyPosts(userId) {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (!stored) return [];
-        const posts = JSON.parse(stored);
-        return posts.filter((p) => !p.isDefault && p.userId === userId);
-      }
-
-      function renderMyPosts(userId) {
+      // ===== 내 게시글 로드 (Supabase 연동) =====
+      async function renderMyPosts(userId) {
         const listEl = document.getElementById("my-posts-list");
         const countEl = document.getElementById("my-post-count");
-        const myPosts = loadMyPosts(userId);
+
+        if (!window.supabaseClient) return;
+
+        const { data: myPosts, error } = await window.supabaseClient
+          .from("posts")
+          .select("*")
+          .eq("user_id", userId)
+          .order("created_at", { ascending: false });
+
+        if (error) {
+          listEl.innerHTML = `<div class="my-posts-empty">오류가 발생했습니다.</div>`;
+          return;
+        }
 
         countEl.textContent = myPosts.length;
 
@@ -581,7 +592,7 @@
                 <span>댓글 ${(post.comments || []).length}개</span>
               </div>
             </div>
-            <button class="my-post-delete-btn" onclick="requestDelete('${post.id}')">🗑️ 삭제</button>
+            <button class="my-post-delete-btn" onclick="confirmDeletePost('${post.id}')">🗑️ 삭제</button>
           </div>
         `,
           )
@@ -598,34 +609,19 @@
       }
 
       // ===== 게시글 삭제 =====
-      let deleteTargetId = null;
+      async function confirmDeletePost(postId) {
+        if (!confirm("정말 이 게시글을 삭제하시겠습니까?")) return;
 
-      function requestDelete(postId) {
-        deleteTargetId = postId;
-        document.getElementById("confirmModal").style.display = "flex";
-      }
+        const { error } = await window.supabaseClient
+          .from("posts")
+          .delete()
+          .eq("id", postId);
 
-      function closeConfirm() {
-        deleteTargetId = null;
-        document.getElementById("confirmModal").style.display = "none";
-      }
-
-      function confirmDelete() {
-        if (!deleteTargetId) return;
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (!stored) {
-          closeConfirm();
+        if (error) {
+          showToast("❌ 삭제 실패: " + error.message);
           return;
         }
-
-        const posts = JSON.parse(stored);
-        const updated = posts.filter((p) => p.id !== deleteTargetId);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-
-        closeConfirm();
         showToast("🗑️ 게시글이 삭제되었습니다.");
-
-        // 목록 새로고침
         if (window._myPageUserId) {
           renderMyPosts(window._myPageUserId);
         }

@@ -48,14 +48,8 @@
   // Initialize Auth & Supabase Client
   window.initAuth = async function () {
     if (supabaseClient) return supabaseClient;
-    
+
     const env = await loadEnv();
-
-    if (supabaseClient) {
-      await handleAuthState();
-      return supabaseClient;
-    }
-
     if (window.supabase) {
       supabaseClient = window.supabase.createClient(
         env.SUPABASE_URL,
@@ -126,13 +120,12 @@
         userNav.style.display = "none";
       }
       // 로그아웃 버튼 이벤트 연결
-      const logoutBtn = document.getElementById('logout-btn');
+      const logoutBtn = document.getElementById("logout-btn");
       if (logoutBtn) {
-        logoutBtn.addEventListener('click', async (e) => {
+        logoutBtn.addEventListener("click", async (e) => {
           e.preventDefault();
           await logout();
         });
-        logoutBtn.dataset.listenerAttached = "true";
       }
       return;
     }
@@ -141,17 +134,16 @@
     if (user) {
       navRight.innerHTML = `
         <a href="mypage.html" class="nav-icon-link">
-          <img src="../icons/mypage-icon.png" alt="마이페이지" class="nav-mypage-img" />
+          <img src="icons/mypage-icon.png" alt="마이페이지" class="nav-mypage-img" />
         </a>
         <a href="#" id="logout-btn" class="nav-btn-outline">로그아웃</a>
       `;
-      const logoutBtn = document.getElementById('logout-btn');
+      const logoutBtn = document.getElementById("logout-btn");
       if (logoutBtn) {
-        logoutBtn.addEventListener('click', async (e) => {
+        logoutBtn.addEventListener("click", async (e) => {
           e.preventDefault();
           await logout();
         });
-        logoutBtn.dataset.listenerAttached = "true";
       }
     } else {
       navRight.innerHTML = `

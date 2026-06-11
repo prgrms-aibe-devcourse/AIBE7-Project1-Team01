@@ -7,6 +7,7 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.108.1",
     "dotenv": "^17.4.2",
     "express": "^4.22.2"
   },
@@ -17,13 +18,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/prgrms-aibe-devcourse/AIBE7-Project1-Team01.git"
+    "url": "git+https://github.com/pjmoo/AIBE7-Project1-Team01.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/prgrms-aibe-devcourse/AIBE7-Project1-Team01/issues"
+    "url": "https://github.com/pjmoo/AIBE7-Project1-Team01/issues"
   },
-  "homepage": "https://github.com/prgrms-aibe-devcourse/AIBE7-Project1-Team01#readme"
+  "homepage": "https://github.com/pjmoo/AIBE7-Project1-Team01#readme"
 }

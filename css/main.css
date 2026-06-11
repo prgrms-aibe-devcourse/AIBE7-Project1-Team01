@@ -14,15 +14,16 @@
   --transition: all 0.3s ease;
 }
 @font-face {
-    font-family: 'HsWinterSnowflake20';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/HSGyeoulNoonkott20.woff') format('woff');
-    font-weight: normal;
-    font-display: swap;
+  font-family: "HsWinterSnowflake20";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/HSGyeoulNoonkott20.woff")
+    format("woff");
+  font-weight: normal;
+  font-display: swap;
 }
 
 /* 눈꽃 폰트 클래스 추가 */
 .font-winter {
-    font-family: 'HsWinterSnowflake20', sans-serif;
+  font-family: "HsWinterSnowflake20", sans-serif;
 }
 
 * {
@@ -48,7 +49,6 @@ a {
   color: inherit;
   text-decoration: none;
 }
-
 
 header {
   background-color: var(--card-bg);
@@ -494,9 +494,25 @@ article h3 {
 /* 커뮤니티 전용 스타일 */
 .community-header {
   text-align: center;
-  padding: 40px 20px;
+  padding: 50px 20px;
   background-color: var(--card-bg);
   margin-bottom: 20px;
+  margin-top: 0;
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+}
+
+/* 마이페이지 헤더 스타일 (커뮤니티/지도와 통일) */
+.mypage-header {
+  text-align: center;
+  padding: 50px 20px;
+  background-color: var(--card-bg);
+  margin-bottom: 20px;
+  margin-top: 0;
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
 }
 
 .filter-container {

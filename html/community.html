@@ -25,9 +25,16 @@
         padding: 4px 0;
         transition: var(--transition);
       }
-      .comment-toggle:hover { color: var(--secondary-warm); }
-      .comment-list { margin-top: 10px; display: none; }
-      .comment-list.open { display: block; }
+      .comment-toggle:hover {
+        color: var(--secondary-warm);
+      }
+      .comment-list {
+        margin-top: 10px;
+        display: none;
+      }
+      .comment-list.open {
+        display: block;
+      }
       .comment-item {
         background-color: var(--bg-warm);
         padding: 10px 14px;
@@ -54,8 +61,10 @@
       }
       .comment-delete-btn {
         position: absolute;
-        top: 8px; right: 10px;
-        background: none; border: none;
+        top: 8px;
+        right: 10px;
+        background: none;
+        border: none;
         color: var(--text-light);
         font-size: 0.75rem;
         cursor: pointer;
@@ -65,22 +74,30 @@
       }
       .comment-delete-btn:hover {
         color: #d9534f;
-        background-color: rgba(217,83,79,0.1);
+        background-color: rgba(217, 83, 79, 0.1);
       }
       .comment-form {
-        display: flex; flex-direction: column;
-        gap: 8px; margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 10px;
       }
       .comment-form input,
       .comment-form textarea {
-        width: 100%; padding: 8px 12px;
+        width: 100%;
+        padding: 8px 12px;
         border: 1px solid var(--accent-sepia);
         border-radius: 4px;
         background-color: var(--bg-warm);
-        font-family: inherit; font-size: 0.85rem;
-        outline: none; transition: var(--transition);
+        font-family: inherit;
+        font-size: 0.85rem;
+        outline: none;
+        transition: var(--transition);
       }
-      .comment-form textarea { height: 60px; resize: none; }
+      .comment-form textarea {
+        height: 60px;
+        resize: none;
+      }
       .comment-form input:focus,
       .comment-form textarea:focus {
         border-color: var(--primary-warm);
@@ -89,14 +106,22 @@
       .comment-submit-btn {
         align-self: flex-end;
         background-color: var(--primary-warm);
-        color: white; border: none;
-        padding: 6px 18px; border-radius: 4px;
-        font-size: 0.85rem; font-weight: 500;
-        cursor: pointer; transition: var(--transition);
+        color: white;
+        border: none;
+        padding: 6px 18px;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: var(--transition);
       }
-      .comment-submit-btn:hover { background-color: var(--secondary-warm); }
+      .comment-submit-btn:hover {
+        background-color: var(--secondary-warm);
+      }
       .comment-count {
-        font-size: 0.8rem; color: var(--text-light); margin-left: 4px;
+        font-size: 0.8rem;
+        color: var(--text-light);
+        margin-left: 4px;
       }
 
       /* 이미지 업로드 placeholder (community-post.css 보완) */
@@ -133,7 +158,7 @@
         position: absolute;
         top: 6px;
         right: 6px;
-        background: rgba(0,0,0,0.55);
+        background: rgba(0, 0, 0, 0.55);
         color: white;
         border: none;
         border-radius: 50%;
@@ -147,7 +172,7 @@
         transition: var(--transition);
       }
       .image-remove-btn:hover {
-        background: rgba(217,83,79,0.85);
+        background: rgba(217, 83, 79, 0.85);
       }
     </style>
   </head>
@@ -155,11 +180,15 @@
     <nav class="navbar">
       <div class="nav-brand-group">
         <a href="index.html" class="nav-logo">
-          <img src="../icons/screen.png" alt="Motipe 로고" class="nav-logo-img" />
+          <img
+            src="../icons/screen.png"
+            alt="Motipe 로고"
+            class="nav-logo-img"
+          />
         </a>
         <div class="nav-left">
-
-          <a href="community.html">커뮤니티</a>
+          <a href="map.html">지도</a>
+          <a href="community.html" class="active">커뮤니티</a>
         </div>
       </div>
       <div class="nav-right">
@@ -185,15 +214,19 @@
       </div>
     </nav>
 
-    <main class="container">
-      <section
-        class="community-header"
-        style="grid-column: 1 / -1; border-radius: 8px"
+    <section class="community-header">
+      <h2
+        class="font-winter"
+        style="color: var(--secondary-warm); font-size: 2.2rem; margin: 0"
       >
-        <h2>커뮤니티</h2>
-        <p>여러분들의 안식처를 공유해주세요.</p>
-      </section>
+        커뮤니티
+      </h2>
+      <p style="color: var(--text-main); margin-top: 10px">
+        여러분들의 안식처를 공유해주세요.
+      </p>
+    </section>
 
+    <main class="container">
       <div class="filter-container" style="grid-column: 1 / -1">
         <button
           class="filter-chip active"
@@ -290,13 +323,28 @@
                 class="input-field"
                 placeholder="로그인 후 자동 입력됩니다"
                 readonly
-                style="background-color: var(--bg-warm); cursor: default;"
+                style="background-color: var(--bg-warm); cursor: default"
               />
             </div>
             <div class="form-group">
-              <label>사진 등록 <span style="font-weight:400; font-size:0.8rem; color:var(--text-light);">(선택)</span></label>
+              <label
+                >사진 등록
+                <span
+                  style="
+                    font-weight: 400;
+                    font-size: 0.8rem;
+                    color: var(--text-light);
+                  "
+                  >(선택)</span
+                ></label
+              >
               <div class="image-upload-area" id="imageUploadArea">
-                <input type="file" id="postImage" accept="image/*" onchange="previewImage(event)" />
+                <input
+                  type="file"
+                  id="postImage"
+                  accept="image/*"
+                  onchange="previewImage(event)"
+                />
                 <div class="image-upload-placeholder" id="imagePlaceholder">
                   <span class="icon">🖼️</span>
                   <span class="text">클릭하여 사진을 선택하세요</span>
@@ -304,7 +352,14 @@
                 </div>
                 <div class="image-preview-wrap" id="imagePreviewWrap">
                   <img id="imagePreview" src="" alt="미리보기" />
-                  <button type="button" class="image-remove-btn" onclick="removeImage(event)" title="사진 제거">✕</button>
+                  <button
+                    type="button"
+                    class="image-remove-btn"
+                    onclick="removeImage(event)"
+                    title="사진 제거"
+                  >
+                    ✕
+                  </button>
                 </div>
               </div>
             </div>
@@ -331,7 +386,9 @@
       <div class="modal-content">
         <div class="modal-header">
           <h2 style="color: var(--secondary-warm)">게시글 수정</h2>
-          <button class="close-modal" onclick="closeEditModal()">&times;</button>
+          <button class="close-modal" onclick="closeEditModal()">
+            &times;
+          </button>
         </div>
         <div class="modal-body">
           <form id="editPostForm">
@@ -361,9 +418,24 @@
               ></textarea>
             </div>
             <div class="form-group">
-              <label>사진 <span style="font-weight:400; font-size:0.8rem; color:var(--text-light);">(변경 시 새 사진 선택)</span></label>
+              <label
+                >사진
+                <span
+                  style="
+                    font-weight: 400;
+                    font-size: 0.8rem;
+                    color: var(--text-light);
+                  "
+                  >(변경 시 새 사진 선택)</span
+                ></label
+              >
               <div class="image-upload-area" id="editImageUploadArea">
-                <input type="file" id="editPostImage" accept="image/*" onchange="previewEditImage(event)" />
+                <input
+                  type="file"
+                  id="editPostImage"
+                  accept="image/*"
+                  onchange="previewEditImage(event)"
+                />
                 <div class="image-upload-placeholder" id="editImagePlaceholder">
                   <span class="icon">🖼️</span>
                   <span class="text">클릭하여 사진을 선택하세요</span>
@@ -371,7 +443,14 @@
                 </div>
                 <div class="image-preview-wrap" id="editImagePreviewWrap">
                   <img id="editImagePreview" src="" alt="미리보기" />
-                  <button type="button" class="image-remove-btn" onclick="removeEditImage(event)" title="사진 제거">✕</button>
+                  <button
+                    type="button"
+                    class="image-remove-btn"
+                    onclick="removeEditImage(event)"
+                    title="사진 제거"
+                  >
+                    ✕
+                  </button>
                 </div>
               </div>
             </div>
@@ -386,7 +465,12 @@
           >
             취소
           </button>
-          <button id="editSubmitBtn" type="button" class="cta-button" onclick="submitEdit()">
+          <button
+            id="editSubmitBtn"
+            type="button"
+            class="cta-button"
+            onclick="submitEdit()"
+          >
             수정 완료
           </button>
         </div>

@@ -5,7 +5,7 @@
   // 환경변수 로드 우선순위:
   // 1) server.js가 제공하는 /config.js (window.SUPABASE_URL 등)
   // 2) .env 파일 직접 fetch (로컬 개발 환경)
-  // 3) 하드코딩 fallback
+  // 3) 하드코딩 fallback ah
   async function loadEnv() {
     // 1) server.js /config.js 가 window에 이미 주입한 경우
     if (window.SUPABASE_URL && window.SUPABASE_ANON_KEY) {

@@ -117,7 +117,29 @@
               여정 계속하기
             </button>
           </form>
+          <div class="social-login-wrap">
+            <div class="social-divider">
+              <span>또는</span>
+            </div>
 
+            <button
+              id="google-login-btn"
+              class="social-login-btn google-login-btn"
+              type="button"
+            >
+              <span class="social-icon">G</span>
+              <span>Google로 로그인</span>
+            </button>
+
+            <button
+              id="kakao-login-btn"
+              class="social-login-btn kakao-login-btn"
+              type="button"
+            >
+              <span class="social-icon">K</span>
+              <span>Kakao로 로그인</span>
+            </button>
+          </div>
           <div class="text-center pt-4">
             <p class="login-footer-text">
               아직 회원이 아니신가요?
@@ -179,6 +201,42 @@
             button.disabled = false;
           }
         });
+        async function handleSocialLogin(provider) {
+          try {
+            if (!window.supabaseClient) {
+              await window.initAuth();
+            }
+
+            const { error } = await window.supabaseClient.auth.signInWithOAuth({
+              provider: provider,
+              options: {
+                redirectTo: `${window.location.origin}/html/index.html`,
+              },
+            });
+
+            if (error) {
+              throw error;
+            }
+          } catch (error) {
+            console.error(error);
+            alert(
+              "소셜 로그인 실패: " +
+                (error.message || "잠시 후 다시 시도해주세요."),
+            );
+          }
+        }
+
+        document
+          .getElementById("google-login-btn")
+          ?.addEventListener("click", function () {
+            handleSocialLogin("google");
+          });
+
+        document
+          .getElementById("kakao-login-btn")
+          ?.addEventListener("click", function () {
+            handleSocialLogin("kakao");
+          });
     </script>
   </body>
 </html>

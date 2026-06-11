@@ -34,6 +34,38 @@ app.get("/config.js", (req, res) => {
   `);
 });
 
+// 회원가입 후 public.users 테이블에 유저 정보 저장
+app.post("/api/create-user-profile", async (req, res) => {
+  const { id, email, nickname } = req.body;
+
+  if (!id || !email || !nickname) {
+    return res.status(400).json({
+      message: "id, email, nickname이 모두 필요합니다.",
+    });
+  }
+
+  try {
+    const { error } = await supabaseAdmin.from("users").insert({
+      id,
+      email,
+      nickname,
+    });
+
+    if (error) {
+      throw error;
+    }
+
+    res.json({
+      message: "유저 프로필이 public.users에 저장되었습니다.",
+    });
+  } catch (error) {
+    console.error("유저 프로필 저장 오류:", error);
+    res.status(500).json({
+      message: error.message || "유저 프로필 저장 중 오류가 발생했습니다.",
+    });
+  }
+});
+
 // 회원 탈퇴 API: 유저 정보 및 작성 게시글 전체 삭제
 app.delete("/api/delete-account", async (req, res) => {
   const authHeader = req.headers.authorization;

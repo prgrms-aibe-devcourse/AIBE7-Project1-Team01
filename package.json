@@ -7,6 +7,7 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.108.1",
     "dotenv": "^17.4.2",
     "express": "^4.22.2"
   },

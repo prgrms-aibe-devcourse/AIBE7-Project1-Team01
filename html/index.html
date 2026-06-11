@@ -6,6 +6,50 @@
     <link rel="icon" type="image/png" href="../icons/MOTIPE%20favicon.png" />
     <title>노을빛 여행 - 따뜻한 감성 여행 추천</title>
     <link rel="stylesheet" href="../css/main.css" />
+    <style>
+      /* 메인 컨텐츠의 최대 너비를 확장하여 양옆으로 공간을 더 확보합니다 */
+      .search-section,
+      .container {
+        max-width: 100% !important; /* 가로 제한을 완전히 해제 */
+        margin: 0 auto;
+        width: 95%; /* 홈페이지 기본 컨텐츠 폭 유지 */
+      }
+
+      /* 검색바 자체를 넓게 조정 */
+      .search-bar-container {
+        display: flex !important; /* 내부 요소들을 가로로 정렬 */
+        align-items: center !important; /* 세로 중앙 정렬 */
+        width: 90% !important; /* 모바일 등 작은 화면에서의 기본 너비 */
+        max-width: 800px !important; /* PC 화면에서 고정될 최대 너비 (이 숫자를 조절하세요) */
+        padding: 6px 8px 6px 0;
+      }
+
+      /* 넓어진 검색창에 어울리도록 아이콘 영역 여백 조정 */
+      .search-bar-container .search-icon-wrapper {
+        padding-left: 26px;
+        padding-right: 4px;
+      }
+
+      .search-bar-container .search-icon-emoji {
+        font-size: 1.5rem;
+      }
+
+      /* 입력 필드 패딩 확대 */
+      .search-bar-container .search-input {
+        flex: 1 !important; /* 아이콘과 버튼 사이의 남은 공간을 모두 차지하여 늘어납니다 */
+        padding: 20px 24px;
+        font-size: 1.2rem;
+      }
+
+      /* 검색 버튼을 넓어진 바에 맞춰 더 넉넉하게 */
+      .search-bar-container .search-button {
+        height: 46px;
+        padding: 0 32px;
+        font-size: 1.15rem;
+        border-radius: 25px;
+        margin-right: 6px;
+      }
+    </style>
   </head>
   <section>
     <nav class="navbar">
@@ -18,6 +62,7 @@
           />
         </a>
         <div class="nav-left">
+          <a href="map.html">지도</a>
           <a href="community.html">커뮤니티</a>
         </div>
       </div>
@@ -289,6 +334,125 @@
 
       nextBtn.addEventListener("click", () => {
         moveSlide(currentIndex + 1);
+      });
+
+      // ============================================
+      // 검색 로직 추가 (DESIGN.md 준수)
+      // ============================================
+      const searchInput = document.querySelector(".search-input");
+      const searchBtn = document.querySelector(".search-button");
+      const searchResults = document.getElementById("searchResults");
+
+      // 기본 추천 여행지 데이터셋 정의
+      const STATIC_DESTINATIONS = [
+        {
+          category: "추천 여행지",
+          title: "고요한 모래섬",
+          content:
+            "바쁜 일상에서 벗어나 파도 소리에 귀를 기울여보세요. 인적 드문 해변과 따뜻한 차 한 잔이 기다립니다.",
+        },
+        {
+          category: "추천 여행지",
+          title: "제주 평대리",
+          content:
+            "푸른 바다와 돌담길이 어우러진 조용한 마을. 따뜻한 노을을 바라보며 마시는 커피 한 잔이 위로를 줍니다.",
+        },
+        {
+          category: "추천 여행지",
+          title: "강릉 안목해변",
+          content:
+            "끝없이 펼쳐진 동해 바다를 바라보며 커피 한 잔의 여유를 즐길 수 있는 감성 해변입니다.",
+        },
+        {
+          category: "추천 여행지",
+          title: "담양 메타세쿼이아",
+          content:
+            "초록빛 나무들이 터널을 이루는 아름다운 길. 자전거를 타고 바람을 느끼며 걷기 좋은 안식처입니다.",
+        },
+      ];
+
+      // 검색 실행 함수
+      function performSearch() {
+        const query = searchInput.value.trim().toLowerCase();
+        searchResults.innerHTML = "";
+
+        if (!query) {
+          searchResults.style.display = "flex";
+          searchResults.innerHTML = `
+                    <div class="no-results-card">
+                        🔍 검색어를 입력해 주세요. (예: 제주, 오두막, 노을)
+                    </div>
+                `;
+          return;
+        }
+
+        // 1. Static 데이터에서 검색
+        const matchedStatic = STATIC_DESTINATIONS.filter(
+          (item) =>
+            item.title.toLowerCase().includes(query) ||
+            item.content.toLowerCase().includes(query),
+        );
+
+        // 2. localStorage의 커뮤니티 글 데이터에서 검색
+        let matchedCommunity = [];
+        const storedPosts = localStorage.getItem("community_posts");
+        if (storedPosts) {
+          try {
+            const posts = JSON.parse(storedPosts);
+            matchedCommunity = posts
+              .filter(
+                (post) =>
+                  post.title.toLowerCase().includes(query) ||
+                  post.content.toLowerCase().includes(query),
+              )
+              .map((post) => ({
+                category: `커뮤니티 | ${post.category}`,
+                title: post.title,
+                content: post.content,
+              }));
+          } catch (e) {
+            console.error("Failed to parse community posts", e);
+          }
+        }
+
+        const allResults = [...matchedStatic, ...matchedCommunity];
+
+        // 3. 결과 렌더링
+        searchResults.style.display = "flex";
+        if (allResults.length === 0) {
+          searchResults.innerHTML = `
+                    <div class="no-results-card">
+                        🍂 '${escapeHtml(query)}'에 대한 검색 결과가 없습니다. 다른 검색어를 입력해 보세요.
+                    </div>
+                `;
+        } else {
+          searchResults.innerHTML = allResults
+            .map(
+              (item) => `
+                    <div class="search-result-card">
+                        <span class="category">${escapeHtml(item.category)}</span>
+                        <h3>${escapeHtml(item.title)}</h3>
+                        <p>${escapeHtml(item.content)}</p>
+                    </div>
+                `,
+            )
+            .join("");
+        }
+      }
+
+      // HTML escape helper
+      function escapeHtml(str) {
+        const div = document.createElement("div");
+        div.textContent = str;
+        return div.innerHTML;
+      }
+
+      // 검색 이벤트 리스너 등록
+      if (searchBtn) searchBtn.addEventListener("click", performSearch);
+      if (searchInput) searchInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          performSearch();
+        }
       });
 
       // ============================================

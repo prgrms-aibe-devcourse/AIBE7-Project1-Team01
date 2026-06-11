@@ -155,9 +155,12 @@ export function renderSearchResults(
       )
       .join("");
 
-    festivalList.querySelectorAll(".search-result-card").forEach((el, i) => {
-      el.addEventListener("click", () => onPlaceClick(places[i]));
-    });
+    placeList.onclick = (e) => {
+      const card = e.target.closest(".search-result-card");
+      if (!card) return;
+      const idx = parseInt(card.dataset.idx);
+      onPlaceClick(places[idx]);
+    };
   }
 
   festivalTab.onclick = () => switchSearchTab("festival");

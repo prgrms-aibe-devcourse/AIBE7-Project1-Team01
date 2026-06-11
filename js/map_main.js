@@ -81,6 +81,7 @@ function handleSearch() {
         if (window.innerWidth <= 768) switchTab("map");
       },
       (place) => {
+        panToPlace(place);
         if (window.innerWidth <= 768) switchTab("map");
       },
     );

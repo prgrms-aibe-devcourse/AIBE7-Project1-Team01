@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: require('path').join(__dirname, '.env') });
 const express  = require('express');
 const cors     = require('cors');
 const path     = require('path');
@@ -602,6 +602,12 @@ app.get('/api/planner-photo', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 서버가 포트 ${PORT}에서 작동 중입니다.`);
-});
+// 단독 실행(node server.js)일 때만 포트 listen.
+// require()로 불러와 다른 서버에 마운트할 때는 app만 내보낸다.
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`🚀 서버가 포트 ${PORT}에서 작동 중입니다.`);
+  });
+}
+
+module.exports = app;

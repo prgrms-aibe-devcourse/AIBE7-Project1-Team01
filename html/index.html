@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="../icons/MOTIPE%20favicon.png" />
+    <title>노을빛 여행 - 따뜻한 감성 여행 추천</title>
+    <link rel="stylesheet" href="../css/main.css" />
+  </head>
+  <section>
+    <nav class="navbar">
+      <div class="nav-brand-group">
+        <a href="index.html" class="nav-logo">
+          <img
+            src="../icons/screen.png"
+            alt="Motipe 로고"
+            class="nav-logo-img"
+          />
+        </a>
+        <div class="nav-left">
+          <a href="community.html">커뮤니티</a>
+        </div>
+      </div>
+
+      <div class="nav-right">
+        <!-- 로그인 전 상태 -->
+        <div id="nav-guest" class="nav-auth-group">
+          <a href="login.html" class="nav-btn-outline">로그인</a>
+          <a href="signup.html" class="nav-btn-outline">회원가입</a>
+        </div>
+
+        <!-- 로그인 후 상태 (기본적으로 숨김) -->
+        <div id="nav-user" class="nav-auth-group" style="display: none">
+          <a href="mypage.html" class="nav-icon-link">
+            <img
+              src="../icons/mypage-icon.png"
+              alt="마이페이지"
+              class="nav-mypage-img"
+            />
+          </a>
+          <button type="button" id="logout-btn" class="nav-btn-outline">
+            로그아웃
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <section class="hero-slider">
+      <div class="slider-wrapper">
+        <div
+          class="slide"
+          style="
+            background-image:
+              linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)),
+              url(&quot;https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80&quot;);
+          "
+        >
+          <div class="slide-content">
+            <h2 class="font-winter">따스한 햇살이 머무는 곳으로</h2>
+            <p>인위적인 것들을 뒤로하고 자연의 속도에 맞춰 걷는 시간</p>
+            <br />
+            <a href="#" class="cta-button">여정 시작하기</a>
+          </div>
+        </div>
+        <div
+          class="slide"
+          style="
+            background-image:
+              linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)),
+              url(&quot;https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80&quot;);
+          "
+        >
+          <div class="slide-content">
+            <h2 class="font-winter">바람 소리마저 숲이 되는 길</h2>
+            <p>피톤치드 가득한 깊은 숲속에서 찾는 내 마음의 쉼표</p>
+            <br />
+            <a href="#" class="cta-button" data-keyword="숲">여정 시작하기</a>
+          </div>
+        </div>
+        <div
+          class="slide"
+          style="
+            background-image:
+              linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)),
+              url(&quot;https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80&quot;);
+          "
+        >
+          <div class="slide-content">
+            <h2 class="font-winter">노을빛이 스며드는 바다</h2>
+            <p>어둠이 내리기 전 가장 찬란하게 빛나는 순간을 함께하세요</p>
+            <br />
+            <a href="#" class="cta-button">여정 시작하기</a>
+          </div>
+        </div>
+        <div
+          class="slide"
+          style="
+            background-image:
+              linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)),
+              url(&quot;https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?auto=format&fit=crop&w=1200&q=80&quot;);
+          "
+        >
+          <div class="slide-content">
+            <h2 class="font-winter">별빛이 흐르는 밤하늘</h2>
+            <p>쏟아질 듯한 우주의 신비로움을 가만히 느껴보는 깊은 밤</p>
+            <br />
+            <a href="#" class="cta-button">여정 시작하기</a>
+          </div>
+        </div>
+        <div
+          class="slide"
+          style="
+            background-image:
+              linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)),
+              url(&quot;https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80&quot;);
+          "
+        >
+          <div class="slide-content">
+            <h2 class="font-winter">소박한 골목길의 속삭임</h2>
+            <p>천천히 거닐며 발견하는 낡은 이정표와 작은 들꽃들의 이야기</p>
+            <br />
+            <a href="#" class="cta-button">여정 시작하기</a>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="slide-btn prev-btn">&#10094;</button>
+      <button type="button" class="slide-btn next-btn">&#10095;</button>
+    </section>
+
+    <!-- 검색 및 서브 버튼 섹션 수정 -->
+    <!-- <section class="search-section">
+      <div
+        class="search-outer-wrapper"
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 12px;
+        "
+      >
+        <div class="search-bar-container" style="margin: 0 10px;"> -->
+          <!-- 검색창 왼쪽에 제미나이 상징 이미지를 감싸는 영역을 추가했습니다 -->
+          <!-- <div class="search-icon-wrapper">
+            <span class="search-icon-emoji">💡</span>
+          </div>
+          <input
+            type="text"
+            placeholder="어디로 떠나고 싶으신가요?"
+            class="search-input"
+          />
+          <button type="button" class="search-button">검색</button>
+        </div>
+
+      </div> -->
+      <!-- 검색 결과를 동적으로 렌더링하기 위한 컨테이너 (DESIGN.md 준수) -->
+      <!-- <div class="search-results-container" id="searchResults"></div>
+    </section> -->
+
+
+    <section class="search-section">
+  <div class="search-outer-wrapper" style="display: flex; align-items: center; justify-content: center; gap: 12px;">
+    <!-- <div class="search-bar-container" style="margin: 0 10px; display: flex; align-items: center;"> -->
+      <!-- <div class="search-icon-wrapper"> -->
+        <!-- <span class="search-icon-emoji">💡</span> -->
+      <!-- </div> -->
+      <!-- <input type="text" placeholder="어디로 떠나고 싶으신가요?" class="search-input" /> -->
+      <!-- <button type="button" class="search-button">검색</button> -->
+      
+      <button type="button" class="ai-trigger-btn" id="openAiChatBtn">
+        ✨ AI 추천받기
+      </button>
+    </div>
+  </div>
+  <div class="search-results-container" id="searchResults"></div>
+</section>
+
+<!-- 커뮤니티 최신 게시글 썸네일 섹션 -->
+<section class="community-preview">
+  <div class="community-preview-head">
+    <h2 class="font-winter">여행자들의 이야기</h2>
+    <a href="community.html" class="community-preview-more">커뮤니티 더보기 &rsaquo;</a>
+  </div>
+  <div class="post-grid" id="communityThumbs">
+    <div class="empty-message">⏳ 게시글을 불러오는 중입니다...</div>
+  </div>
+</section>
+
+<div id="aiChatModal" class="chat-modal-overlay hidden">
+  <div class="chat-modal-content chat-modal-content--bot">
+    <div class="chat-modal-header">
+      <h3 class="font-winter">✨ 노을빛 AI 여행 가이드</h3>
+      <button type="button" class="chat-modal-close" id="closeAiChatBtn">&times;</button>
+    </div>
+    <div class="chat-modal-body chat-modal-body--bot">
+      <iframe
+        id="aiBotFrame"
+        class="ai-bot-frame"
+        title="Motipe AI 여행 추천"
+        src="about:blank"
+        data-src="/bot/"
+        loading="lazy"
+        referrerpolicy="no-referrer"
+      ></iframe>
+    </div>
+  </div>
+</div>
+</section>
+
+
+
+
+
+    <div class="travel-chat-launcher" id="travel-chat-launcher">
+      <button
+        type="button"
+        class="travel-chat-toggle"
+        id="travel-chat-toggle"
+        aria-label=""
+      >
+        <img
+          src="https://6a276ea0b82917fdef05cb59.imgix.net/b_%EC%96%B4%EA%B9%A8%EA%B0%80_%EB%B3%B4%EC%9D%BC%EC%AF%A4%EC%97%90%EC%84%9C_%EC%9E%98%EB%9D%BC%EC%A4%98_%EB%84%88%EB%AC%B4_%EC%83%81%EC%B1%84%EA%B0%80.jpeg?w=1024&h=1024"
+          alt="챗봇 아이콘"
+          class="travel-chat-icon-img"
+        />
+      </button>
+
+          
+      <section
+        class="travel-chat-panel hidden"
+        id="travel-chat-panel"
+        aria-label=""
+      >
+              
+        <div class="travel-chat-panel-header">
+          <h2 class="travel-chat-panel-title">공지사항</h2>
+          <button
+            type="button"
+            class="travel-chat-close"
+            id="travel-chat-close"
+            aria-label=""
+          >
+            X
+          </button>
+        </div>
+
+        <div
+          class="travel-chat-messages"
+          id="travel-chat-messages"
+          aria-live="polite"
+        >
+          그대는 나의 빛이요<br />
+          그대는 나의 어둠이요<br />
+          그대는 나의 전부이요<br />
+          그대는 나의 스승이요
+        </div>
+            
+      </section>
+        
+    </div>
+
+    <script>
+      const wrapper = document.querySelector(".slider-wrapper");
+      const prevBtn = document.querySelector(".prev-btn");
+      const nextBtn = document.querySelector(".next-btn");
+      const totalSlides = document.querySelectorAll(".slide").length;
+
+      let currentIndex = 0;
+
+      // 슬라이드 이동 함수
+      function moveSlide(index) {
+        // 인덱스가 범위를 벗어나지 않도록 처리 (순환 구조)
+        if (index < 0) {
+          currentIndex = totalSlides - 1;
+        } else if (index >= totalSlides) {
+          currentIndex = 0;
+        } else {
+          currentIndex = index;
+        }
+
+        // 1장당 가로 폭인 -20% 단위로 곱해서 컨테이너를 통째로 밀어줍니다.
+        wrapper.style.transform = `translateX(-${currentIndex * 20}%)`;
+      }
+
+      // 버튼 클릭 이벤트 리스너 설정
+      prevBtn.addEventListener("click", () => {
+        moveSlide(currentIndex - 1);
+      });
+
+      nextBtn.addEventListener("click", () => {
+        moveSlide(currentIndex + 1);
+      });
+
+      // ============================================
+      // 공지사항(챗봇) 창 열기/닫기 로직 추가
+      // ============================================
+      const chatToggle = document.getElementById("travel-chat-toggle");
+      const chatPanel = document.getElementById("travel-chat-panel");
+      const chatClose = document.getElementById("travel-chat-close");
+
+      if (chatToggle && chatPanel) {
+        chatToggle.addEventListener("click", () => {
+          chatPanel.classList.toggle("hidden");
+        });
+      }
+
+      if (chatClose && chatPanel) {
+        chatClose.addEventListener("click", () => {
+          chatPanel.classList.add("hidden");
+        });
+      }
+
+// ============================================
+// AI 챗봇 모달 제어 로직 (Motipe_bot iframe 호출)
+// ============================================
+const openAiChatBtn = document.getElementById("openAiChatBtn");
+const closeAiChatBtn = document.getElementById("closeAiChatBtn");
+const aiChatModal = document.getElementById("aiChatModal");
+const aiBotFrame = document.getElementById("aiBotFrame");
+
+// 모달 열기 — iframe src를 data-src에서 주입 (최초 1회 로드)
+function openAiModal() {
+  if (aiBotFrame && aiBotFrame.src === "about:blank") {
+    aiBotFrame.src = aiBotFrame.dataset.src;
+  }
+  aiChatModal.classList.remove("hidden");
+  document.body.style.overflow = "hidden";
+}
+
+// 모달 닫기 — iframe을 about:blank로 되돌려 백그라운드 동작/소리 중지
+function closeAiModal() {
+  aiChatModal.classList.add("hidden");
+  document.body.style.overflow = "auto";
+}
+
+openAiChatBtn.addEventListener("click", openAiModal);
+closeAiChatBtn.addEventListener("click", closeAiModal);
+
+// 모달 외부(오버레이) 클릭 시 닫기
+aiChatModal.addEventListener("click", (e) => {
+  if (e.target === aiChatModal) {
+    closeAiModal();
+  }
+});
+
+// ESC 키로 닫기
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !aiChatModal.classList.contains("hidden")) {
+    closeAiModal();
+  }
+});
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/config.js"></script>
+    <script src="../js/community.js"></script>
+    <script>
+      // ============================================
+      // 커뮤니티 최신 게시글 썸네일 노출
+      // community.js가 window.supabaseClient 준비 후 'supabase-ready' 발생
+      // ============================================
+      (function () {
+        const MAX_THUMBS = 8; // 메인에 보여줄 최대 개수
+
+        function escapeAttr(str) {
+          const d = document.createElement("div");
+          d.textContent = str ?? "";
+          return d.innerHTML;
+        }
+
+        function categoryBadgeClass(category) {
+          return (
+            { "여행 리뷰": "review", "여행 꿀팁": "tip", "질문 하기": "question" }[
+              category
+            ] ?? ""
+          );
+        }
+
+        function defaultCategoryImage(category) {
+          const map = {
+            "여행 리뷰":
+              "https://6a276ea0b82917fdef05cb59.imgix.net/image-1.webp?w=1200&h=800",
+            "여행 꿀팁":
+              "https://6a276ea0b82917fdef05cb59.imgix.net/yjp009-west-sea-7860536_1920.jpg?w=1920&h=1080",
+          };
+          return map[category] ?? null;
+        }
+
+        function buildThumb(post) {
+          const imageUrl = post.image_url || defaultCategoryImage(post.category);
+          const imgTag = imageUrl
+            ? `<img src="${escapeAttr(imageUrl)}" alt="${escapeAttr(post.title)}" class="post-image" loading="lazy" onerror="this.style.display='none'" />`
+            : "";
+          return `
+            <a class="post-card community-thumb" href="community.html">
+              ${imgTag}
+              <div class="post-content">
+                <span class="category-badge ${categoryBadgeClass(post.category)}">${escapeAttr(post.category)}</span>
+                <h3>${escapeAttr(post.title)}</h3>
+                <p>${escapeAttr(post.content)}</p>
+              </div>
+            </a>`;
+        }
+
+        async function renderCommunityThumbs() {
+          const grid = document.getElementById("communityThumbs");
+          if (!grid || !window.supabaseClient) return;
+
+          try {
+            const { data, error } = await window.supabaseClient
+              .from("posts")
+              .select("*")
+              .order("created_at", { ascending: false })
+              .limit(MAX_THUMBS);
+
+            if (error) throw error;
+
+            if (!data || data.length === 0) {
+              grid.innerHTML =
+                '<div class="empty-message">📝 아직 게시글이 없습니다.</div>';
+              return;
+            }
+
+            grid.innerHTML = data.map(buildThumb).join("");
+          } catch (err) {
+            console.error("커뮤니티 썸네일 로드 실패:", err);
+            grid.innerHTML =
+              '<div class="empty-message">⚠️ 게시글을 불러오지 못했습니다.</div>';
+          }
+        }
+
+        if (window.supabaseClient) {
+          renderCommunityThumbs();
+        } else {
+          window.addEventListener("supabase-ready", renderCommunityThumbs, {
+            once: true,
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>

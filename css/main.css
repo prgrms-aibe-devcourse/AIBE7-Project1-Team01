@@ -1,0 +1,1189 @@
+/* Nature & Earthly Travel Theme */
+
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+:root {
+  --primary-warm: #c68642;
+  --secondary-warm: #8e5d3f;
+  --bg-warm: #f4f1ea;
+  --card-bg: #ffffff;
+  --text-main: #3c3c3c;
+  --text-light: #707070;
+  --accent-sepia: #d9b99b;
+  --max-width: 1100px;
+  --transition: all 0.3s ease;
+}
+@font-face {
+    font-family: 'HsWinterSnowflake20';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/HSGyeoulNoonkott20.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+
+/* 눈꽃 폰트 클래스 추가 */
+.font-winter {
+    font-family: 'HsWinterSnowflake20', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    "Pretendard",
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    Roboto,
+    sans-serif;
+  background-color: var(--bg-warm);
+  color: var(--text-main);
+  line-height: 1.7;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+
+header {
+  background-color: var(--card-bg);
+  padding: 30px 20px;
+  text-align: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+header h1 {
+  font-size: 2rem;
+  color: var(--secondary-warm);
+  font-weight: 700;
+  margin-bottom: 5px;
+  letter-spacing: -0.03em;
+}
+
+header p {
+  font-size: 0.95rem;
+  color: var(--text-light);
+}
+
+/* ========================================================
+   양끝 정렬 형태의 새로운 네비게이션 바 스타일
+   ======================================================== */
+.nav-btn-outline {
+  border: 1px solid var(--primary-warm); /* 브랜드 컬러로 외곽선 지정 */
+  padding: 6px 16px;
+  border-radius: 4px;
+  color: var(--primary-warm) !important;
+}
+
+.nav-btn-outline:hover {
+  background-color: var(--primary-warm);
+  color: white !important;
+}
+
+.nav-icon-link {
+  display: flex;
+  align-items: center;
+}
+
+.nav-mypage-img {
+  height: 24px; /* 네비게이션 높이에 맞춘 적절한 크기 */
+  width: auto;
+  object-fit: contain;
+}
+
+nav.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--card-bg);
+  padding: 15px 40px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.nav-brand-group {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* 로고 이미지와 글자 사이의 간격 격상 */
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--secondary-warm);
+  transition: var(--transition);
+}
+
+/* [수정] 플레이스홀더를 지우고 실제 로고 이미지 크기 및 정렬 속성 지정 */
+.nav-logo-img {
+  width: auto;
+  height: 32px; /* 메뉴바에 부드럽게 녹아들도록 높이 지정 */
+  object-fit: contain; /* 원본 비율을 깨뜨리지 않고 정비율 유지 */
+  display: block;
+}
+
+.nav-left {
+  display: flex;
+  gap: 25px;
+}
+
+.nav-right {
+  display: flex;
+  gap: 25px;
+}
+
+nav.navbar a {
+  color: var(--text-light);
+  transition: var(--transition);
+}
+
+nav.navbar a:hover {
+  color: var(--primary-warm);
+}
+
+nav.navbar .nav-logo {
+  color: var(--secondary-warm);
+}
+
+nav.navbar .nav-logo:hover {
+  color: var(--primary-warm);
+}
+
+/* ========================================================
+   클릭형 버튼 방식의 슬라이딩 히어로 섹션 스타일
+   ======================================================== */
+
+.hero-slider {
+  position: relative;
+  width: 100%;
+  height: 450px;
+  overflow: hidden;
+  background-color: #333;
+}
+
+.slider-wrapper {
+  display: flex;
+  width: 500%;
+  height: 100%;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+  width: 20%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.slide-content h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  letter-spacing: -0.02em;
+}
+
+.slide-content p {
+  font-size: 1.1rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  margin-bottom: 25px;
+}
+
+.cta-button {
+  background-color: var(--primary-warm);
+  color: white;
+  padding: 15px 35px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: var(--transition);
+  border: 1px solid var(--secondary-warm);
+}
+
+.cta-button:hover {
+  background-color: var(--secondary-warm);
+  transform: translateY(-2px);
+}
+
+.slide-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  padding: 15px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: var(--transition);
+  z-index: 10;
+}
+
+.slide-btn:hover {
+  background-color: var(--primary-warm);
+}
+
+.prev-btn {
+  left: 20px;
+}
+.next-btn {
+  right: 20px;
+}
+
+/* ========================================================
+   검색창 및 본문 섹션
+   ======================================================== */
+
+.search-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 50px 20px;
+  background-color: var(--bg-warm);
+}
+
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 700px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  border-radius: 30px; /* 좌우 모서리를 완전히 둥글게 처리 */
+  overflow: hidden;
+  background-color: var(--card-bg);
+  border: 2px solid var(--accent-sepia); /* 테두리를 부모 컨테이너로 이동 */
+
+  overflow: visible;
+  padding-right: 6px;
+}
+
+.search-icon-wrapper {
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon-emoji {
+  font-size: 1.4rem; /* 이모지 크기 조절 */
+  line-height: 1;
+}
+
+.search-input {
+  flex: 1;
+  padding: 18px 20px;
+  font-size: 1.15rem;
+  border: none; /* 중복 테두리 제거 */
+  outline: none;
+  color: var(--text-main);
+  background-color: transparent;
+}
+
+.search-button {
+  height: 40px;
+  padding: 0 25px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background-color: var(--primary-warm);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  border-radius: 23px;
+  margin-left: 10px;
+}
+
+.search-button:hover {
+  background-color: var(--secondary-warm);
+}
+
+.sub-buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.small-button {
+  display: inline-flex; /* 아이콘과 텍스트를 가로로 나란히 정렬 */
+  align-items: center;
+  gap: 8px; /* 아이콘과 글자 사이의 간격 */
+  padding: 10px 25px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  background-color: var(--card-bg);
+  color: var(--text-main);
+  border: 1px solid var(--accent-sepia);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.small-button:hover {
+  background-color: var(--accent-sepia);
+  color: var(--secondary-warm);
+}
+
+/* 본문 컨테이너 */
+.container {
+  max-width: var(--max-width);
+  margin: 40px auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+article {
+  background-color: var(--card-bg);
+  padding: 30px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+}
+
+article h3 {
+  font-size: 1.25rem;
+  color: var(--secondary-warm);
+  margin-bottom: 15px;
+}
+
+/* 마이페이지 전용 스타일 */
+.active {
+  color: var(--primary-warm) !important;
+  font-weight: 700;
+}
+
+.profile-card {
+  grid-column: 1 / -1;
+  background-color: var(--card-bg);
+  padding: 50px 30px;
+  border-radius: 4px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.edit-button {
+  background-color: transparent;
+  border: 1px solid var(--primary-warm);
+  color: var(--primary-warm);
+  padding: 10px 30px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 20px;
+  font-weight: 500;
+}
+
+.edit-button:hover {
+  background-color: var(--primary-warm);
+  color: white;
+}
+
+.wishlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.wish-item {
+  background-color: var(--bg-warm);
+  padding: 25px;
+  border-radius: 4px;
+  border: 1px dashed var(--accent-sepia);
+  text-align: center;
+  transition: var(--transition);
+}
+
+.wish-item:hover {
+  background-color: var(--accent-sepia);
+  color: white;
+  cursor: pointer;
+}
+
+/* 마이페이지 추가 스타일: 폼 및 리스트 */
+.settings-card {
+  background-color: var(--card-bg);
+  padding: 30px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+}
+
+.settings-card h3 {
+  margin-bottom: 20px;
+  color: var(--secondary-warm);
+  border-bottom: 1px solid var(--bg-warm);
+  padding-bottom: 10px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+.input-field {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--accent-sepia);
+  border-radius: 4px;
+  background-color: var(--bg-warm);
+  font-family: inherit;
+  outline: none;
+  transition: var(--transition);
+}
+
+.input-field:focus {
+  border-color: var(--primary-warm);
+  background-color: white;
+}
+
+.activity-list {
+  list-style: none;
+  text-align: left;
+}
+
+.activity-item {
+  padding: 15px 0;
+  border-bottom: 1px solid var(--bg-warm);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.danger-link {
+  color: #d9534f;
+  font-size: 0.85rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* 커뮤니티 전용 스타일 */
+.community-header {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: var(--card-bg);
+  margin-bottom: 20px;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.filter-chip {
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: 1px solid var(--accent-sepia);
+  background-color: var(--card-bg);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.filter-chip.active,
+.filter-chip:hover {
+  background-color: var(--primary-warm);
+  color: white !important;
+  border-color: var(--primary-warm);
+}
+
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 25px;
+}
+
+.post-card {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: var(--transition);
+}
+
+.post-card:hover {
+  transform: translateY(-5px);
+}
+
+.post-image {
+  width: 100%;
+  height: 200px;
+  background-color: var(--bg-warm);
+  object-fit: cover;
+}
+
+.post-content {
+  padding: 20px;
+}
+
+.post-meta {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.rating {
+  color: var(--primary-warm);
+  font-weight: bold;
+}
+
+/* 마이페이지 레이아웃: 비밀번호 섹션 우측 고정 */
+@media (min-width: 1024px) {
+  .password-section {
+    grid-column: 3;
+    grid-row: 2; /* '나의 활동'과 같은 줄 혹은 바로 아래 줄 우측에 배치 */
+  }
+}
+
+/* 글쓰기 모달 스타일 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none; /* 기본적으로 숨김 */
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(3px);
+}
+
+.modal-content {
+  background-color: var(--card-bg);
+  width: 90%;
+  max-width: 600px;
+  padding: 40px;
+  border-radius: 8px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  animation: modalFadeUp 0.4s ease;
+}
+
+@keyframes modalFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-header {
+  margin-bottom: 25px;
+  border-bottom: 1px solid var(--bg-warm);
+  padding-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-modal {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-light);
+}
+
+.modal-body .form-group {
+  margin-bottom: 20px;
+}
+
+.modal-body textarea.input-field {
+  height: 150px;
+  resize: none;
+}
+
+.modal-footer {
+  margin-top: 30px;
+  text-align: right;
+}
+
+/* ========================================================
+   검색 결과 카드 및 컨테이너 스타일 (DESIGN.md 반영)
+   ======================================================== */
+.search-results-container {
+  display: none;
+  flex-direction: column;
+  width: 100%;
+  max-width: 700px;
+  margin: 20px auto 0 auto;
+  gap: 15px;
+  text-align: left;
+}
+
+.search-result-card {
+  background-color: var(--card-bg);
+  border-radius: 8px; /* Standard Radius: 8px */
+  padding: 25px 30px;
+  /* Ambient Shadow: secondary-warm (#8e5d3f) 색을 띤 12% 투명도의 그림자 */
+  box-shadow: 0 8px 24px rgba(142, 93, 63, 0.12);
+  border: none; /* No border as per DESIGN.md */
+  transition: var(--transition);
+}
+
+.search-result-card:hover {
+  transform: translateY(-3px); /* Hover lift */
+  box-shadow: 0 12px 30px rgba(142, 93, 63, 0.18);
+}
+
+.search-result-card h3 {
+  font-size: 1.2rem;
+  color: var(--secondary-warm);
+  margin-bottom: 10px;
+  border-left: 4px solid var(--accent-sepia); /* 4px solid accent border */
+  padding-left: 12px;
+  font-weight: 600;
+}
+
+.search-result-card p {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  line-height: 1.7;
+}
+
+.search-result-card .category {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--primary-warm);
+  background-color: var(--bg-warm);
+  padding: 3px 10px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.no-results-card {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(142, 93, 63, 0.08);
+  color: var(--text-light);
+  font-size: 0.95rem;
+}
+
+/* ========================================================
+   AI 챗봇 (travel-chat) 스타일 - main2.html에서 추가
+   ======================================================== */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.travel-chat-launcher {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000;
+}
+
+.travel-chat-toggle {
+  width: 58px;
+  height: 58px;
+  border: none;
+  border-radius: 999px;
+  background: var(
+    --card-bg
+  ); /* 배경을 흰색 계열로 변경 (이미지에 맞춰 조정 가능) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 14px 30px rgba(142, 93, 63, 0.28);
+  padding: 0;
+}
+
+.travel-chat-icon-img {
+  width: 40px; /* 시각적 균형을 위해 크기 조정 */
+  height: 40px;
+  object-fit: contain;
+  display: block;
+}
+
+.travel-chat-panel {
+  position: absolute;
+  right: 0;
+  bottom: 72px;
+  width: min(360px, calc(100vw - 32px));
+  background: var(--card-bg);
+  border: 1px solid rgba(214, 185, 155, 0.85);
+  border-radius: 20px;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.16);
+  padding: 18px;
+}
+
+.travel-chat-panel.hidden {
+  display: none;
+}
+
+.travel-chat-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.travel-chat-panel-title {
+  font-size: 1.15rem;
+  color: var(--secondary-warm);
+  margin: 0;
+}
+
+.travel-chat-close {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: #f6ede4;
+  color: var(--secondary-warm);
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+.travel-chat-panel-desc {
+  margin: 0 0 14px;
+  font-size: 0.95rem;
+  color: var(--text-light);
+}
+
+.travel-chat-messages {
+  max-height: 280px;
+  overflow-y: auto;
+  display: grid;
+  gap: 10px;
+  padding: 10px 0;
+  margin-bottom: 12px;
+}
+
+.travel-chat-message {
+  display: flex;
+}
+
+.travel-chat-message.user {
+  justify-content: flex-end;
+}
+
+.travel-chat-message.ai {
+  justify-content: flex-start;
+}
+
+.travel-chat-bubble {
+  max-width: 88%;
+  padding: 10px 12px;
+  border-radius: 16px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: keep-all;
+  font-size: 0.93rem;
+}
+
+.travel-chat-message.user .travel-chat-bubble {
+  background: var(--primary-warm);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+.travel-chat-message.ai .travel-chat-bubble {
+  background: #fbf3e8;
+  color: var(--text-main);
+  border: 1px solid rgba(217, 185, 155, 0.45);
+  border-bottom-left-radius: 4px;
+}
+
+.travel-chat-form {
+  display: grid;
+  gap: 10px;
+}
+
+.travel-chat-input {
+  width: 100%;
+  resize: vertical;
+  min-height: 92px;
+  border: 1px solid var(--accent-sepia);
+  border-radius: 14px;
+  padding: 12px 14px;
+  font: inherit;
+  color: var(--text-main);
+  background: #fff;
+  outline: none;
+}
+
+.travel-chat-input:focus {
+  border-color: var(--primary-warm);
+  box-shadow: 0 0 0 3px rgba(198, 134, 66, 0.12);
+}
+
+.travel-chat-button {
+  border: none;
+  border-radius: 999px;
+  padding: 11px 16px;
+  background: var(--primary-warm);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.travel-chat-button:hover:not(:disabled) {
+  background: var(--secondary-warm);
+}
+
+.travel-chat-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.travel-chat-status {
+  min-height: 22px;
+  margin-top: 10px;
+  color: var(--text-light);
+  font-size: 0.92rem;
+}
+
+.travel-chat-result {
+  margin-top: 12px;
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  background: #fbf7f2;
+  border-radius: 16px;
+  border: 1px solid rgba(217, 185, 155, 0.65);
+  max-height: 260px;
+  overflow: auto;
+}
+
+.travel-chat-result-item {
+  display: grid;
+  gap: 4px;
+}
+
+.travel-chat-label {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.travel-chat-result strong,
+.travel-chat-result p {
+  margin: 0;
+}
+
+@media (max-width: 480px) {
+  .travel-chat-launcher {
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .travel-chat-panel {
+    width: min(320px, calc(100vw - 24px));
+    bottom: 68px;
+  }
+
+  .travel-chat-bubble {
+    max-width: 100%;
+  }
+}
+
+/* AI 트리거 버튼 스타일 */
+.ai-trigger-btn {
+  margin-left: 8px;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #6b4c9a, #d56c70);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ai-trigger-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(213, 108, 112, 0.3);
+}
+
+/* 챗봇 모달 오버레이 (배경 어둡게) */
+.chat-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+/* hidden 클래스로 렌더링 제어 */
+.chat-modal-overlay.hidden {
+  display: none;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 챗봇 모달 컨텐츠 영역 */
+.chat-modal-content {
+  background-color: #fff;
+  width: 90%;
+  max-width: 400px;
+  height: 600px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.chat-modal-header {
+  padding: 16px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-modal-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.chat-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #888;
+}
+
+.chat-modal-body {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  background-color: #fdfdfd;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ============================================================
+   Motipe_bot iframe 모달 (AI 추천받기)
+   ============================================================ */
+.chat-modal-content--bot {
+  width: 92%;
+  max-width: 1100px;
+  height: 88vh;
+  max-height: 900px;
+}
+
+.chat-modal-body--bot {
+  padding: 0;
+  background-color: #fff;
+  overflow: hidden;
+}
+
+.ai-bot-frame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .chat-modal-content--bot {
+    width: 100%;
+    height: 100vh;
+    max-height: none;
+    border-radius: 0;
+  }
+}
+
+/* 메시지 버블 스타일 */
+.chat-message {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.ai-message {
+  align-self: flex-start;
+  background-color: #f1f3f5;
+  color: #333;
+  border-bottom-left-radius: 2px;
+}
+
+.user-message {
+  align-self: flex-end;
+  background-color: #6b4c9a;
+  color: white;
+  border-bottom-right-radius: 2px;
+}
+
+.chat-modal-footer {
+  padding: 12px;
+  border-top: 1px solid #eee;
+  display: flex;
+  gap: 8px;
+}
+
+.chat-modal-footer input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  outline: none;
+}
+
+.chat-modal-footer button {
+  padding: 8px 16px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/* ============================================================
+   메인 페이지 커뮤니티 미리보기 (썸네일 그리드)
+   ============================================================ */
+.community-preview {
+  max-width: 1200px;
+  margin: 40px auto 60px;
+  padding: 0 20px;
+}
+
+.community-preview-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 12px;
+}
+
+.community-preview-head h2 {
+  font-size: 1.8rem;
+  color: var(--secondary-warm);
+}
+
+.community-preview-more {
+  font-size: 0.95rem;
+  color: var(--primary-warm);
+  font-weight: 600;
+  white-space: nowrap;
+  transition: var(--transition);
+}
+
+.community-preview-more:hover {
+  color: var(--secondary-warm);
+}
+
+/* 썸네일 카드: post-card 재사용 + 링크화 */
+.community-thumb {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.community-thumb h3 {
+  margin: 10px 0 6px;
+  font-size: 1.1rem;
+  color: var(--text-main);
+}
+
+.community-thumb p {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 카테고리 뱃지 (community-post.css 미로드 페이지용) */
+.category-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.category-badge.review {
+  background-color: #fef3e2;
+  color: #c68642;
+}
+.category-badge.tip {
+  background-color: #e8f5e9;
+  color: #388e3c;
+}
+.category-badge.question {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+/* 빈 목록 / 로딩 메시지 */
+.empty-message {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 50px 20px;
+  color: var(--text-light);
+  font-size: 1.05rem;
+}

@@ -1,0 +1,29 @@
+{
+  "name": "motipe",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^4.22.2"
+  },
+  "description": "",
+  "main": "server.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prgrms-aibe-devcourse/AIBE7-Project1-Team01.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prgrms-aibe-devcourse/AIBE7-Project1-Team01/issues"
+  },
+  "homepage": "https://github.com/prgrms-aibe-devcourse/AIBE7-Project1-Team01#readme"
+}

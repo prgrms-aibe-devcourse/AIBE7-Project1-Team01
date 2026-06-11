@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="../icons/MOTIPE%20favicon.png" />
+    <title>여행자 광장 - 노을빛 여행</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/community-post.css" />
+    <!-- community-post.css 에서 스타일 관리 -->
+    <style>
+      /* 댓글 섹션 (community-post.css 미포함 댓글 전용 스타일) */
+      .comment-section {
+        border-top: 1px solid var(--bg-warm);
+        margin-top: 15px;
+        padding-top: 12px;
+      }
+      .comment-toggle {
+        background: none;
+        border: none;
+        color: var(--primary-warm);
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 4px 0;
+        transition: var(--transition);
+      }
+      .comment-toggle:hover { color: var(--secondary-warm); }
+      .comment-list { margin-top: 10px; display: none; }
+      .comment-list.open { display: block; }
+      .comment-item {
+        background-color: var(--bg-warm);
+        padding: 10px 14px;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        position: relative;
+        animation: postCardIn 0.3s ease;
+      }
+      .comment-item .comment-author {
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: var(--secondary-warm);
+      }
+      .comment-item .comment-date {
+        font-size: 0.75rem;
+        color: var(--text-light);
+        margin-left: 8px;
+      }
+      .comment-item .comment-text {
+        font-size: 0.9rem;
+        color: var(--text-main);
+        margin-top: 4px;
+        line-height: 1.5;
+      }
+      .comment-delete-btn {
+        position: absolute;
+        top: 8px; right: 10px;
+        background: none; border: none;
+        color: var(--text-light);
+        font-size: 0.75rem;
+        cursor: pointer;
+        transition: var(--transition);
+        padding: 2px 6px;
+        border-radius: 3px;
+      }
+      .comment-delete-btn:hover {
+        color: #d9534f;
+        background-color: rgba(217,83,79,0.1);
+      }
+      .comment-form {
+        display: flex; flex-direction: column;
+        gap: 8px; margin-top: 10px;
+      }
+      .comment-form input,
+      .comment-form textarea {
+        width: 100%; padding: 8px 12px;
+        border: 1px solid var(--accent-sepia);
+        border-radius: 4px;
+        background-color: var(--bg-warm);
+        font-family: inherit; font-size: 0.85rem;
+        outline: none; transition: var(--transition);
+      }
+      .comment-form textarea { height: 60px; resize: none; }
+      .comment-form input:focus,
+      .comment-form textarea:focus {
+        border-color: var(--primary-warm);
+        background-color: white;
+      }
+      .comment-submit-btn {
+        align-self: flex-end;
+        background-color: var(--primary-warm);
+        color: white; border: none;
+        padding: 6px 18px; border-radius: 4px;
+        font-size: 0.85rem; font-weight: 500;
+        cursor: pointer; transition: var(--transition);
+      }
+      .comment-submit-btn:hover { background-color: var(--secondary-warm); }
+      .comment-count {
+        font-size: 0.8rem; color: var(--text-light); margin-left: 4px;
+      }
+
+      /* 이미지 업로드 placeholder (community-post.css 보완) */
+      .image-upload-placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        pointer-events: none;
+      }
+      .image-upload-placeholder span.icon {
+        font-size: 2rem;
+      }
+      .image-upload-placeholder span.text {
+        font-size: 0.85rem;
+        color: var(--text-light);
+      }
+      .image-upload-placeholder span.hint {
+        font-size: 0.75rem;
+        color: var(--text-light);
+        opacity: 0.7;
+      }
+      .image-preview-wrap {
+        position: relative;
+        display: none;
+      }
+      .image-preview-wrap img {
+        width: 100%;
+        max-height: 200px;
+        object-fit: cover;
+        border-radius: 6px;
+      }
+      .image-remove-btn {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        background: rgba(0,0,0,0.55);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 26px;
+        height: 26px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+      }
+      .image-remove-btn:hover {
+        background: rgba(217,83,79,0.85);
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-brand-group">
+        <a href="index.html" class="nav-logo">
+          <img src="../icons/screen.png" alt="Motipe 로고" class="nav-logo-img" />
+        </a>
+        <div class="nav-left">
+
+          <a href="community.html">커뮤니티</a>
+        </div>
+      </div>
+      <div class="nav-right">
+        <!-- 로그인 전 상태 -->
+        <div id="nav-guest" class="nav-auth-group">
+          <a href="login.html" class="nav-btn-outline">로그인</a>
+          <a href="signup.html" class="nav-btn-outline">회원가입</a>
+        </div>
+
+        <!-- 로그인 후 상태 (기본적으로 숨김) -->
+        <div id="nav-user" class="nav-auth-group" style="display: none">
+          <a href="mypage.html" class="nav-icon-link">
+            <img
+              src="../icons/mypage-icon.png"
+              alt="마이페이지"
+              class="nav-mypage-img"
+            />
+          </a>
+          <button type="button" id="logout-btn" class="nav-btn-outline">
+            로그아웃
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container">
+      <section
+        class="community-header"
+        style="grid-column: 1 / -1; border-radius: 8px"
+      >
+        <h2>커뮤니티</h2>
+        <p>여러분들의 안식처를 공유해주세요.</p>
+      </section>
+
+      <div class="filter-container" style="grid-column: 1 / -1">
+        <button
+          class="filter-chip active"
+          data-category="전체"
+          onclick="filterPosts('전체', this)"
+        >
+          전체
+        </button>
+        <button
+          class="filter-chip"
+          data-category="여행 리뷰"
+          onclick="filterPosts('여행 리뷰', this)"
+        >
+          여행 리뷰
+        </button>
+        <button
+          class="filter-chip"
+          data-category="여행 꿀팁"
+          onclick="filterPosts('여행 꿀팁', this)"
+        >
+          여행 꿀팁
+        </button>
+        <button
+          class="filter-chip"
+          data-category="질문 하기"
+          onclick="filterPosts('질문 하기', this)"
+        >
+          질문 하기
+        </button>
+      </div>
+
+      <div class="post-grid" id="postGrid" style="grid-column: 1 / -1">
+        <!-- 게시글이 JavaScript로 렌더링됩니다 -->
+      </div>
+    </main>
+
+    <!-- 글쓰기 버튼 (스크립트 연결) -->
+    <button
+      class="cta-button"
+      style="
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        border-radius: 50px;
+        z-index: 1000;
+        padding: 15px 25px;
+      "
+      onclick="openWriteModal()"
+    >
+      ✏️ 글쓰기
+    </button>
+
+    <!-- 글쓰기 모달 창 -->
+    <div id="writeModal" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 style="color: var(--secondary-warm)">새로운 여행 기록</h2>
+          <button class="close-modal" onclick="closeWriteModal()">
+            &times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="postForm">
+            <div class="form-group">
+              <label>카테고리</label>
+              <select id="postCategory" class="input-field">
+                <option value="여행 리뷰">여행 리뷰</option>
+                <option value="여행 꿀팁">여행 꿀팁</option>
+                <option value="질문 하기">질문 하기</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>제목</label>
+              <input
+                id="postTitle"
+                type="text"
+                class="input-field"
+                placeholder="제목을 입력하세요"
+              />
+            </div>
+            <div class="form-group">
+              <label>내용</label>
+              <textarea
+                id="postContent"
+                class="input-field"
+                placeholder="당신의 소중한 여행 이야기를 들려주세요."
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label>작성자</label>
+              <input
+                id="postAuthor"
+                type="text"
+                class="input-field"
+                placeholder="로그인 후 자동 입력됩니다"
+                readonly
+                style="background-color: var(--bg-warm); cursor: default;"
+              />
+            </div>
+            <div class="form-group">
+              <label>사진 등록 <span style="font-weight:400; font-size:0.8rem; color:var(--text-light);">(선택)</span></label>
+              <div class="image-upload-area" id="imageUploadArea">
+                <input type="file" id="postImage" accept="image/*" onchange="previewImage(event)" />
+                <div class="image-upload-placeholder" id="imagePlaceholder">
+                  <span class="icon">🖼️</span>
+                  <span class="text">클릭하여 사진을 선택하세요</span>
+                  <span class="hint">JPG, PNG, GIF, WEBP · 최대 5MB</span>
+                </div>
+                <div class="image-preview-wrap" id="imagePreviewWrap">
+                  <img id="imagePreview" src="" alt="미리보기" />
+                  <button type="button" class="image-remove-btn" onclick="removeImage(event)" title="사진 제거">✕</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="small-button"
+            onclick="closeWriteModal()"
+            style="margin-right: 10px"
+          >
+            취소
+          </button>
+          <button type="button" class="cta-button" onclick="submitPost()">
+            등록하기
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 게시글 수정 모달 -->
+    <div id="editModal" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 style="color: var(--secondary-warm)">게시글 수정</h2>
+          <button class="close-modal" onclick="closeEditModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="editPostForm">
+            <div class="form-group">
+              <label>카테고리</label>
+              <select id="editPostCategory" class="input-field">
+                <option value="여행 리뷰">여행 리뷰</option>
+                <option value="여행 꿀팁">여행 꿀팁</option>
+                <option value="질문 하기">질문 하기</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>제목</label>
+              <input
+                id="editPostTitle"
+                type="text"
+                class="input-field"
+                placeholder="제목을 입력하세요"
+              />
+            </div>
+            <div class="form-group">
+              <label>내용</label>
+              <textarea
+                id="editPostContent"
+                class="input-field"
+                placeholder="내용을 입력하세요"
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label>사진 <span style="font-weight:400; font-size:0.8rem; color:var(--text-light);">(변경 시 새 사진 선택)</span></label>
+              <div class="image-upload-area" id="editImageUploadArea">
+                <input type="file" id="editPostImage" accept="image/*" onchange="previewEditImage(event)" />
+                <div class="image-upload-placeholder" id="editImagePlaceholder">
+                  <span class="icon">🖼️</span>
+                  <span class="text">클릭하여 사진을 선택하세요</span>
+                  <span class="hint">JPG, PNG, GIF, WEBP · 최대 5MB</span>
+                </div>
+                <div class="image-preview-wrap" id="editImagePreviewWrap">
+                  <img id="editImagePreview" src="" alt="미리보기" />
+                  <button type="button" class="image-remove-btn" onclick="removeEditImage(event)" title="사진 제거">✕</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="small-button"
+            onclick="closeEditModal()"
+            style="margin-right: 10px"
+          >
+            취소
+          </button>
+          <button id="editSubmitBtn" type="button" class="cta-button" onclick="submitEdit()">
+            수정 완료
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 삭제 확인 모달 -->
+    <div id="confirmModal" class="confirm-overlay">
+      <div class="confirm-box">
+        <p>정말 이 게시글을 삭제하시겠습니까?</p>
+        <div class="btn-group">
+          <button class="small-button" onclick="closeConfirm()">취소</button>
+          <button
+            class="cta-button"
+            style="background-color: #d9534f; border-color: #d9534f"
+            onclick="confirmDelete()"
+          >
+            삭제
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 토스트 알림 -->
+    <div id="toast" class="toast"></div>
+
+    <footer>
+      <p>&copy; 2026 Sunset Glow Travel. 모든 여행이 쉼표가 되길.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/community.js"></script>
+    <script src="../js/community-post.js"></script>
+  </body>
+</html>

@@ -26,7 +26,7 @@ async function sendMessage() {
     inputEl.value = '';
 
     try {
-        const response = await fetch('/api/chat', {
+        const response = await fetch('api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message, step: currentStep })
@@ -130,7 +130,7 @@ function displayRecommendation(data) {
 
 async function saveDestination(title, region, date) {
     try {
-        const response = await fetch('/api/saved', {
+        const response = await fetch('api/saved', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'user-id': getUserId() },
             body: JSON.stringify({ title, region, date })
@@ -150,7 +150,7 @@ async function saveDestination(title, region, date) {
 
 async function loadSaved() {
     try {
-        const res = await fetch('/api/saved', {
+        const res = await fetch('api/saved', {
             headers: { 'user-id': getUserId() }
         });
         const result = await res.json();
@@ -174,7 +174,7 @@ async function loadSaved() {
 
 async function loadHistory() {
     try {
-        const res = await fetch('/api/history');
+        const res = await fetch('api/history');
         const result = await res.json();
         const list = result.data || [];
         const container = document.getElementById('history-list');
@@ -202,7 +202,7 @@ async function addHistory() {
     }
 
     try {
-        await fetch('/api/history', {
+        await fetch('api/history', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ title, date })
@@ -216,7 +216,7 @@ async function addHistory() {
 }
 
 async function deleteSaved(id) {
-    await fetch(`/api/saved/${id}`, {
+    await fetch(`api/saved/${id}`, {
         method: 'DELETE',
         headers: { 'user-id': getUserId() }
     });

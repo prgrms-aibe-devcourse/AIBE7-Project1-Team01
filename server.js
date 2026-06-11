@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const path = require("path");
+const { createClient } = require("@supabase/supabase-js");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -9,6 +10,12 @@ const geminiApiKey = process.env.GEMINI_API_KEY || process.env.AI_API_KEY || "";
 const geminiModel = process.env.GEMINI_MODEL || "gemini-2.5-flash";
 const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
 const supabaseUrl = process.env.SUPABASE_URL || "";
+
+// 관리자 권한 Supabase 클라이언트 (회원 삭제용)
+const supabaseAdmin =
+  supabaseUrl && supabaseServiceRoleKey
+    ? createClient(supabaseUrl, supabaseServiceRoleKey)
+    : null;
 
 const htmlDir = path.join(__dirname, "html");
 const cssDir = path.join(__dirname, "css");
@@ -19,11 +26,12 @@ const assetDir = path.join(__dirname, "asset");
 app.get("/config.js", (req, res) => {
   const supabaseUrl = process.env.SUPABASE_URL || "";
   const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || "";
+  const kakaoMapKey = process.env.KAKAO_MAP_KEY || "";
 
   res.type("application/javascript").send(
     `window.SUPABASE_URL=${JSON.stringify(supabaseUrl)};window.SUPABASE_ANON_KEY=${JSON.stringify(
       supabaseAnonKey
-    )};`
+    )};window.KAKAO_MAP_KEY=${JSON.stringify(kakaoMapKey)};`
   );
 });
 
@@ -160,48 +168,41 @@ app.delete("/api/delete-account", async (req, res) => {
       return res.status(401).json({ message: "인증 토큰이 없습니다. 다시 로그인해주세요." });
     }
 
-    // 2) Service Role Key 확인
-    if (!supabaseServiceRoleKey || !supabaseUrl) {
+    // 2) Service Role Key 및 Supabase Admin 클라이언트 확인
+    if (!supabaseAdmin) {
       console.error("SUPABASE_SERVICE_ROLE_KEY 또는 SUPABASE_URL 환경변수가 설정되지 않았습니다.");
       return res.status(500).json({ message: "서버 설정 오류: 관리자에게 문의하세요." });
     }
 
     // 3) 액세스 토큰으로 현재 유저 정보 조회 (본인 확인)
-    const userRes = await fetch(`${supabaseUrl}/auth/v1/user`, {
-      headers: {
-        "apikey": supabaseServiceRoleKey,
-        "Authorization": `Bearer ${accessToken}`,
-      },
-    });
+    const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(accessToken);
 
-    if (!userRes.ok) {
+    if (authError || !user) {
       return res.status(401).json({ message: "유효하지 않은 세션입니다. 다시 로그인해주세요." });
     }
 
-    const userData = await userRes.json();
-    const userId = userData?.id;
+    const userId = user.id;
 
-    if (!userId) {
-      return res.status(400).json({ message: "유저 정보를 확인할 수 없습니다." });
+    // 4) 유저가 작성한 게시글 삭제 (posts 테이블)
+    const { error: postError } = await supabaseAdmin
+      .from("posts")
+      .delete()
+      .eq("user_id", userId);
+
+    if (postError) {
+      console.error("게시글 삭제 중 오류:", postError);
     }
 
-    // 4) Admin API로 유저 삭제
-    const deleteRes = await fetch(`${supabaseUrl}/auth/v1/admin/users/${userId}`, {
-      method: "DELETE",
-      headers: {
-        "apikey": supabaseServiceRoleKey,
-        "Authorization": `Bearer ${supabaseServiceRoleKey}`,
-      },
-    });
+    // 5) Admin API로 유저 삭제
+    const { error: deleteError } = await supabaseAdmin.auth.admin.deleteUser(userId);
 
-    if (!deleteRes.ok) {
-      const errBody = await deleteRes.text().catch(() => "");
-      console.error("Supabase 유저 삭제 실패:", deleteRes.status, errBody);
+    if (deleteError) {
+      console.error("Supabase 유저 삭제 실패:", deleteError);
       return res.status(500).json({ message: "회원탈퇴 처리에 실패했습니다. 잠시 후 다시 시도해주세요." });
     }
 
     console.log(`회원탈퇴 완료: userId=${userId}`);
-    return res.json({ message: "회원탈퇴가 완료되었습니다." });
+    return res.json({ message: "계정 및 모든 데이터가 성공적으로 삭제되었습니다." });
 
   } catch (error) {
     console.error("delete-account error:", error);

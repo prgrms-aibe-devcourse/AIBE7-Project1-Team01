@@ -10,7 +10,7 @@ const TOUR_API_KEY = process.env.TOUR_API_KEY;
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
 
-const BASE_URL = "https://apis.data.go.kr/B551011/KorService1/searchFestival1";
+const BASE_URL = "https://apis.data.go.kr/B551011/KorService2/searchFestival2";
 
 function formatDate(date) {
   return date.toISOString().slice(0, 10).replace(/-/g, "");
@@ -66,7 +66,6 @@ async function fetchAllFestivals() {
       MobileOS: "ETC",
       MobileApp: "Motipe",
       _type: "json",
-      listYN: "Y",
       arrange: "A",
       eventStartDate,
       eventEndDate,

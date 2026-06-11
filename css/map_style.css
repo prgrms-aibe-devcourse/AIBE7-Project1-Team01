@@ -1104,3 +1104,76 @@ button {
 .bookmark-btn.bookmarked {
   color: #e53935;
 }
+
+/* ===== 필터 버튼 ===== */
+.map-filter-btn {
+  flex-shrink: 0;
+  background: var(--bg-page);
+  color: var(--text-secondary);
+  border: none;
+  border-left: 1px solid var(--border);
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+.map-filter-btn:hover {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+.map-filter-btn.active {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+/* ===== 필터 패널 ===== */
+.map-filter-panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 4px 4px;
+  border-top: 1px solid var(--border);
+  margin-top: 8px;
+  animation: filterFadeIn 0.15s ease;
+}
+@keyframes filterFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .map-filter-panel {
+    gap: 10px;
+  }
+  .map-search-bar {
+    padding: 8px 16px;
+  }
+}
+
+.filter-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 700;
+  margin-left: 2px;
+}

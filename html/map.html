@@ -85,62 +85,78 @@
             aria-label="검색"
           />
           <button id="map-search-btn" class="map-search-btn">검색</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 필터 바 -->
-    <div class="filter-bar">
-      <div class="filter-inner">
-        <!-- 지역 -->
-        <div class="filter-group">
-          <span class="filter-label">지역</span>
-          <select id="filter-area" class="filter-select">
-            <option value="">전국</option>
-            <option value="1">서울</option>
-            <option value="2">인천</option>
-            <option value="3">대전</option>
-            <option value="4">대구</option>
-            <option value="5">광주</option>
-            <option value="6">부산</option>
-            <option value="7">울산</option>
-            <option value="8">세종</option>
-            <option value="31">경기</option>
-            <option value="32">강원</option>
-            <option value="33">충북</option>
-            <option value="34">충남</option>
-            <option value="35">경북</option>
-            <option value="36">경남</option>
-            <option value="37">전북</option>
-            <option value="38">전남</option>
-            <option value="39">제주</option>
-          </select>
+          <button id="map-filter-btn" class="map-filter-btn" aria-label="필터">
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <line x1="4" y1="6" x2="20" y2="6" />
+              <line x1="8" y1="12" x2="16" y2="12" />
+              <line x1="11" y1="18" x2="13" y2="18" />
+            </svg>
+            필터
+          </button>
         </div>
 
-        <!-- 기간 -->
-        <div class="filter-group">
-          <span class="filter-label">기간</span>
-          <div class="filter-chips" id="filter-period">
-            <button class="chip" data-value="all">전체</button> 
-            <button class="chip active" data-value="ongoing">진행 중</button>
-            <button class="chip" data-value="this-month">이번 달</button>
-            <button class="chip" data-value="3months">3개월 이내</button>
-            <button class="chip" data-value="custom">직접 입력</button>
+        <!-- 필터 패널 (기본 숨김) -->
+        <div class="map-filter-panel hidden" id="map-filter-panel">
+          <div class="filter-group">
+            <span class="filter-label">지역</span>
+            <select id="filter-area" class="filter-select">
+              <option value="">전국</option>
+              <option value="1">서울</option>
+              <option value="2">인천</option>
+              <option value="3">대전</option>
+              <option value="4">대구</option>
+              <option value="5">광주</option>
+              <option value="6">부산</option>
+              <option value="7">울산</option>
+              <option value="8">세종</option>
+              <option value="31">경기</option>
+              <option value="32">강원</option>
+              <option value="33">충북</option>
+              <option value="34">충남</option>
+              <option value="35">경북</option>
+              <option value="36">경남</option>
+              <option value="37">전북</option>
+              <option value="38">전남</option>
+              <option value="39">제주</option>
+            </select>
           </div>
-        </div>
 
-        <!-- 날짜 직접 입력 (custom 선택 시 표시) -->
-        <div
-          class="filter-group filter-date-range hidden"
-          id="filter-date-range"
-        >
-          <input type="date" id="filter-date-from" class="filter-date-input" />
-          <span class="filter-label">~</span>
-          <input type="date" id="filter-date-to" class="filter-date-input" />
-        </div>
+          <div class="filter-group">
+            <span class="filter-label">기간</span>
+            <div class="filter-chips" id="filter-period">
+              <button class="chip active" data-value="all">전체</button>
+              <button class="chip" data-value="ongoing">진행 중</button>
+              <button class="chip" data-value="this-month">이번 달</button>
+              <button class="chip" data-value="3months">3개월 이내</button>
+              <button class="chip" data-value="custom">직접 입력</button>
+            </div>
+          </div>
 
-        <div class="filter-count">
-          <span id="festival-count">0</span>개의 축제
+          <!-- 날짜 직접 입력 -->
+          <div
+            class="filter-group filter-date-range hidden"
+            id="filter-date-range"
+          >
+            <input
+              type="date"
+              id="filter-date-from"
+              class="filter-date-input"
+            />
+            <span class="filter-label">~</span>
+            <input type="date" id="filter-date-to" class="filter-date-input" />
+          </div>
+
+          <div class="filter-count">
+            <span id="festival-count">0</span>개의 축제
+          </div>
         </div>
       </div>
     </div>

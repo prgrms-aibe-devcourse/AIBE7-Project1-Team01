@@ -23,6 +23,28 @@ function sleep(ms) {
 // map_sync.js의 parseFestival 함수만 교체
 // cat2 필드로 카테고리 저장
 
+const AREA_CODE_MAP = {
+  11: "1",   // 서울
+  26: "6",   // 부산
+  27: "4",   // 대구
+  28: "2",   // 인천
+  29: "5",   // 광주
+  30: "3",   // 대전
+  31: "7",   // 울산
+  36: "8",   // 세종
+  41: "31",  // 경기
+  42: "32",  // 강원
+  43: "33",  // 충북
+  44: "34",  // 충남
+  45: "37",  // 전북
+  46: "38",  // 전남
+  47: "35",  // 경북
+  48: "36",  // 경남
+  50: "39",  // 제주
+  51: "32",  // 강원특별자치도 ← 추가
+  52: "37",  // 전북특별자치도
+};
+
 function parseFestival(item) {
   return {
     content_id: String(item.contentid),
@@ -40,7 +62,9 @@ function parseFestival(item) {
     detail_url: item.contentid
       ? `https://www.visitkorea.or.kr/detail/ms_detail.do?cotid=${item.contentid}`
       : null,
-    area_code: item.areacode ? String(item.areacode) : null,
+    area_code:
+      AREA_CODE_MAP[item.lDongRegnCd] ||
+      (item.areacode ? String(item.areacode) : null),
     category: item.cat2 || null, // ← 추가
     synced_at: new Date().toISOString(),
   };

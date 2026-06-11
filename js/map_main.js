@@ -22,7 +22,7 @@ import {
 } from "./map_ui.js";
 
 const state = {
-  period: "ongoing",
+  period: "all",
   areaCode: "",
   category: "",
   dateFrom: "",
@@ -170,16 +170,52 @@ function handleSearch() {
   });
 }
 
+// 필터 뱃지 업데이트 함수 추가
+function updateFilterBadge() {
+  const btn = document.getElementById("map-filter-btn");
+  let count = 0;
+  if (state.areaCode) count++;
+  if (state.period !== "all") count++;
+
+  if (count > 0) {
+    btn.innerHTML = `
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="4" y1="6" x2="20" y2="6"/>
+        <line x1="8" y1="12" x2="16" y2="12"/>
+        <line x1="11" y1="18" x2="13" y2="18"/>
+      </svg>
+      필터 <span class="filter-badge">${count}</span>`;
+  } else {
+    btn.innerHTML = `
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="4" y1="6" x2="20" y2="6"/>
+        <line x1="8" y1="12" x2="16" y2="12"/>
+        <line x1="11" y1="18" x2="13" y2="18"/>
+      </svg>
+      필터`;
+  }
+}
+
 function updateListSubtitle(text) {
   const el = document.getElementById("list-subtitle");
   if (el) el.textContent = text;
 }
+
+// ===== 필터 버튼 토글 =====
+document.getElementById("map-filter-btn").addEventListener("click", () => {
+  const panel = document.getElementById("map-filter-panel");
+  const btn = document.getElementById("map-filter-btn");
+  const isHidden = panel.classList.contains("hidden");
+  panel.classList.toggle("hidden", !isHidden);
+  btn.classList.toggle("active", isHidden);
+});
 
 // ===== 필터 이벤트 =====
 document.getElementById("filter-area").addEventListener("change", (e) => {
   state.areaCode = e.target.value;
   resetSearchUI();
   load();
+  updateFilterBadge();
 });
 
 document.getElementById("filter-period").addEventListener("click", (e) => {
@@ -200,6 +236,7 @@ document.getElementById("filter-period").addEventListener("click", (e) => {
     state.dateTo = "";
     resetSearchUI();
     load();
+    updateFilterBadge();
   }
 });
 
